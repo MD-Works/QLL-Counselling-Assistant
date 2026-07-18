@@ -1,184 +1,150 @@
-[
-  {
-    "id": "service_counselling",
-    "category": "services",
-    "keywords": ["counselling", "therapy", "couples counselling", "personal counselling", "trauma", "grief", "talk therapy", "mental health support"],
-    "question": "What kind of counselling does Elizabeth offer?",
-    "answer": "Elizabeth offers compassionate counselling, which includes couples counselling, personal counselling, and support for trauma and grief. This falls under one of the practice's core service pillars."
+{
+  "practice": {
+    "name": "QLL Counselling & Wellness Practice",
+    "practitioner": "Elizabeth",
+    "location": "Pretoria, South Africa",
+    "registration": "ASCHP"
   },
-  {
-    "id": "service_anger_management",
-    "category": "services",
-    "keywords": ["anger management", "anger course", "structured program", "workbook", "6 session course", "emotional regulation"],
-    "question": "Does Elizabeth offer an anger management program?",
-    "answer": "Elizabeth offers a featured Anger Management program structured as a 6-session course, which includes a workbook. It is offered as part of the compassionate counselling service pillar."
+  "entries": [
+    {
+      "id": "about_practice",
+      "category": "credentials",
+      "keywords": ["about", "who", "what", "practice", "qll", "elizabeth", "counsellor", "registered", "aschp", "qualified", "background"],
+      "question": "Who is Elizabeth and what is QLL Counselling?",
+      "answer": "QLL Counselling & Wellness Practice is run by Elizabeth, a registered counsellor with the Allied Health Professions Council of South Africa (ASCHP). Elizabeth works with individuals navigating stress, anxiety, trauma, grief, and life transitions. Her approach is holistic, combining talk therapy with complementary wellness modalities to support mind, body, and spirit."
+    },
+    {
+      "id": "services_overview",
+      "category": "services",
+      "keywords": ["services", "offer", "help", "therapy", "session", "treatment", "modalities", "what do you do"],
+      "question": "What services does QLL offer?",
+      "answer": "QLL offers individual counselling sessions, Rife Therapy, Reiki energy healing, and Ear Acupuncture (auriculotherapy). Sessions can be booked individually or combined as part of a holistic wellness plan. Elizabeth will recommend the most suitable approach after an initial consultation."
+    },{
+  "practice": {
+    "name": "QLL Counselling & Wellness Practice",
+    "practitioner": "Elizabeth",
+    "location": "Pretoria, South Africa",
+    "registration": "ASCHP"
   },
-  {
-    "id": "service_life_coaching",
-    "category": "services",
-    "keywords": ["life coaching", "coaching", "personal development", "career coaching", "clarity", "goal setting"],
-    "question": "What does Elizabeth's life coaching involve?",
-    "answer": "Elizabeth offers empowering life coaching focused on clarity, personal development, and career-related goals. This is one of the practice's core service pillars."
+  "entries": [
+    {
+      "id": "about_practice",
+      "category": "credentials",
+      "keywords": ["about", "who", "what", "practice", "qll", "elizabeth", "counsellor", "registered", "aschp", "qualified", "background"],
+      "question": "Who is Elizabeth and what is QLL Counselling?",
+      "answer": "QLL Counselling & Wellness Practice is run by Elizabeth, a registered counsellor with the Allied Health Professions Council of South Africa (ASCHP). Elizabeth works with individuals navigating stress, anxiety, trauma, grief, and life transitions. Her approach is holistic, combining talk therapy with complementary wellness modalities to support mind, body, and spirit."
+    },
+    {
+      "id": "services_overview",
+      "category": "services",
+      "keywords": ["services", "offer", "help", "therapy", "session", "treatment", "modalities", "what do you do"],
+      "question": "What services does QLL offer?",
+      "answer": "QLL offers individual counselling sessions, Rife Therapy, Reiki energy healing, and Ear Acupuncture (auriculotherapy). Sessions can be booked individually or combined as part of a holistic wellness plan. Elizabeth will recommend the most suitable approach after an initial consultation."
+    },
+    {
+      "id": "service_counselling",
+      "category": "services",
+      "keywords": ["counselling", "talk therapy", "therapy", "anxiety", "stress", "trauma", "grief", "depression", "mental health", "emotional"],
+      "question": "What is counselling and what does it help with?",
+      "answer": "Counselling at QLL is a confidential, supportive space to explore thoughts, feelings, and challenges. Elizabeth works with clients experiencing anxiety, stress, depression, trauma, grief, relationship difficulties, and major life changes. Sessions are non-judgmental and client-led — you set the pace."
+    },
+    {
+      "id": "service_rife",
+      "category": "services",
+      "keywords": ["rife", "rife therapy", "frequency", "machine", "electromagnetic", "vibration", "rife machine"],
+      "question": "What is Rife Therapy?",
+      "answer": "Rife Therapy uses specific electromagnetic frequencies to support the body's natural healing processes. It is a complementary (not medical) treatment used to support relaxation, energy balance, and general wellness. It is not a substitute for medical treatment and Elizabeth will always advise clients to consult a medical doctor for any medical concerns."
+    },
+    {
+      "id": "service_reiki",
+      "category": "services",
+      "keywords": ["reiki", "energy", "energy healing", "hands on", "chakra", "balance", "holistic"],
+      "question": "What is Reiki?",
+      "answer": "Reiki is a gentle energy healing practice where the practitioner channels universal life energy to promote relaxation, stress reduction, and emotional balance. Sessions are fully clothed and non-invasive. Many clients use Reiki alongside counselling to support emotional processing and overall wellbeing."
+    },
+    {
+      "id": "service_ear_acupuncture",
+      "category": "services",
+      "keywords": ["ear acupuncture", "auriculotherapy", "acupuncture", "ear", "needles", "auricular"],
+      "question": "What is Ear Acupuncture?",
+      "answer": "Ear Acupuncture, or auriculotherapy, involves stimulating specific points on the ear to support relaxation, reduce cravings, manage pain, and improve emotional wellbeing. Fine, sterile needles or non-invasive pressure tools are used. It is a complementary treatment and not a replacement for medical care."
+    },
+    {
+      "id": "pricing_consultation",
+      "category": "pricing",
+      "keywords": ["price", "cost", "how much", "fee", "rate", "charge", "pricing", "consultation", "afford", "expensive"],
+      "question": "How much does a session cost?",
+      "answer": "Please contact Elizabeth directly for current session pricing, as rates may vary depending on the service and session length. An initial consultation is available to discuss your needs before committing to a full session. Pricing information will be confirmed at booking."
+    },
+    {
+      "id": "medical_aid",
+      "category": "pricing",
+      "keywords": ["medical aid", "insurance", "medical scheme", "discovery", "momentum", "bonitas", "cover", "claim"],
+      "question": "Do you accept medical aid?",
+      "answer": "Please contact Elizabeth directly to confirm current medical aid options, as this depends on your specific scheme and plan. Some ASCHP-registered practitioners are covered under certain wellness benefits — it is worth checking with your medical aid provider directly."
+    },
+    {
+      "id": "booking_how",
+      "category": "booking",
+      "keywords": ["book", "booking", "appointment", "schedule", "how to book", "make appointment", "reserve", "slot"],
+      "question": "How do I book a session?",
+      "answer": "You can book a session by contacting Elizabeth directly via phone, WhatsApp, or email. She will confirm availability, discuss which service is right for you, and send you all the details you need ahead of your appointment. Contact details are available on the QLL website."
+    },
+    {
+      "id": "booking_cancellation",
+      "category": "booking",
+      "keywords": ["cancel", "cancellation", "reschedule", "postpone", "change appointment", "no show", "policy"],
+      "question": "What is the cancellation policy?",
+      "answer": "Please contact Elizabeth as soon as possible if you need to cancel or reschedule. A minimum notice period applies — Elizabeth will confirm the exact policy at the time of booking. Late cancellations or no-shows may be subject to a fee."
+    },
+    {
+      "id": "online_vs_inperson",
+      "category": "logistics",
+      "keywords": ["online", "virtual", "zoom", "teams", "in person", "in-person", "remote", "video call", "face to face"],
+      "question": "Are sessions available online or only in person?",
+      "answer": "QLL offers both in-person sessions at the Pretoria practice and online sessions via video call. Rife Therapy and Ear Acupuncture require an in-person visit, while counselling and Reiki may be available online. Please confirm with Elizabeth at the time of booking."
+    },
+    {
+      "id": "location_parking",
+      "category": "logistics",
+      "keywords": ["location", "address", "where", "pretoria", "parking", "directions", "find", "get to"],
+      "question": "Where is QLL located and is there parking?",
+      "answer": "QLL Counselling & Wellness Practice is located in Pretoria, South Africa. Parking is available on site. Please contact Elizabeth for the exact address and directions, which will be confirmed at the time of your booking."
+    },
+    {
+      "id": "first_session",
+      "category": "booking",
+      "keywords": ["first session", "first time", "new client", "what to expect", "nervous", "never been", "what happens", "prepare"],
+      "question": "What can I expect from my first session?",
+      "answer": "Your first session is primarily a consultation — a relaxed conversation for Elizabeth to understand your needs, answer your questions, and explain how she can help. There is no pressure to share more than you are comfortable with. You will leave with a clear sense of the recommended approach and next steps."
+    },
+    {
+      "id": "confidentiality",
+      "category": "credentials",
+      "keywords": ["confidential", "privacy", "private", "popia", "share", "tell anyone", "secret", "safe", "trust"],
+      "question": "Is everything I share confidential?",
+      "answer": "Yes. All sessions at QLL are strictly confidential. Elizabeth operates under the ethical guidelines of the ASCHP and South African privacy law (POPIA). Information is only shared without consent in very limited circumstances — where there is a serious and imminent risk of harm to you or others. This will always be discussed with you transparently."
+    },
+    {
+      "id": "not_medical",
+      "category": "credentials",
+      "keywords": ["doctor", "medical", "diagnose", "diagnosis", "prescription", "medication", "psychiatrist", "psychologist"],
+      "question": "Is Elizabeth a medical doctor or psychologist?",
+      "answer": "No. Elizabeth is a registered counsellor with the ASCHP, not a medical doctor, psychiatrist, or psychologist. She provides supportive counselling and complementary wellness therapies. For medical diagnoses, medication management, or psychiatric assessment, please consult a medical doctor or registered psychologist."
+    }
+  ],
+  "crisis": {
+    "keywords": ["suicide", "suicidal", "kill myself", "end my life", "want to die", "don't want to live", "self harm", "self-harm", "cutting", "hurt myself", "harm myself", "crisis", "emergency", "overdose", "abuse", "being abused", "rape", "assault"],
+    "response": "I can hear that you're going through something very painful right now. Please reach out to one of these free, confidential helplines immediately — trained counsellors are available 24/7:\n\n• SADAG (South African Depression & Anxiety Group): 0800 456 789 (toll-free, 24/7)\n• Suicide Crisis Line: 0800 567 567 (toll-free, 24/7)\n• Lifeline South Africa: 0861 322 322\n• Gender-Based Violence Command Centre: 0800 428 428 (toll-free, 24/7)\n\nIf you are in immediate danger, please call 10111 (SAPS) or 10177 (ambulance).\n\nElizabeth at QLL is here to support your wellness journey, but these helplines are equipped to help you right now."
   },
-  {
-    "id": "service_acupuncture",
-    "category": "services",
-    "keywords": ["acupuncture", "therapeutic acupuncture", "physical rehabilitation", "adhd", "organ cleansing", "acudetox"],
-    "question": "Does Elizabeth offer acupuncture treatments?",
-    "answer": "Elizabeth offers therapeutic acupuncture, used to support physical rehabilitation, ADHD, and organ cleansing. Please contact Elizabeth directly to confirm further details about this treatment."
-  },
-  {
-    "id": "service_reiki",
-    "category": "services",
-    "keywords": ["reiki", "usui reiki", "energy healing", "hands on healing", "stress release", "energetic realignment", "relax"],
-    "question": "What is Reiki and what does Elizabeth's Reiki treatment involve?",
-    "answer": "Elizabeth offers Usui Reiki, a hands-on energy healing treatment used for stress release and energetic realignment. This is one of the practice's core service pillars."
-  },
-  {
-    "id": "service_rife_therapy",
-    "category": "services",
-    "keywords": ["rife", "rife therapy", "rife treatment", "pain management", "parasite cleansing", "prostate support", "frequency therapy"],
-    "question": "What is Rife Treatment used for?",
-    "answer": "Elizabeth offers Advanced Rife Treatment, which is used for pain management, parasite cleansing, and prostate support. This is one of the practice's core service pillars."
-  },
-  {
-    "id": "pricing_counselling_session",
-    "category": "pricing",
-    "keywords": ["counselling price", "cost", "session fee", "how much", "counselling rate"],
-    "question": "How much does a counselling session cost?",
-    "answer": "A counselling session with Elizabeth is R650."
-  },
-  {
-    "id": "pricing_anger_management_program",
-    "category": "pricing",
-    "keywords": ["anger management cost", "anger course price", "how much", "session fee"],
-    "question": "How much does the Anger Management course cost?",
-    "answer": "The Anger Management course is R450 per session, run as a 6-session structured course that includes a workbook."
-  },
-  {
-    "id": "pricing_life_coaching_session",
-    "category": "pricing",
-    "keywords": ["life coaching price", "coaching cost", "session fee", "how much"],
-    "question": "How much does a life coaching session cost?",
-    "answer": "A life coaching session with Elizabeth is R650."
-  },
-  {
-    "id": "pricing_reiki_session",
-    "category": "pricing",
-    "keywords": ["reiki price", "reiki cost", "session fee", "how much"],
-    "question": "How much does a Reiki session cost?",
-    "answer": "A Reiki session with Elizabeth is R650."
-  },
-  {
-    "id": "pricing_rife_session",
-    "category": "pricing",
-    "keywords": ["rife price", "rife cost", "session fee", "how much"],
-    "question": "How much does a Rife Treatment session cost?",
-    "answer": "A Rife Treatment session with Elizabeth is R350."
-  },
-  {
-    "id": "pricing_acupuncture_session",
-    "category": "pricing",
-    "keywords": ["acupuncture price", "acupuncture cost", "session fee", "how much"],
-    "question": "How much does an acupuncture session cost?",
-    "answer": "Please contact Elizabeth directly to confirm the cost of an acupuncture session."
-  },
-  {
-    "id": "credentials_nada_registration",
-    "category": "credentials",
-    "keywords": ["nada", "acudetox", "acupuncture registration", "qualified", "registered", "ear acupuncture", "credentials"],
-    "question": "Is Elizabeth qualified to perform acudetox or ear acupuncture?",
-    "answer": "Elizabeth is registered with the NADA (National Acupuncture Detoxification Association) acupuncture body in South Africa for acudetox treatments."
-  },
-  {
-    "id": "booking_session_schedule",
-    "category": "booking",
-    "keywords": ["schedule", "when open", "days available", "counselling days", "treatment days", "availability"],
-    "question": "What days does Elizabeth see clients for counselling versus treatments?",
-    "answer": "Elizabeth works Monday to Wednesday for counselling and coaching sessions, and Thursday and Friday for treatments."
-  },
-  {
-    "id": "booking_first_session_in_person",
-    "category": "booking",
-    "keywords": ["first session", "face to face", "in person", "online sessions", "initial consultation", "virtual"],
-    "question": "Does the first session need to be in person, or can it be online?",
-    "answer": "It is required that the first session be conducted face-to-face. After the initial session, Elizabeth is able to host follow-up sessions online."
-  },
-  {
-    "id": "booking_how_to_book",
-    "category": "booking",
-    "keywords": ["how to book", "make an appointment", "book online", "website booking", "schedule a session"],
-    "question": "How can a client book a session with Elizabeth?",
-    "answer": "Clients can book a session and make payment directly through Elizabeth's website."
-  },
-  {
-    "id": "pricing_payment_methods",
-    "category": "pricing",
-    "keywords": ["payment", "eft", "bank transfer", "how to pay", "payment options"],
-    "question": "What payment methods does Elizabeth accept?",
-    "answer": "Elizabeth accepts payment through the website, as well as EFT (electronic funds transfer). Please contact Elizabeth directly to confirm banking details."
-  },
-  {
-    "id": "pricing_payment_confirmation",
-    "category": "pricing",
-    "keywords": ["payment confirmation", "pay before session", "deposit", "confirm payment"],
-    "question": "Does payment need to be confirmed before a session?",
-    "answer": "Yes, payment must be confirmed before a counselling session takes place."
-  },
-  {
-    "id": "logistics_closing_time",
-    "category": "logistics",
-    "keywords": ["closing time", "last appointment", "operating hours", "office hours", "what time"],
-    "question": "What time does the practice close?",
-    "answer": "The practice closes at 19:00, which is when the last client of the day is seen."
-  },
-  {
-    "id": "pricing_medical_aid",
-    "category": "pricing",
-    "keywords": ["medical aid", "wellness program", "insurance", "medical aid cover", "session assistance"],
-    "question": "Does Elizabeth accept medical aid for sessions?",
-    "answer": "Clients are encouraged to check with their own medical aid provider to find out if they have a wellness program that may assist with session payments. Please contact Elizabeth directly to confirm further details."
-  },
-  {
-    "id": "credentials_confidentiality",
-    "category": "credentials",
-    "keywords": ["confidentiality", "privacy", "private sessions", "confidential", "disclosure"],
-    "question": "Are counselling sessions with Elizabeth confidential?",
-    "answer": "Everything discussed in a session with Elizabeth remains confidential, unless there is a threat of harm to self or others. In such cases, Elizabeth may be required to disclose relevant information."
-  },
-  {
-    "id": "credentials_child_protection",
-    "category": "credentials",
-    "keywords": ["child protection", "minors", "child safety", "child protection act", "confidentiality for children"],
-    "question": "How does confidentiality work for sessions involving children?",
-    "answer": "For sessions involving a child, Elizabeth makes it clear to the child that if there is anything safety-related that a parent needs to know, she will have to disclose this information as required by the Child Protection Act."
-  },
-  {
-    "id": "credentials_mandatory_reporting",
-    "category": "credentials",
-    "keywords": ["mandatory reporting", "abuse", "neglect", "reporting obligations", "legal obligation", "elder abuse"],
-    "question": "Is Elizabeth required to report abuse or neglect?",
-    "answer": "In cases of child or elderly abuse or neglect, Elizabeth is legally required to report this, and her professional duty of confidentiality ends in these circumstances."
-  },
-  {
-    "id": "booking_parental_consent",
-    "category": "booking",
-    "keywords": ["parental consent", "consent form", "minor", "both parents", "child client", "guardian"],
-    "question": "Do both parents need to sign a consent form for a child to see Elizabeth?",
-    "answer": "Yes, parental consent forms are required and must be signed by both parents before a child can begin sessions with Elizabeth."
-  },
-  {
-    "id": "booking_required_documentation",
-    "category": "booking",
-    "keywords": ["intake form", "paperwork", "documentation", "forms to complete", "popi", "boundaries leaflet", "client form"],
-    "question": "What paperwork does a client need to complete before starting sessions?",
-    "answer": "New clients are asked to complete an intake form, along with any relevant treatment-specific client forms (such as for Reiki, Rife, or Acudetox), a POPI consent document, and to review the practice's boundaries leaflet."
-  },
-  {
-    "id": "emergency_crisis_resources",
-    "category": "emergency",
-    "keywords": ["emergency", "crisis", "suicide helpline", "sadag", "lifeline", "not an emergency service", "urgent help"],
-    "question": "What should someone do if they're in a crisis and need immediate help?",
-    "answer": "Elizabeth is not an emergency service, so clients experiencing a crisis are directed to external crisis resources such as SADAG and Lifeline. Please contact Elizabeth directly to confirm current contact details for these organizations."
+  "guardrails": {
+    "no_diagnosis_keywords": ["diagnose", "diagnosis", "do i have", "have i got", "is it", "do i suffer from", "am i depressed", "am i bipolar", "test me", "what's wrong with me"],
+    "no_diagnosis_response": "That's an important question, but diagnosing mental health conditions is outside the scope of what I can help with — and it wouldn't be responsible for me to guess. What I can tell you is that Elizabeth offers a safe space to explore what you're experiencing, and she can refer you to the right professional if a formal assessment is needed. Would you like to know how to book an initial consultation?"
   }
-]
+}
+
+  "guardrails": {
+    "no_diagnosis_keywords": ["diagnose", "diagnosis", "do i have", "have i got", "is it", "do i suffer from", "am i depressed", "am i bipolar", "test me", "what's wrong with me"],
+    "no_diagnosis_response": "That's an important question, but diagnosing mental health conditions is outside the scope of what I can help with — and it wouldn't be responsible for me to guess. What I can tell you is that Elizabeth offers a safe space to explore what you're experiencing, and she can refer you to the right professional if a formal assessment is needed. Would you like to know how to book an initial consultation?"
+  }
+}
