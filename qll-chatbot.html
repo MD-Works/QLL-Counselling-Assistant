@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QLL Counselling & Wellness — Chat Assistant</title>
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* QLL palette — calm, trustworthy, warm */
+  --qll-deep:    #1a2332;
+  --qll-dark:    #1e2a3a;
+  --qll-surface: #243044;
+  --qll-panel:   #2a3850;
+  --qll-border:  #334560;
+  --qll-border-lt:#3d5270;
+
+  --qll-teal:    #4a9b8e;
+  --qll-teal-lt: #6bbfb2;
+  --qll-teal-dk: #2d6b61;
+  --qll-teal-glow: rgba(74,155,142,.1);
+
+  --qll-cream:   #e8f0ee;
+  --qll-muted:   #7a96a0;
+  --qll-sage:    #a8c4bc;
+
+  --qll-success: #4caf7a;
+  --qll-danger:  #e05555;
+  --qll-warning: #e09840;
+
+  --qll-radius:  6px;
+  --qll-radius-lg: 12px;
+}
+
+body {
+  background: var(--qll-deep);
+  color: var(--qll-cream);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* ── Config Panel (shown until API key set) ── */
+#config-panel {
+  width: 100%; max-width: 480px;
+  background: var(--qll-surface);
+  border: 1px solid var(--qll-border);
+  border-radius: var(--qll-radius-lg);
+  padding: 2rem;
+  box-shadow: 0 8px 40px rgba(0,0,0,.4);
+}
+
+.config-logo {
+  text-align: center; margin-bottom: 1.5rem;
+}
+.config-logo .mark {
+  font-size: 2rem; margin-bottom: .4rem;
+}
+.config-logo h2 {
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--qll-teal-lt); letter-spacing: .04em;
+}
+.config-logo p {
+  font-size: .8rem; color: var(--qll-muted); margin-top: .2rem;
+}
+
+.config-field { margin-bottom: 1.2rem; }
+.config-field label {
+  display: block; font-size: .78rem; font-weight: 600;
+  color: var(--qll-sage); letter-spacing: .06em;
+  text-transform: uppercase; margin-bottom: .4rem;
+}
+.config-field input, .config-field select {
+  width: 100%;
+  background: var(--qll-panel);
+  border: 1px solid var(--qll-border);
+  border-radius: var(--qll-radius);
+  color: var(--qll-cream);
+  font-size: .88rem;
+  padding: .65rem .9rem;
+  outline: none;
+  transition: border-color .2s;
+}
+.config-field input:focus, .config-field select:focus {
+  border-color: var(--qll-teal);
+}
+.config-field input::placeholder { color: var(--qll-muted); }
+.config-field select option { background: var(--qll-panel); }
+
+.config-hint {
+  font-size: .75rem; color: var(--qll-muted);
+  margin-top: .35rem; line-height: 1.5;
+}
+.config-hint a { color: var(--qll-teal); text-decoration: none; }
+
+.btn-launch {
+  width: 100%; padding: .8rem;
+  background: var(--qll-teal);
+  border: none; border-radius: var(--qll-radius);
+  color: #fff; font-size: .9rem; font-weight: 600;
+  letter-spacing: .04em; cursor: pointer;
+  transition: background .2s, transform .1s;
+  margin-top: .5rem;
+}
+.btn-launch:hover { background: var(--qll-teal-lt); }
+.btn-launch:active { transform: scale(.98); }
+
+/* ── Chat App ── */
+#chat-app {
+  width: 100%; max-width: 680px;
+  height: 100vh; max-height: 720px;
+  display: none;
+  flex-direction: column;
+  background: var(--qll-dark);
+  border: 1px solid var(--qll-border);
+  border-radius: var(--qll-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 8px 60px rgba(0,0,0,.5);
+}
+
+/* Header */
+.chat-header {
+  background: var(--qll-surface);
+  border-bottom: 1px solid var(--qll-border);
+  padding: .9rem 1.2rem;
+  display: flex; align-items: center; gap: .8rem;
+  flex-shrink: 0;
+}
+.chat-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--qll-teal-dk);
+  border: 2px solid var(--qll-teal);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.chat-header-info { flex: 1; }
+.chat-header-name {
+  font-size: .92rem; font-weight: 600;
+  color: var(--qll-teal-lt); line-height: 1.2;
+}
+.chat-header-sub {
+  font-size: .73rem; color: var(--qll-muted);
+  display: flex; align-items: center; gap: .3rem;
+}
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--qll-success); flex-shrink: 0;
+}
+.btn-settings {
+  background: none; border: none;
+  color: var(--qll-muted); font-size: 1.1rem;
+  cursor: pointer; padding: .3rem;
+  border-radius: var(--qll-radius);
+  transition: color .2s;
+}
+.btn-settings:hover { color: var(--qll-teal-lt); }
+
+/* Debug bar */
+#debug-bar {
+  background: var(--qll-deep);
+  border-bottom: 1px solid var(--qll-border);
+  padding: .4rem 1.2rem;
+  font-size: .7rem; color: var(--qll-muted);
+  font-family: 'Courier New', monospace;
+  display: none;
+  flex-shrink: 0;
+}
+#debug-bar.visible { display: block; }
+
+/* Messages */
+.chat-messages {
+  flex: 1; overflow-y: auto;
+  padding: 1.2rem;
+  display: flex; flex-direction: column;
+  gap: .8rem;
+  scroll-behavior: smooth;
+}
+
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-track { background: transparent; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--qll-border-lt); border-radius: 2px; }
+
+/* Message bubbles */
+.msg { display: flex; gap: .6rem; max-width: 88%; }
+.msg.bot { align-self: flex-start; }
+.msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.msg.crisis { align-self: stretch; max-width: 100%; }
+
+.msg-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--qll-teal-dk);
+  border: 1px solid var(--qll-teal);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; flex-shrink: 0; margin-top: 2px;
+}
+
+.msg-bubble {
+  padding: .7rem 1rem;
+  border-radius: 2px 12px 12px 12px;
+  font-size: .875rem; line-height: 1.6;
+  word-break: break-word;
+}
+.msg.user .msg-bubble {
+  background: var(--qll-teal);
+  color: #fff;
+  border-radius: 12px 2px 12px 12px;
+}
+.msg.bot .msg-bubble {
+  background: var(--qll-surface);
+  color: var(--qll-cream);
+  border: 1px solid var(--qll-border);
+}
+.msg.crisis .msg-bubble {
+  background: rgba(224,85,85,.08);
+  border: 1px solid rgba(224,85,85,.35);
+  border-radius: var(--qll-radius-lg);
+  color: var(--qll-cream);
+  width: 100%;
+  white-space: pre-line;
+}
+.msg.typing .msg-bubble {
+  color: var(--qll-muted);
+  font-style: italic;
+}
+
+/* Source chips */
+.msg-sources {
+  margin-top: .5rem;
+  display: flex; flex-wrap: wrap; gap: .3rem;
+}
+.source-chip {
+  font-size: .67rem; padding: .15rem .5rem;
+  background: var(--qll-teal-glow);
+  border: 1px solid var(--qll-teal-dk);
+  border-radius: 50px;
+  color: var(--qll-teal-lt);
+  font-family: 'Courier New', monospace;
+}
+
+/* Disclaimer */
+.disclaimer {
+  font-size: .7rem; color: var(--qll-muted);
+  text-align: center; padding: .4rem 1.2rem;
+  line-height: 1.5; flex-shrink: 0;
+  border-top: 1px solid var(--qll-border);
+  background: var(--qll-deep);
+}
+
+/* Input area */
+.chat-input-area {
+  padding: .8rem 1rem;
+  background: var(--qll-surface);
+  border-top: 1px solid var(--qll-border);
+  display: flex; gap: .6rem; align-items: flex-end;
+  flex-shrink: 0;
+}
+#user-input {
+  flex: 1;
+  background: var(--qll-panel);
+  border: 1px solid var(--qll-border-lt);
+  border-radius: var(--qll-radius);
+  color: var(--qll-cream);
+  font-size: .88rem;
+  padding: .6rem .9rem;
+  outline: none; resize: none;
+  max-height: 100px; line-height: 1.5;
+  font-family: inherit;
+  transition: border-color .2s;
+}
+#user-input:focus { border-color: var(--qll-teal); }
+#user-input::placeholder { color: var(--qll-muted); }
+
+#send-btn {
+  background: var(--qll-teal);
+  border: none; border-radius: var(--qll-radius);
+  color: #fff; font-size: .85rem; font-weight: 600;
+  padding: .6rem 1.1rem; cursor: pointer;
+  transition: background .2s; flex-shrink: 0;
+  height: 38px;
+}
+#send-btn:hover { background: var(--qll-teal-lt); }
+#send-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* Suggested questions */
+.suggestions {
+  padding: 0 1rem .8rem;
+  display: flex; flex-wrap: wrap; gap: .4rem;
+  flex-shrink: 0;
+}
+.suggestion-chip {
+  font-size: .75rem;
+  padding: .3rem .75rem;
+  background: transparent;
+  border: 1px solid var(--qll-border-lt);
+  border-radius: 50px;
+  color: var(--qll-sage);
+  cursor: pointer;
+  transition: all .2s;
+  font-family: inherit;
+}
+.suggestion-chip:hover {
+  border-color: var(--qll-teal);
+  color: var(--qll-teal-lt);
+  background: var(--qll-teal-glow);
+}
+
+/* ── RAG Debug Panel ── */
+#rag-debug {
+  position: fixed; top: 1rem; right: 1rem;
+  width: 300px; max-height: 80vh;
+  background: var(--qll-deep);
+  border: 1px solid var(--qll-border);
+  border-radius: var(--qll-radius-lg);
+  overflow-y: auto; padding: 1rem;
+  font-size: .72rem; font-family: 'Courier New', monospace;
+  color: var(--qll-muted);
+  display: none; z-index: 100;
+  box-shadow: 0 8px 40px rgba(0,0,0,.6);
+}
+#rag-debug.visible { display: block; }
+#rag-debug h3 {
+  font-size: .75rem; color: var(--qll-teal);
+  text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: .8rem;
+}
+.debug-section { margin-bottom: .8rem; }
+.debug-label {
+  color: var(--qll-teal-lt); font-weight: 700;
+  margin-bottom: .3rem; display: block;
+}
+.debug-value {
+  background: var(--qll-surface);
+  border-radius: 4px; padding: .4rem .6rem;
+  line-height: 1.5; word-break: break-all;
+  white-space: pre-wrap;
+}
+.score-bar {
+  height: 4px; border-radius: 2px;
+  background: var(--qll-teal); margin-top: .2rem;
+  transition: width .3s;
+}
+
+@media (max-width: 500px) {
+  body { padding: 0; }
+  #chat-app {
+    border-radius: 0; border: none;
+    max-height: 100vh; height: 100vh;
+  }
+  #rag-debug { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Config Panel ── -->
+<div id="config-panel">
+  <div class="config-logo">
+    <div class="mark">🌿</div>
+    <h2>QLL Counselling Assistant</h2>
+    <p>Learning build · Powered by Groq (free)</p>
+  </div>
+
+  <div class="config-field">
+    <label>Groq API Key</label>
+    <input type="password" id="cfg-key" placeholder="gsk_..."/>
+    <div class="config-hint">Free at <a href="https://console.groq.com" target="_blank">console.groq.com</a> — no credit card needed.</div>
+  </div>
+
+  <div class="config-field">
+    <label>Model</label>
+    <select id="cfg-model">
+      <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (fast, free)</option>
+      <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (smarter, free)</option>
+      <option value="gemma2-9b-it">gemma2-9b-it (alternative, free)</option>
+    </select>
+  </div>
+
+  <div class="config-field">
+    <label>Knowledge Base JSON path</label>
+    <input type="text" id="cfg-kb" value="qll-knowledge-base.json" placeholder="qll-knowledge-base.json"/>
+    <div class="config-hint">Must be in the same folder as this HTML file. Leave as-is for the sample data.</div>
+  </div>
+
+  <div class="config-field" style="display:flex;align-items:center;gap:.6rem">
+    <input type="checkbox" id="cfg-debug" style="width:auto;accent-color:var(--qll-teal)"/>
+    <label for="cfg-debug" style="text-transform:none;font-size:.83rem;letter-spacing:0;cursor:pointer">Show RAG debug panel (learn how it works)</label>
+  </div>
+
+  <button class="btn-launch" onclick="launch()">Launch Chat Assistant →</button>
+</div>
+
+<!-- ── Chat App ── -->
+<div id="chat-app">
+
+  <div class="chat-header">
+    <div class="chat-avatar">🌿</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">QLL Counselling & Wellness</div>
+      <div class="chat-header-sub">
+        <div class="status-dot"></div>
+        AI assistant · Not a counsellor
+      </div>
+    </div>
+    <button class="btn-settings" title="Settings" onclick="document.getElementById('config-panel').style.display='block';document.getElementById('chat-app').style.display='none'">⚙</button>
+  </div>
+
+  <div id="debug-bar"></div>
+
+  <div class="chat-messages" id="chat-messages"></div>
+
+  <div class="suggestions" id="suggestions">
+    <button class="suggestion-chip" onclick="ask(this.textContent)">What services do you offer?</button>
+    <button class="suggestion-chip" onclick="ask(this.textContent)">How do I book a session?</button>
+    <button class="suggestion-chip" onclick="ask(this.textContent)">What is Reiki?</button>
+    <button class="suggestion-chip" onclick="ask(this.textContent)">Do you accept medical aid?</button>
+    <button class="suggestion-chip" onclick="ask(this.textContent)">Is everything confidential?</button>
+  </div>
+
+  <div class="disclaimer">
+    This assistant provides general information only. It cannot diagnose, treat, or replace professional care.
+    In a crisis, call SADAG: <strong>0800 456 789</strong>
+  </div>
+
+  <div class="chat-input-area">
+    <textarea id="user-input" rows="1" placeholder="Ask about services, booking, or how QLL can help…"></textarea>
+    <button id="send-btn" onclick="sendMessage()">Send</button>
+  </div>
+
+</div>
+
+<!-- ── RAG Debug Panel ── -->
+<div id="rag-debug">
+  <h3>🔍 RAG Pipeline</h3>
+  <div class="debug-section">
+    <span class="debug-label">1. User query</span>
+    <div class="debug-value" id="dbg-query">—</div>
+  </div>
+  <div class="debug-section">
+    <span class="debug-label">2. Keyword tokens</span>
+    <div class="debug-value" id="dbg-tokens">—</div>
+  </div>
+  <div class="debug-section">
+    <span class="debug-label">3. Matched entries (scored)</span>
+    <div id="dbg-matches">—</div>
+  </div>
+  <div class="debug-section">
+    <span class="debug-label">4. Context injected</span>
+    <div class="debug-value" id="dbg-context" style="max-height:200px;overflow-y:auto">—</div>
+  </div>
+  <div class="debug-section">
+    <span class="debug-label">5. Guardrail triggered</span>
+    <div class="debug-value" id="dbg-guardrail">none</div>
+  </div>
+</div>
+
+<script>
+// ── Global state ────────────────────────────────────────
+let KB = null;           // parsed knowledge base
+let CFG = {};            // runtime config
+let history = [];        // conversation history for Groq
+let debugMode = false;
+
+// ── Launch ──────────────────────────────────────────────
+async function launch() {
+  const key   = document.getElementById('cfg-key').value.trim();
+  const model = document.getElementById('cfg-model').value;
+  const kb    = document.getElementById('cfg-kb').value.trim();
+  debugMode   = document.getElementById('cfg-debug').checked;
+
+  if (!key) { alert('Please enter your Groq API key.'); return; }
+
+  // Load knowledge base
+  try {
+    const res = await fetch(kb);
+    if (!res.ok) throw new Error('File not found');
+    KB = await res.json();
+  } catch(e) {
+    alert('Could not load knowledge base: ' + kb + '\n\nMake sure both files are in the same folder and you are running this via a local server (e.g. VS Code Live Server), not double-clicking the HTML file.\n\nError: ' + e.message);
+    return;
+  }
+
+  CFG = { key, model };
+
+  document.getElementById('config-panel').style.display = 'none';
+  document.getElementById('chat-app').style.display = 'flex';
+  if (debugMode) document.getElementById('rag-debug').classList.add('visible');
+
+  // Welcome message
+  addMsg('bot', `Welcome to QLL Counselling & Wellness Practice. I'm here to answer questions about Elizabeth's services, booking, and how QLL might be able to support you.\n\nHow can I help you today?`);
+}
+
+// ── RAG Pipeline ─────────────────────────────────────────
+
+// Step 1: Tokenise query into searchable words
+function tokenise(text) {
+  return text.toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length > 2 && !STOPWORDS.has(w));
+}
+
+const STOPWORDS = new Set([
+  'the','and','for','are','but','not','you','all','can','her','was','one',
+  'our','out','day','get','has','him','his','how','its','may','now','see',
+  'two','use','way','who','did','let','put','say','she','too','use','what',
+  'with','have','this','that','from','they','will','been','each','than',
+  'then','when','your','more','also','into','like','just','some','over',
+  'such','only','both','very','even','most','made','does','want','tell',
+  'here','well','much','come','take','know','help'
+]);
+
+// Step 2: Score each knowledge base entry against query tokens
+function scoreEntry(entry, tokens) {
+  let score = 0;
+  const entryText = (entry.question + ' ' + entry.answer + ' ' + entry.keywords.join(' ')).toLowerCase();
+
+  tokens.forEach(token => {
+    // Exact keyword match — highest weight
+    if (entry.keywords.some(k => k.toLowerCase() === token)) score += 3;
+    // Keyword partial match
+    else if (entry.keywords.some(k => k.toLowerCase().includes(token))) score += 2;
+    // Answer/question text match
+    else if (entryText.includes(token)) score += 1;
+  });
+
+  // Boost: token appears in question (user's phrasing matches Q&A question)
+  tokens.forEach(token => {
+    if (entry.question.toLowerCase().includes(token)) score += 1;
+  });
+
+  return score;
+}
+
+// Step 3: Retrieve top matching entries
+function retrieve(query, topN = 3) {
+  const tokens = tokenise(query);
+  const scored = KB.entries
+    .map(entry => ({ entry, score: scoreEntry(entry, tokens) }))
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topN);
+
+  return { tokens, scored };
+}
+
+// Step 4: Check guardrails before hitting the API
+function checkGuardrails(query) {
+  const q = query.toLowerCase();
+
+  // Crisis check — highest priority
+  const crisisHit = KB.crisis.keywords.find(kw => q.includes(kw.toLowerCase()));
+  if (crisisHit) return { type: 'crisis', keyword: crisisHit };
+
+  // No-diagnosis check
+  const diagHit = KB.guardrails.no_diagnosis_keywords.find(kw => q.includes(kw.toLowerCase()));
+  if (diagHit) return { type: 'no_diagnosis', keyword: diagHit };
+
+  return null;
+}
+
+// Step 5: Build the system prompt with injected context
+function buildPrompt(context) {
+  const contextBlock = context.length > 0
+    ? context.map(({entry}) =>
+        `Q: ${entry.question}\nA: ${entry.answer}`
+      ).join('\n\n')
+    : 'No specific information found for this query.';
+
+  return `You are a helpful, warm assistant for QLL Counselling & Wellness Practice in Pretoria, South Africa. The practice is run by Elizabeth, an ASCHP-registered counsellor.
+
+STRICT RULES — follow these without exception:
+1. NEVER diagnose, assess, or imply a user has any mental health condition.
+2. NEVER give medical advice or suggest treatments beyond what QLL offers.
+3. If a user seems distressed, gently acknowledge their feelings and suggest contacting Elizabeth or a helpline.
+4. Only answer based on the CONTEXT below. If the answer is not in the context, say you don't have that information and suggest the user contact Elizabeth directly.
+5. Keep responses warm, clear, and concise — 2 to 4 sentences unless detail is genuinely needed.
+6. Never fabricate prices, dates, or contact details not in the context.
+
+CONTEXT FROM QLL KNOWLEDGE BASE:
+${contextBlock}
+
+You are not Elizabeth and you are not a counsellor. You are an information assistant only.`;
+}
+
+// ── Main send flow ────────────────────────────────────────
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const query = input.value.trim();
+  if (!query) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('send-btn').disabled = true;
+  document.getElementById('suggestions').style.display = 'none';
+
+  addMsg('user', query);
+
+  // ── Guardrail check ──
+  const guard = checkGuardrails(query);
+
+  if (debugMode) {
+    document.getElementById('dbg-query').textContent = query;
+    document.getElementById('dbg-guardrail').textContent = guard
+      ? `${guard.type} — triggered by: "${guard.keyword}"`
+      : 'none';
+  }
+
+  if (guard?.type === 'crisis') {
+    addMsg('crisis', KB.crisis.response);
+    document.getElementById('send-btn').disabled = false;
+    if (debugMode) updateDebugMatches([], []);
+    return;
+  }
+
+  if (guard?.type === 'no_diagnosis') {
+    addMsg('bot', KB.guardrails.no_diagnosis_response);
+    document.getElementById('send-btn').disabled = false;
+    if (debugMode) updateDebugMatches([], []);
+    return;
+  }
+
+  // ── RAG retrieval ──
+  const { tokens, scored } = retrieve(query);
+
+  if (debugMode) {
+    document.getElementById('dbg-tokens').textContent = tokens.join(', ') || '(none after stopword filter)';
+    updateDebugMatches(scored, tokens);
+    const ctx = scored.map(({entry}) => `Q: ${entry.question}\nA: ${entry.answer}`).join('\n\n');
+    document.getElementById('dbg-context').textContent = ctx || '(no matches — will use fallback)';
+  }
+
+  // ── Typing indicator ──
+  const typingEl = addMsg('bot', 'Thinking…', 'typing');
+
+  // ── Build messages for Groq ──
+  const systemPrompt = buildPrompt(scored);
+  history.push({ role: 'user', content: query });
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + CFG.key
+      },
+      body: JSON.stringify({
+        model: CFG.model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...history
+        ],
+        max_tokens: 400,
+        temperature: 0.4   // lower = more factual, less creative
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.error) throw new Error(data.error.message);
+
+    const reply = data.choices[0].message.content;
+    history.push({ role: 'assistant', content: reply });
+
+    // Replace typing bubble with real reply + source chips
+    typingEl.classList.remove('typing');
+    typingEl.querySelector('.msg-bubble').textContent = reply;
+
+    if (debugMode && scored.length > 0) {
+      const sources = document.createElement('div');
+      sources.className = 'msg-sources';
+      scored.forEach(({entry, score}) => {
+        const chip = document.createElement('span');
+        chip.className = 'source-chip';
+        chip.textContent = entry.id + ' (' + score + ')';
+        sources.appendChild(chip);
+      });
+      typingEl.appendChild(sources);
+    }
+
+    if (debugMode) {
+      document.getElementById('debug-bar').textContent =
+        `model: ${CFG.model} · tokens used: ${data.usage?.total_tokens ?? '?'} · sources: ${scored.length}`;
+      document.getElementById('debug-bar').classList.add('visible');
+    }
+
+  } catch(err) {
+    typingEl.classList.remove('typing');
+    typingEl.querySelector('.msg-bubble').textContent =
+      'Sorry, I had trouble connecting. Please check your API key and try again. (' + err.message + ')';
+  }
+
+  document.getElementById('send-btn').disabled = false;
+  scrollToBottom();
+}
+
+// ── Ask from suggestion chip ──────────────────────────────
+function ask(text) {
+  document.getElementById('user-input').value = text;
+  sendMessage();
+}
+
+// ── DOM helpers ───────────────────────────────────────────
+function addMsg(role, text, extraClass) {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + role + (extraClass ? ' ' + extraClass : '');
+
+  if (role === 'bot' || role === 'typing') {
+    const av = document.createElement('div');
+    av.className = 'msg-avatar'; av.textContent = '🌿';
+    wrap.appendChild(av);
+  }
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.textContent = text;
+  wrap.appendChild(bubble);
+
+  msgs.appendChild(wrap);
+  scrollToBottom();
+  return wrap;
+}
+
+function scrollToBottom() {
+  const msgs = document.getElementById('chat-messages');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function updateDebugMatches(scored, tokens) {
+  const container = document.getElementById('dbg-matches');
+  if (scored.length === 0) {
+    container.innerHTML = '<div class="debug-value">no matches</div>';
+    return;
+  }
+  const maxScore = scored[0]?.score || 1;
+  container.innerHTML = scored.map(({entry, score}) => `
+    <div class="debug-value" style="margin-bottom:.4rem">
+      <strong style="color:var(--qll-teal-lt)">${entry.id}</strong> · score: ${score}<br>
+      <div class="score-bar" style="width:${Math.round((score/maxScore)*100)}%"></div>
+      <span style="color:var(--qll-muted)">${entry.question.slice(0,60)}…</span>
+    </div>
+  `).join('');
+}
+
+// ── Auto-resize textarea ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('user-input');
+  if (input) {
+    input.addEventListener('input', () => {
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, 100) + 'px';
+    });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>

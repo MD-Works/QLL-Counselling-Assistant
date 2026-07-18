@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QLL · Knowledge Base Extraction Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500&family=Syne:wght@400;600&family=Syne+Mono&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --md-black:     #0a0906;
+  --md-dark:      #110e09;
+  --md-surface:   #1a1610;
+  --md-panel:     #211c14;
+  --md-border:    #2c2619;
+  --md-border-lt: #3d3526;
+  --md-gold-dk:   #7a5815;
+  --md-gold:      #c9943c;
+  --md-gold-lt:   #e8c87a;
+  --md-cream:     #f0e6ce;
+  --md-muted:     #7a6d58;
+  --md-success:   #4caf7a;
+  --md-danger:    #c94c4c;
+  --md-radius:    4px;
+  --md-radius-lg: 8px;
+}
+body {
+  background: var(--md-dark);
+  color: var(--md-cream);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.page {
+  position: relative; z-index: 1;
+  max-width: 820px; margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+}
+header { text-align: center; margin-bottom: 3rem; }
+.brand-mark {
+  font-family: 'Syne Mono', monospace;
+  font-size: .62rem; letter-spacing: .35em; text-transform: uppercase;
+  color: var(--md-gold-dk);
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.brand-mark::before, .brand-mark::after {
+  content: ''; flex: 1; max-width: 48px; height: 1px;
+  background: var(--md-border-lt);
+}
+h1 {
+  font-family: 'Cinzel', serif; font-size: 1.9rem; font-weight: 600;
+  color: var(--md-gold-lt); letter-spacing: .05em; line-height: 1.2;
+}
+.subtitle {
+  color: var(--md-muted); font-size: .9rem; margin-top: .5rem;
+}
+
+/* Section labels */
+.section-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: .6rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--md-gold-dk);
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--md-border-lt);
+}
+
+/* Cards */
+.card {
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.card-title {
+  font-family: 'Syne', sans-serif; font-size: .85rem; font-weight: 600;
+  color: var(--md-gold-lt); margin-bottom: .8rem;
+  display: flex; align-items: center; gap: .6rem;
+}
+.card-title .step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--md-gold-dk); color: var(--md-black);
+  font-size: .7rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Code blocks */
+.code-block {
+  background: var(--md-black);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius);
+  padding: 1rem 1.2rem;
+  font-family: 'Syne Mono', monospace;
+  font-size: .78rem;
+  color: var(--md-cream);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+  margin-top: .6rem;
+}
+.copy-btn {
+  position: absolute; top: .6rem; right: .6rem;
+  background: var(--md-panel);
+  border: 1px solid var(--md-border-lt);
+  border-radius: var(--md-radius);
+  color: var(--md-muted);
+  font-family: 'Syne Mono', monospace;
+  font-size: .65rem; letter-spacing: .06em;
+  padding: .25rem .6rem; cursor: pointer;
+  transition: all .2s;
+}
+.copy-btn:hover { color: var(--md-gold); border-color: var(--md-gold-dk); }
+.copy-btn.copied { color: var(--md-success); border-color: var(--md-success); }
+
+/* Syntax highlighting helpers */
+.k { color: var(--md-gold); }        /* key */
+.v { color: #a8d4a0; }               /* string value */
+.c { color: var(--md-muted); }       /* comment */
+.r { color: #e07070; }               /* required marker */
+
+/* Field table */
+.field-table { width: 100%; border-collapse: collapse; margin-top: .6rem; }
+.field-table th {
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 600;
+  color: var(--md-gold-lt); text-align: left;
+  padding: .5rem .8rem; border-bottom: 1px solid var(--md-border-lt);
+  letter-spacing: .04em;
+}
+.field-table td {
+  font-size: .8rem; padding: .55rem .8rem;
+  border-bottom: 1px solid var(--md-border);
+  vertical-align: top;
+}
+.field-table tr:last-child td { border-bottom: none; }
+.field-name {
+  font-family: 'Syne Mono', monospace;
+  color: var(--md-gold); font-size: .75rem;
+}
+.field-req {
+  font-family: 'Syne Mono', monospace;
+  font-size: .7rem; color: var(--md-danger);
+}
+.field-desc { color: var(--md-cream); line-height: 1.5; }
+.field-example { color: var(--md-muted); font-size: .75rem; margin-top: .2rem; }
+
+/* Category pills */
+.pill-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; }
+.pill {
+  font-family: 'Syne Mono', monospace; font-size: .68rem;
+  padding: .2rem .65rem; border-radius: 50px;
+  border: 1px solid var(--md-border-lt);
+  color: var(--md-muted);
+}
+.pill.services { border-color: #4a9b8e; color: #6bbfb2; }
+.pill.pricing  { border-color: #9b8e4a; color: #bfb26b; }
+.pill.booking  { border-color: #7a4a9b; color: #b26bbf; }
+.pill.credentials { border-color: #4a6e9b; color: #6b9abf; }
+.pill.logistics   { border-color: #9b5a4a; color: #bf856b; }
+.pill.emergency   { border-color: var(--md-danger); color: #e07070; }
+
+/* Rules list */
+.rules-list { list-style: none; margin-top: .6rem; }
+.rules-list li {
+  font-size: .83rem; padding: .4rem 0;
+  border-bottom: 1px solid var(--md-border);
+  display: flex; gap: .7rem; align-items: flex-start;
+}
+.rules-list li:last-child { border-bottom: none; }
+.rule-icon { flex-shrink: 0; margin-top: .1rem; }
+.rule-icon.pass { color: var(--md-success); }
+.rule-icon.fail { color: var(--md-danger); }
+
+/* Validator */
+#validator-area {
+  background: var(--md-black);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius);
+  padding: .8rem 1rem;
+  font-family: 'Syne Mono', monospace;
+  font-size: .78rem; color: var(--md-muted);
+  width: 100%; min-height: 160px;
+  resize: vertical; outline: none;
+  line-height: 1.6; margin-top: .6rem;
+}
+#validator-area:focus { border-color: var(--md-gold-dk); }
+.btn-validate {
+  padding: .65rem 1.6rem;
+  background: linear-gradient(135deg, var(--md-gold-dk), var(--md-gold));
+  color: var(--md-black); border: none;
+  border-radius: var(--md-radius);
+  font-family: 'Cinzel', serif;
+  font-size: .78rem; font-weight: 600; letter-spacing: .1em;
+  cursor: pointer; transition: opacity .2s;
+  margin-top: .6rem;
+}
+.btn-validate:hover { opacity: .88; }
+#validation-result {
+  margin-top: .8rem; font-size: .8rem;
+  font-family: 'Syne Mono', monospace;
+  line-height: 1.6;
+}
+.v-ok { color: var(--md-success); }
+.v-err { color: var(--md-danger); }
+.v-warn { color: var(--md-gold); }
+
+/* Divider */
+.divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--md-border-lt) 20%, var(--md-gold-dk) 50%, var(--md-border-lt) 80%, transparent);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; margin: 2rem 0;
+}
+.divider::after {
+  content: '✦'; position: absolute;
+  font-size: .7rem; color: var(--md-gold-dk);
+  background: var(--md-dark); padding: 0 1rem;
+}
+
+footer {
+  text-align: center; padding: 2.5rem;
+  border-top: 1px solid var(--md-border);
+  margin-top: 4rem; position: relative; z-index: 1;
+}
+footer span {
+  font-family: 'Cinzel', serif;
+  font-size: .72rem; letter-spacing: .22em; color: var(--md-gold-dk);
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 1.4rem; }
+  .page { padding: 2rem 1rem 4rem; }
+  .field-table th:nth-child(3),
+  .field-table td:nth-child(3) { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="brand-mark">✦ qll counselling ✦</div>
+    <h1>Knowledge Base Extraction Template</h1>
+    <p class="subtitle">Use this document to guide a separate AI chat when stripping Elizabeth's documents into structured data.</p>
+  </header>
+
+  <!-- STEP 1: The master prompt -->
+  <div class="section-label">Step 1 · The prompt to paste into your other AI chat</div>
+  <div class="card">
+    <div class="card-title"><div class="step-num">1</div> Copy this entire prompt — paste it first, before any documents</div>
+    <div class="code-block" id="master-prompt">You are a structured data extraction assistant. Your only job is to read the documents I paste and convert their information into a strict JSON format for a RAG chatbot knowledge base.
+
+CRITICAL RULES — follow without exception:
+1. Output ONLY valid JSON — no explanations, no commentary, no markdown code fences.
+2. Every entry MUST have all required fields (id, category, keywords, question, answer).
+3. Write questions exactly as a real client would ask them — natural, conversational.
+4. Write answers in third person ("Elizabeth offers..." not "I offer...").
+5. Keep answers factual — do not infer, embellish, or add information not in the document.
+6. If information is missing or unclear, use the placeholder: "Please contact Elizabeth directly to confirm."
+7. Never include pricing figures unless explicitly stated in the document.
+8. Never include specific dates, times, or personal contact details in answer fields.
+9. Each entry covers ONE topic only — split multi-topic paragraphs into separate entries.
+10. Keywords must be lowercase, single words or short phrases a client might actually type.
+
+OUTPUT FORMAT — a single JSON array, nothing else:
+[
+  {
+    "id": "unique_lowercase_slug_with_underscores",
+    "category": "services|pricing|booking|credentials|logistics|emergency",
+    "keywords": ["keyword1", "keyword2", "keyword3"],
+    "question": "Natural question a client would ask?",
+    "answer": "Factual answer in third person, 2-4 sentences."
+  }
+]
+
+I will now paste Elizabeth's documents. Extract every distinct piece of client-relevant information into separate entries. Begin outputting JSON immediately after the last document.</div>
+    <button class="copy-btn" onclick="copyBlock('master-prompt', this)">copy</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- STEP 2: Field definitions -->
+  <div class="section-label">Step 2 · Field definitions & rules</div>
+  <div class="card">
+    <div class="card-title"><div class="step-num">2</div> Every entry must have these exact fields</div>
+    <table class="field-table">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Required</th>
+          <th>Rules</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="field-name">id</span></td>
+          <td><span class="field-req">yes</span></td>
+          <td class="field-desc">Unique, lowercase, underscores only. Describes the topic in 2–4 words.</td>
+          <td class="field-example">"service_reiki"<br>"booking_cancellation"<br>"pricing_session_fee"</td>
+        </tr>
+        <tr>
+          <td><span class="field-name">category</span></td>
+          <td><span class="field-req">yes</span></td>
+          <td class="field-desc">Must be exactly one of the six allowed values below. Pick the closest fit.</td>
+          <td>
+            <div class="pill-row">
+              <span class="pill services">services</span>
+              <span class="pill pricing">pricing</span>
+              <span class="pill booking">booking</span>
+              <span class="pill credentials">credentials</span>
+              <span class="pill logistics">logistics</span>
+              <span class="pill emergency">emergency</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="field-name">keywords</span></td>
+          <td><span class="field-req">yes</span></td>
+          <td class="field-desc">Array of 4–10 strings. Lowercase. Include synonyms and alternative phrasings a client might type. Think: what words would someone use when they don't know the formal term?</td>
+          <td class="field-example">["reiki", "energy healing", "hands on", "relax", "chakra", "balance"]</td>
+        </tr>
+        <tr>
+          <td><span class="field-name">question</span></td>
+          <td><span class="field-req">yes</span></td>
+          <td class="field-desc">A single, natural question a real client would ask. Conversational tone. Ends with a question mark.</td>
+          <td class="field-example">"What is Reiki and how does it work?"</td>
+        </tr>
+        <tr>
+          <td><span class="field-name">answer</span></td>
+          <td><span class="field-req">yes</span></td>
+          <td class="field-desc">2–4 sentences. Third person ("Elizabeth offers…"). Factual only — no opinions, no promises. If a detail is missing, end with: "Please contact Elizabeth directly to confirm."</td>
+          <td class="field-example">"Reiki is a gentle energy healing practice… Please contact Elizabeth directly to confirm availability."</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Category guide -->
+  <div class="card">
+    <div class="card-title"><div class="step-num">2b</div> Category decision guide</div>
+    <table class="field-table">
+      <thead>
+        <tr><th>Category</th><th>Use for</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pill services">services</span></td>
+          <td class="field-desc">What QLL offers — counselling, Rife, Reiki, ear acupuncture, session types</td>
+        </tr>
+        <tr>
+          <td><span class="pill pricing">pricing</span></td>
+          <td class="field-desc">Fees, medical aid, payment methods, packages, discounts</td>
+        </tr>
+        <tr>
+          <td><span class="pill booking">booking</span></td>
+          <td class="field-desc">How to book, cancellation policy, rescheduling, what to expect at first session</td>
+        </tr>
+        <tr>
+          <td><span class="pill credentials">credentials</span></td>
+          <td class="field-desc">Elizabeth's qualifications, ASCHP registration, scope of practice, confidentiality, ethics</td>
+        </tr>
+        <tr>
+          <td><span class="pill logistics">logistics</span></td>
+          <td class="field-desc">Location, parking, online vs in-person, hours, directions, accessibility</td>
+        </tr>
+        <tr>
+          <td><span class="pill emergency">emergency</span></td>
+          <td class="field-desc">Crisis resources, what to do if in danger — reserve for explicitly crisis-related content only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- STEP 3: Quality rules -->
+  <div class="section-label">Step 3 · Quality checklist — review before accepting output</div>
+  <div class="card">
+    <div class="card-title"><div class="step-num">3</div> Check the extracted JSON against these rules before pasting into the knowledge base</div>
+    <ul class="rules-list">
+      <li>
+        <span class="rule-icon pass">✓</span>
+        <span>Every entry has all 5 fields: id, category, keywords, question, answer</span>
+      </li>
+      <li>
+        <span class="rule-icon pass">✓</span>
+        <span>All IDs are unique — no two entries share the same id</span>
+      </li>
+      <li>
+        <span class="rule-icon pass">✓</span>
+        <span>Category values are exactly one of the 6 allowed strings (no typos, no new categories)</span>
+      </li>
+      <li>
+        <span class="rule-icon pass">✓</span>
+        <span>Keywords array has at least 4 items per entry</span>
+      </li>
+      <li>
+        <span class="rule-icon pass">✓</span>
+        <span>Questions are phrased as a client would ask, not as a document heading</span>
+      </li>
+      <li>
+        <span class="rule-icon pass">✓</span>
+        <span>Answers are in third person — no "I", "we", or "my" referring to the practice</span>
+      </li>
+      <li>
+        <span class="rule-icon pass">✓</span>
+        <span>Answers contain no invented information — only what was in Elizabeth's documents</span>
+      </li>
+      <li>
+        <span class="rule-icon fail">✗</span>
+        <span>Do NOT include specific phone numbers, email addresses, or street addresses in answers — these change and belong in a separate contact field</span>
+      </li>
+      <li>
+        <span class="rule-icon fail">✗</span>
+        <span>Do NOT include pricing figures unless Elizabeth has explicitly confirmed them as current and final</span>
+      </li>
+      <li>
+        <span class="rule-icon fail">✗</span>
+        <span>Do NOT merge two topics into one entry — split them</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- STEP 4: Validator -->
+  <div class="section-label">Step 4 · Validate extracted JSON before using it</div>
+  <div class="card">
+    <div class="card-title"><div class="step-num">4</div> Paste the AI's JSON output here to validate it</div>
+    <p style="font-size:.82rem;color:var(--md-muted);margin-bottom:.2rem">Checks structure, required fields, category values, and common mistakes.</p>
+    <textarea id="validator-area" placeholder="Paste the extracted JSON array here..."></textarea>
+    <button class="btn-validate" onclick="validateJSON()">Validate ✦</button>
+    <div id="validation-result"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- STEP 5: Merge instructions -->
+  <div class="section-label">Step 5 · Merging into the knowledge base</div>
+  <div class="card">
+    <div class="card-title"><div class="step-num">5</div> How to add validated entries to qll-knowledge-base.json</div>
+    <div class="code-block" id="merge-instructions">// In qll-knowledge-base.json, find the "entries" array:
+
+{
+  "practice": { ... },
+  "entries": [
+    // ← existing entries are here
+    { "id": "about_practice", ... },
+    { "id": "services_overview", ... },
+
+    // ← paste new validated entries at the end, inside the array:
+    { "id": "your_new_entry", ... },
+    { "id": "another_new_entry", ... }
+
+  ],  // ← make sure the last entry has NO trailing comma
+  "crisis": { ... },
+  "guardrails": { ... }
+}
+
+// Then save the file and reload the chatbot — it reads the JSON fresh each launch.
+// Tip: use a JSON validator (jsonlint.com) if the chatbot fails to load after editing.</div>
+    <button class="copy-btn" onclick="copyBlock('merge-instructions', this)">copy</button>
+  </div>
+
+  <!-- Example entry for reference -->
+  <div class="card">
+    <div class="card-title"><div class="step-num">5b</div> Example of a correctly structured entry</div>
+    <div class="code-block" id="example-entry">{
+  <span class="k">"id"</span>: <span class="v">"service_rife_therapy"</span>,
+  <span class="k">"category"</span>: <span class="v">"services"</span>,
+  <span class="k">"keywords"</span>: [
+    <span class="v">"rife"</span>, <span class="v">"rife therapy"</span>, <span class="v">"frequency"</span>,
+    <span class="v">"electromagnetic"</span>, <span class="v">"vibration"</span>, <span class="v">"rife machine"</span>,
+    <span class="v">"healing frequency"</span>
+  ],
+  <span class="k">"question"</span>: <span class="v">"What is Rife Therapy and what does it do?"</span>,
+  <span class="k">"answer"</span>: <span class="v">"Rife Therapy uses specific electromagnetic frequencies to support the body's natural healing processes. It is a complementary treatment used to promote relaxation, energy balance, and general wellness — not a substitute for medical care. Elizabeth will always advise clients to consult a medical doctor for any medical concerns."</span>
+}</div>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  <span>✦ MD Works ✦ · Morney Deetlefs · South Africa</span>
+</footer>
+
+<script>
+// ── Copy button ──────────────────────────────────────────
+function copyBlock(id, btn) {
+  const el = document.getElementById(id);
+  // Get text content without HTML tags
+  const text = el.innerText || el.textContent;
+  navigator.clipboard.writeText(text.trim()).then(() => {
+    btn.textContent = 'copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// ── JSON Validator ───────────────────────────────────────
+const ALLOWED_CATEGORIES = ['services','pricing','booking','credentials','logistics','emergency'];
+const REQUIRED_FIELDS    = ['id','category','keywords','question','answer'];
+
+function validateJSON() {
+  const raw = document.getElementById('validator-area').value.trim();
+  const out = document.getElementById('validation-result');
+  const lines = [];
+
+  if (!raw) {
+    out.innerHTML = '<span class="v-warn">Paste some JSON first.</span>';
+    return;
+  }
+
+  // Parse
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch(e) {
+    out.innerHTML = `<span class="v-err">✗ Invalid JSON — cannot parse.<br>Error: ${e.message}</span>`;
+    return;
+  }
+
+  if (!Array.isArray(data)) {
+    out.innerHTML = '<span class="v-err">✗ Expected a JSON array [ ... ] at the top level.</span>';
+    return;
+  }
+
+  lines.push(`<span class="v-ok">✓ Valid JSON · ${data.length} entries found</span>`);
+
+  const ids = [];
+  let errors = 0;
+  let warnings = 0;
+
+  data.forEach((entry, i) => {
+    const label = entry.id ? `"${entry.id}"` : `entry #${i+1}`;
+    const errs = [];
+    const warns = [];
+
+    // Required fields
+    REQUIRED_FIELDS.forEach(f => {
+      if (!(f in entry)) errs.push(`missing field: ${f}`);
+    });
+
+    // ID checks
+    if (entry.id) {
+      if (!/^[a-z0-9_]+$/.test(entry.id))
+        errs.push(`id must be lowercase letters, numbers, underscores only`);
+      if (ids.includes(entry.id))
+        errs.push(`duplicate id — "${entry.id}" already used`);
+      ids.push(entry.id);
+    }
+
+    // Category check
+    if (entry.category && !ALLOWED_CATEGORIES.includes(entry.category))
+      errs.push(`invalid category: "${entry.category}" — must be one of: ${ALLOWED_CATEGORIES.join(', ')}`);
+
+    // Keywords checks
+    if (entry.keywords) {
+      if (!Array.isArray(entry.keywords))
+        errs.push(`keywords must be an array`);
+      else {
+        if (entry.keywords.length < 4)
+          warns.push(`only ${entry.keywords.length} keywords — recommend at least 4`);
+        entry.keywords.forEach(k => {
+          if (typeof k !== 'string') errs.push(`keyword "${k}" is not a string`);
+          else if (k !== k.toLowerCase()) warns.push(`keyword "${k}" has uppercase — should be lowercase`);
+        });
+      }
+    }
+
+    // Question checks
+    if (entry.question) {
+      if (!entry.question.trim().endsWith('?'))
+        warns.push(`question doesn't end with "?" — is it phrased as a question?`);
+      if (entry.question.length < 15)
+        warns.push(`question is very short — is it natural enough?`);
+    }
+
+    // Answer checks
+    if (entry.answer) {
+      if (entry.answer.length < 30)
+        warns.push(`answer is very short — is it complete?`);
+      if (/\bI \b|\bwe \b|\bmy \b/i.test(entry.answer))
+        warns.push(`answer may contain first-person language ("I", "we", "my") — use third person`);
+      if (/\d{3,}/.test(entry.answer) && /R\d|rand|\$|\d+\.\d+/.test(entry.answer))
+        warns.push(`answer may contain a price figure — confirm with Elizabeth before including`);
+      if (/\b0[678]\d{8}\b/.test(entry.answer))
+        warns.push(`answer may contain a phone number — consider removing from answer field`);
+    }
+
+    if (errs.length)  errors   += errs.length;
+    if (warns.length) warnings += warns.length;
+
+    errs.forEach(e  => lines.push(`<span class="v-err">  ✗ ${label}: ${e}</span>`));
+    warns.forEach(w => lines.push(`<span class="v-warn">  ⚠ ${label}: ${w}</span>`));
+    if (!errs.length && !warns.length)
+      lines.push(`<span class="v-ok">  ✓ ${label}</span>`);
+  });
+
+  // Summary
+  lines.push('');
+  if (errors === 0 && warnings === 0) {
+    lines.push(`<span class="v-ok">✓ All ${data.length} entries passed. Ready to merge into qll-knowledge-base.json.</span>`);
+  } else {
+    if (errors)   lines.push(`<span class="v-err">✗ ${errors} error(s) — fix before merging</span>`);
+    if (warnings) lines.push(`<span class="v-warn">⚠ ${warnings} warning(s) — review before merging</span>`);
+  }
+
+  out.innerHTML = lines.join('<br>');
+}
+</script>
+</body>
+</html>
