@@ -222,7 +222,7 @@ function sendMsg(){
 function init(){
   fetch(CFG.kbUrl).then(function(r){if(!r.ok)throw new Error('KB not found');return r.json();}).then(function(d){
     KB=d;injectStyles();buildDOM();
-    var g=CFG.greeting||('Hi, I'm '+CFG.name+' — QLL's assistant. How can I help you today?');
+    var g=CFG.greeting||("Hi, I'm "+CFG.name+" — QLL's assistant. How can I help you today?");
     setTimeout(function(){addMsg('bot',g);},300);
   }).catch(function(e){console.error('[QLL Widget]',e.message);});
 }
