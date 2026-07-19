@@ -89,6 +89,47 @@
 }
 
 /* ═══════════════════════════════════════
+   DAYLIGHT MODE
+═══════════════════════════════════════ */
+[data-theme="daylight"] {
+  --md-black:     #f5f0e8;
+  --md-dark:      #faf7f2;
+  --md-surface:   #ffffff;
+  --md-panel:     #f0ebe0;
+  --md-border:    #ddd5c0;
+  --md-border-lt: #ccc0a0;
+  --md-gold-dk:   #8a6010;
+  --md-gold:      #b07820;
+  --md-gold-lt:   #7a5010;
+  --md-gold-glow: rgba(176,120,32,.08);
+  --md-cream:     #2a2018;
+  --md-muted:     #7a6848;
+  --md-success:   #2a7a50;
+  --md-danger:    #a03030;
+  --md-info:      #2060a0;
+  --page-bg:      #faf7f2;
+  --card-bg:      #ffffff;
+  --input-bg:     #f5f0e8;
+}
+
+[data-theme="daylight"] body::after {
+  background: radial-gradient(ellipse, rgba(200,160,60,.08) 0%, transparent 70%);
+}
+
+[data-theme="daylight"] .header-title { color: var(--md-gold-dk); }
+[data-theme="daylight"] .header-title span { color: var(--md-gold); }
+[data-theme="daylight"] .brand-mark { color: var(--md-gold); }
+
+[data-theme="daylight"] .theme-toggle {
+  border-color: var(--md-border);
+  background: var(--md-surface);
+}
+[data-theme="daylight"] .theme-btn.active {
+  background: var(--md-gold);
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════
    RESET & BASE
 ═══════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -120,12 +161,8 @@ body::after {
 
 .page {
   position: relative; z-index: 1;
-  max-width: 1100px; margin: 0 auto;
+  max-width: 680px; margin: 0 auto;
   padding: 2.5rem 2rem 6rem;
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  grid-template-rows: auto auto 1fr;
-  gap: 0 2.5rem;
 }
 
 /* ═══════════════════════════════════════
@@ -220,10 +257,32 @@ header {
 /* ═══════════════════════════════════════
    LEFT: CONFIG PANELS
 ═══════════════════════════════════════ */
-.config-col { grid-column: 1; }
+.config-col {
+  grid-column: 1;
+  position: relative;
+}
 
-.step-panel { display: none; }
-.step-panel.active { display: block; }
+/* All panels stack in the same space; only the active one is visible.
+   Using a wrapper so the column holds the height of the tallest panel. */
+.panels-wrap {
+  position: relative;
+}
+
+.step-panel {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+
+.step-panel.active {
+  visibility: visible;
+  opacity: 1;
+  position: relative;
+  pointer-events: auto;
+}
 
 .section-label {
   font-family: 'Syne Mono', monospace;
@@ -355,14 +414,76 @@ input[type="color"] {
 .btn-secondary:hover { color: var(--md-gold-lt); border-color: var(--md-gold-dk); }
 
 /* ═══════════════════════════════════════
-   RIGHT: LIVE PREVIEW
+   PREVIEW MODAL
 ═══════════════════════════════════════ */
-.preview-col {
-  grid-column: 2;
-  grid-row: 2 / 4;
-  position: sticky; top: 1.5rem;
-  align-self: start;
+.btn-preview {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .7rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--md-gold-dk); color: var(--md-gold);
+  border-radius: var(--md-radius);
+  font-family: 'Raleway', sans-serif; font-size: .82rem;
+  cursor: pointer; transition: all .2s;
 }
+.btn-preview:hover { background: var(--md-gold-glow); border-color: var(--md-gold); }
+
+#preview-modal {
+  display: none;
+  position: fixed; inset: 0; z-index: 1000;
+  align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+#preview-modal.open { display: flex; }
+
+.modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(4px);
+}
+
+.modal-box {
+  position: relative; z-index: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--md-border-lt);
+  border-radius: var(--md-radius-lg);
+  padding: 1.5rem;
+  width: 100%; max-width: 400px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.6);
+  animation: modal-in .2s ease;
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(12px) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.modal-title {
+  font-family: 'Syne Mono', monospace;
+  font-size: .6rem; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--md-gold-dk);
+}
+.modal-close {
+  background: none; border: none; color: var(--md-muted);
+  font-size: 1rem; cursor: pointer; padding: .2rem .4rem;
+  border-radius: var(--md-radius); transition: color .2s;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--md-cream); }
+
+.modal-personality {
+  margin-top: .8rem;
+  padding: .5rem .8rem;
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius);
+  font-size: .75rem; color: var(--md-muted);
+}
+
+/* keep the old preview col selector harmless */
+.preview-col { display: none; }
 
 .preview-label {
   font-family: 'Syne Mono', monospace;
@@ -585,18 +706,15 @@ footer span {
 /* ═══════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════ */
-@media (max-width: 820px) {
-  .page {
-    grid-template-columns: 1fr;
-    padding: 1.5rem 1rem 4rem;
-  }
-  .preview-col { grid-column: 1; grid-row: auto; position: static; }
+@media (max-width: 600px) {
+  .page { padding: 1.5rem 1rem 4rem; }
   .steps-row { overflow-x: auto; }
   .step-indicator { font-size: .52rem; padding: .6rem .3rem; }
   header { flex-direction: column; align-items: flex-start; gap: .8rem; }
   .export-grid { grid-template-columns: 1fr; }
   .p-pills { grid-template-columns: 1fr; }
   .field-row { grid-template-columns: 1fr; }
+  .nav-row { flex-wrap: wrap; gap: .6rem; }
 }
 </style>
 </head>
@@ -615,8 +733,9 @@ footer span {
     </div>
     <div class="header-controls">
       <div class="theme-toggle" role="group" aria-label="Colour theme">
-        <button class="theme-btn active" onclick="setTheme('dark',this)">Dark</button>
-        <button class="theme-btn" onclick="setTheme('high-contrast',this)">High Contrast</button>
+        <button class="theme-btn active" onclick="setTheme('dark',this)" title="Dark">🌙</button>
+        <button class="theme-btn" onclick="setTheme('daylight',this)" title="Daylight">☀️</button>
+        <button class="theme-btn" onclick="setTheme('high-contrast',this)" title="High Contrast">◑</button>
       </div>
     </div>
   </header>
@@ -641,6 +760,7 @@ footer span {
        LEFT COL — Config Panels
   ══════════════════════════════ -->
   <div class="config-col">
+  <div class="panels-wrap">
 
     <!-- STEP 1: Identity -->
     <div class="step-panel active" id="step-1">
@@ -686,7 +806,7 @@ footer span {
       </div>
 
       <div class="nav-row">
-        <span></span>
+        <button class="btn-preview" onclick="openPreview()">👁 Preview</button>
         <button class="btn-primary" onclick="goStep(2)">Next →</button>
       </div>
     </div>
@@ -728,6 +848,7 @@ footer span {
 
       <div class="nav-row">
         <button class="btn-secondary" onclick="goStep(1)">← Back</button>
+        <button class="btn-preview" onclick="openPreview()">👁 Preview</button>
         <button class="btn-primary" onclick="goStep(3)">Next →</button>
       </div>
     </div>
@@ -766,12 +887,117 @@ footer span {
       </div>
 
       <div class="card">
-        <div class="card-title">🌿 Widget identity</div>
+        <div class="card-title">🔤 Typography &amp; Text</div>
+        <div class="field">
+          <label for="font-family">Font family</label>
+          <select id="font-family" onchange="syncPreview()">
+            <option value="system-ui,sans-serif">System UI (default)</option>
+            <option value="'Georgia',serif">Georgia (serif)</option>
+            <option value="'Trebuchet MS',sans-serif">Trebuchet MS</option>
+            <option value="'Courier New',monospace">Courier New (mono)</option>
+            <option value="'Palatino',serif">Palatino</option>
+          </select>
+        </div>
         <div class="field-row">
           <div class="field">
-            <label for="avatar">Avatar emoji</label>
-            <input type="text" id="avatar" value="🌿" maxlength="4" oninput="syncPreview()" style="font-size:1.2rem;text-align:center"/>
+            <label for="font-size">Message font size</label>
+            <select id="font-size" onchange="syncPreview()">
+              <option value=".78rem">Small</option>
+              <option value=".845rem" selected>Medium (default)</option>
+              <option value=".95rem">Large</option>
+              <option value="1.05rem">X-Large</option>
+            </select>
           </div>
+          <div class="field">
+            <label for="line-height">Line height</label>
+            <select id="line-height" onchange="syncPreview()">
+              <option value="1.4">Compact (1.4)</option>
+              <option value="1.6" selected>Normal (1.6)</option>
+              <option value="1.8">Relaxed (1.8)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:.2rem">
+          <div class="field">
+            <label>Bot message text</label>
+            <div class="color-field">
+              <input type="color" id="c-bot-text" value="#e8f0ee" oninput="syncColor('bot-text',this.value)"/>
+              <input type="text" id="c-bot-text-t" value="#e8f0ee" oninput="syncColorText('bot-text',this.value)" style="font-family:'Syne Mono',monospace"/>
+            </div>
+          </div>
+          <div class="field">
+            <label>User message text</label>
+            <div class="color-field">
+              <input type="color" id="c-user-text" value="#ffffff" oninput="syncColor('user-text',this.value)"/>
+              <input type="text" id="c-user-text-t" value="#ffffff" oninput="syncColorText('user-text',this.value)" style="font-family:'Syne Mono',monospace"/>
+            </div>
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:.2rem">
+          <div class="field">
+            <label>Bot bubble background</label>
+            <div class="color-field">
+              <input type="color" id="c-bot-bubble" value="#ffffff12" oninput="syncColor('bot-bubble',this.value)"/>
+              <input type="text" id="c-bot-bubble-t" value="rgba(255,255,255,.07)" oninput="syncColorText('bot-bubble',this.value)" style="font-family:'Syne Mono',monospace"/>
+            </div>
+          </div>
+          <div class="field">
+            <label>Input text colour</label>
+            <div class="color-field">
+              <input type="color" id="c-input-text" value="#e8f0ee" oninput="syncColor('input-text',this.value)"/>
+              <input type="text" id="c-input-text-t" value="#e8f0ee" oninput="syncColorText('input-text',this.value)" style="font-family:'Syne Mono',monospace"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🌿 Widget identity</div>
+        <div class="field-row">
+          <div class="field" style="grid-column:1/-1">
+            <label>Avatar type</label>
+            <div class="p-pills" style="grid-template-columns:repeat(3,1fr);margin-top:.2rem" id="avatar-type-pills">
+              <button type="button" class="p-pill selected" data-val="emoji" onclick="setAvatarType('emoji',this)">
+                <span class="p-pill-name">😊 Emoji</span>
+                <span class="p-pill-desc">Any emoji character</span>
+              </button>
+              <button type="button" class="p-pill" data-val="image" onclick="setAvatarType('image',this)">
+                <span class="p-pill-name">🖼 Image URL</span>
+                <span class="p-pill-desc">Link to a photo or logo</span>
+              </button>
+              <button type="button" class="p-pill" data-val="initials" onclick="setAvatarType('initials',this)">
+                <span class="p-pill-name">🔤 Initials</span>
+                <span class="p-pill-desc">1–2 letter monogram</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Emoji input -->
+        <div id="avatar-emoji-wrap" class="field" style="margin-top:.8rem">
+          <label for="avatar-emoji">Emoji</label>
+          <input type="text" id="avatar-emoji" value="🌿" maxlength="4" oninput="syncPreview()" style="font-size:1.4rem;text-align:center;width:80px"/>
+        </div>
+
+        <!-- Image URL input -->
+        <div id="avatar-image-wrap" class="field" style="margin-top:.8rem;display:none">
+          <label for="avatar-url">Image URL</label>
+          <div class="field-hint">Direct link to a .png, .jpg, .svg, or .webp. Must be publicly accessible.</div>
+          <input type="url" id="avatar-url" placeholder="https://example.com/avatar.png" oninput="syncPreview()"/>
+          <div id="avatar-img-preview" style="margin-top:.6rem;display:none;align-items:center;gap:.6rem">
+            <img id="avatar-img-thumb" src="" alt="Avatar preview" style="width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--md-border)"/>
+            <span style="font-size:.75rem;color:var(--md-muted)" id="avatar-img-status"></span>
+          </div>
+        </div>
+
+        <!-- Initials input -->
+        <div id="avatar-initials-wrap" class="field" style="margin-top:.8rem;display:none">
+          <label for="avatar-initials">Initials</label>
+          <div class="field-hint">1–2 characters displayed on the accent colour background.</div>
+          <input type="text" id="avatar-initials" value="AI" maxlength="2" oninput="syncPreview()" style="text-align:center;text-transform:uppercase;width:80px;font-weight:600;letter-spacing:.08em"/>
+        </div>
+
+        <div class="field-row" style="margin-top:.8rem">
           <div class="field">
             <label for="position">Screen position</label>
             <select id="position" onchange="syncPreview()">
@@ -784,6 +1010,7 @@ footer span {
 
       <div class="nav-row">
         <button class="btn-secondary" onclick="goStep(2)">← Back</button>
+        <button class="btn-preview" onclick="openPreview()">👁 Preview</button>
         <button class="btn-primary" onclick="generate()">Generate ✦</button>
       </div>
     </div>
@@ -829,63 +1056,70 @@ footer span {
       </div>
     </div>
 
+  </div><!-- /panels-wrap -->
   </div><!-- /config-col -->
 
   <!-- ══════════════════════════════
-       RIGHT COL — Live Preview
+       PREVIEW MODAL
   ══════════════════════════════ -->
-  <div class="preview-col">
-    <div class="preview-label">Live preview</div>
-
-    <!-- Floating bubble button preview -->
-    <div id="prev-bubble-btn">
-      <div id="prev-btn-circle">🌿</div>
-      <div class="prev-btn-label">
-        <strong id="prev-btn-name">Lea</strong><br>
-        Floating chat button
+  <div id="preview-modal" role="dialog" aria-modal="true" aria-label="Widget preview">
+    <div class="modal-backdrop" onclick="closePreview()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Live Preview</div>
+        <button class="modal-close" onclick="closePreview()" aria-label="Close preview">✕</button>
       </div>
-    </div>
 
-    <div style="height:.8rem"></div>
-
-    <!-- Chat panel preview -->
-    <div id="chat-preview">
-      <div id="prev-header">
-        <div id="prev-avatar">🌿</div>
-        <div>
-          <div id="prev-name">Lea</div>
-          <div id="prev-sub"><div class="prev-dot"></div>QLL Counselling Assistant</div>
+      <!-- Floating bubble button preview -->
+      <div id="prev-bubble-btn">
+        <div id="prev-btn-circle">🌿</div>
+        <div class="prev-btn-label">
+          <strong id="prev-btn-name">Lea</strong><br>
+          Floating chat button
         </div>
       </div>
 
-      <div id="prev-msgs">
-        <div class="prev-bubble prev-bot" id="prev-welcome">Hi, I'm Lea — QLL's assistant. I can answer questions about Elizabeth's services, pricing, and booking. How can I help?</div>
-        <div class="prev-bubble prev-user" id="prev-user-msg" style="background:#4a9b8e">What services do you offer?</div>
-        <div class="prev-bubble prev-bot">Elizabeth offers individual counselling, life coaching, Reiki, Rife Therapy, and Ear Acupuncture — each tailored to your needs.</div>
-      </div>
+      <div style="height:.8rem"></div>
 
-      <div id="prev-chips">
-        <div class="prev-chip">How do I book?</div>
-        <div class="prev-chip">Session cost?</div>
-        <div class="prev-chip">What is Reiki?</div>
-      </div>
+      <!-- Chat panel preview -->
+      <div id="chat-preview">
+        <div id="prev-header">
+          <div id="prev-avatar">🌿</div>
+          <div>
+            <div id="prev-name">Lea</div>
+            <div id="prev-sub"><div class="prev-dot"></div>QLL Counselling Assistant</div>
+          </div>
+        </div>
 
-      <div id="prev-disclaimer">
-        General information only · Crisis: SADAG <strong>0800 456 789</strong>
-      </div>
+        <div id="prev-msgs">
+          <div class="prev-bubble prev-bot" id="prev-welcome">Hi, I'm Lea — QLL's assistant. I can answer questions about Elizabeth's services, pricing, and booking. How can I help?</div>
+          <div class="prev-bubble prev-user" id="prev-user-msg" style="background:#4a9b8e">What services do you offer?</div>
+          <div class="prev-bubble prev-bot">Elizabeth offers individual counselling, life coaching, Reiki, Rife Therapy, and Ear Acupuncture — each tailored to your needs.</div>
+        </div>
 
-      <div id="prev-footer">
-        <div id="prev-input-row">
-          <input id="prev-input" type="text" placeholder="Ask Lea a question…" readonly/>
-          <button id="prev-send" style="background:#4a9b8e;border-radius:7px;color:#fff;padding:.5rem .9rem;border:none">➤</button>
+        <div id="prev-chips">
+          <div class="prev-chip">How do I book?</div>
+          <div class="prev-chip">Session cost?</div>
+          <div class="prev-chip">What is Reiki?</div>
+        </div>
+
+        <div id="prev-disclaimer">
+          General information only · Crisis: SADAG <strong>0800 456 789</strong>
+        </div>
+
+        <div id="prev-footer">
+          <div id="prev-input-row">
+            <input id="prev-input" type="text" placeholder="Ask Lea a question…" readonly/>
+            <button id="prev-send" style="background:#4a9b8e;border-radius:7px;color:#fff;padding:.5rem .9rem;border:none">➤</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Personality badge -->
-    <div style="margin-top:.8rem;padding:.6rem .9rem;background:var(--md-surface);border:1px solid var(--md-border);border-radius:var(--md-radius);font-size:.75rem;color:var(--md-muted);line-height:1.5">
-      <span style="font-family:'Syne Mono',monospace;font-size:.65rem;color:var(--md-gold-dk);text-transform:uppercase;letter-spacing:.1em">Personality · </span>
-      <span id="prev-personality-label" style="color:var(--md-cream)">Warm &amp; Nurturing</span>
+      <!-- Personality badge -->
+      <div class="modal-personality">
+        <span style="font-family:'Syne Mono',monospace;font-size:.65rem;color:var(--md-gold-dk);text-transform:uppercase;letter-spacing:.1em">Personality · </span>
+        <span id="prev-personality-label">Warm &amp; Nurturing</span>
+      </div>
     </div>
   </div>
 
@@ -918,6 +1152,19 @@ function setTheme(theme, btn) {
   document.querySelectorAll('.theme-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
 }
+
+// ── Preview modal ──────────────────────────────────────────────────
+function openPreview() {
+  document.getElementById('preview-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePreview() {
+  document.getElementById('preview-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closePreview();
+});
 
 // ── Step navigation ────────────────────────────────────────────────
 function goStep(n) {
@@ -952,18 +1199,71 @@ function syncColorText(which, val) {
   }
 }
 
+// ── Avatar type switcher ───────────────────────────────────────────
+var currentAvatarType = 'emoji';
+
+function setAvatarType(type, btn) {
+  currentAvatarType = type;
+  document.querySelectorAll('#avatar-type-pills .p-pill').forEach(function(p) { p.classList.remove('selected'); });
+  btn.classList.add('selected');
+  document.getElementById('avatar-emoji-wrap').style.display    = type === 'emoji'    ? '' : 'none';
+  document.getElementById('avatar-image-wrap').style.display    = type === 'image'    ? '' : 'none';
+  document.getElementById('avatar-initials-wrap').style.display = type === 'initials' ? '' : 'none';
+  syncPreview();
+}
+
+function renderAvatarHTML(type, val, accent, size) {
+  // Returns an HTML string for the avatar circle
+  size = size || 34;
+  var base = 'width:'+size+'px;height:'+size+'px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid rgba(255,255,255,.3);overflow:hidden;';
+  if (type === 'image' && val) {
+    return '<div style="'+base+'background:rgba(255,255,255,.1)"><img src="'+val+'" style="width:100%;height:100%;object-fit:cover" alt="avatar"/></div>';
+  } else if (type === 'initials') {
+    return '<div style="'+base+'background:'+accent+';color:#fff;font-weight:600;font-size:'+(size*0.35)+'px;letter-spacing:.04em">'+val+'</div>';
+  } else {
+    return '<div style="'+base+'background:rgba(255,255,255,.15);font-size:'+(size*0.5)+'px">'+val+'</div>';
+  }
+}
+
 // ── Live preview sync ──────────────────────────────────────────────
 function syncPreview() {
-  var name    = document.getElementById('bot-name').value || 'Lea';
-  var avatar  = document.getElementById('avatar') ? document.getElementById('avatar').value || '🌿' : '🌿';
-  var accent  = document.getElementById('c-accent-t') ? document.getElementById('c-accent-t').value : '#4a9b8e';
-  var dark    = document.getElementById('c-dark-t') ? document.getElementById('c-dark-t').value : '#2d6b61';
-  var bg      = document.getElementById('c-bg-t') ? document.getElementById('c-bg-t').value : '#1e2a3a';
-  var greeting = document.getElementById('greeting') ? document.getElementById('greeting').value.trim() : '';
+  var name      = document.getElementById('bot-name').value || 'Lea';
+  var accent    = document.getElementById('c-accent-t') ? document.getElementById('c-accent-t').value : '#4a9b8e';
+  var dark      = document.getElementById('c-dark-t') ? document.getElementById('c-dark-t').value : '#2d6b61';
+  var bg        = document.getElementById('c-bg-t') ? document.getElementById('c-bg-t').value : '#1e2a3a';
+  var greeting  = document.getElementById('greeting') ? document.getElementById('greeting').value.trim() : '';
+  var fontFam   = document.getElementById('font-family') ? document.getElementById('font-family').value : 'system-ui,sans-serif';
+  var fontSize  = document.getElementById('font-size') ? document.getElementById('font-size').value : '.845rem';
+  var lineH     = document.getElementById('line-height') ? document.getElementById('line-height').value : '1.6';
+  var botText   = document.getElementById('c-bot-text-t') ? document.getElementById('c-bot-text-t').value : '#e8f0ee';
+  var userText  = document.getElementById('c-user-text-t') ? document.getElementById('c-user-text-t').value : '#ffffff';
+  var botBubble = document.getElementById('c-bot-bubble-t') ? document.getElementById('c-bot-bubble-t').value : 'rgba(255,255,255,.07)';
+  var inputText = document.getElementById('c-input-text-t') ? document.getElementById('c-input-text-t').value : '#e8f0ee';
+
+  // Avatar
+  var avatarType = currentAvatarType;
+  var avatarVal  = avatarType === 'image'    ? (document.getElementById('avatar-url') ? document.getElementById('avatar-url').value.trim() : '') :
+                   avatarType === 'initials' ? (document.getElementById('avatar-initials') ? document.getElementById('avatar-initials').value.toUpperCase() || 'AI' : 'AI') :
+                                               (document.getElementById('avatar-emoji') ? document.getElementById('avatar-emoji').value || '🌿' : '🌿');
+
+  // Image URL preview thumbnail
+  if (avatarType === 'image') {
+    var wrap = document.getElementById('avatar-img-preview');
+    var thumb = document.getElementById('avatar-img-thumb');
+    var status = document.getElementById('avatar-img-status');
+    if (avatarVal) {
+      wrap.style.display = 'flex';
+      thumb.src = avatarVal;
+      thumb.onerror = function() { status.textContent = '⚠ Could not load image'; status.style.color = 'var(--md-danger)'; };
+      thumb.onload  = function() { status.textContent = '✓ Image loaded'; status.style.color = 'var(--md-success)'; };
+    } else {
+      wrap.style.display = 'none';
+    }
+  }
 
   // Header
   document.getElementById('prev-header').style.background = dark;
-  document.getElementById('prev-avatar').textContent = avatar;
+  document.getElementById('prev-avatar').innerHTML = renderAvatarHTML(avatarType, avatarVal, accent, 34);
   document.getElementById('prev-name').textContent = name;
 
   // Messages bg
@@ -972,17 +1272,32 @@ function syncPreview() {
 
   // User bubble
   document.getElementById('prev-user-msg').style.background = accent;
+  document.getElementById('prev-user-msg').style.color = userText;
+
+  // Bot bubbles text
+  document.querySelectorAll('.prev-bot').forEach(function(b) {
+    b.style.color = botText;
+    b.style.background = botBubble;
+    b.style.fontFamily = fontFam;
+    b.style.fontSize = fontSize;
+    b.style.lineHeight = lineH;
+  });
+  document.getElementById('prev-user-msg').style.fontFamily = fontFam;
+  document.getElementById('prev-user-msg').style.fontSize = fontSize;
+  document.getElementById('prev-user-msg').style.lineHeight = lineH;
 
   // Send button
   document.getElementById('prev-send').style.background = accent;
 
   // Float button
-  document.getElementById('prev-btn-circle').style.background = accent;
-  document.getElementById('prev-btn-circle').textContent = avatar;
+  document.getElementById('prev-btn-circle').style.background = avatarType === 'image' ? 'transparent' : accent;
+  document.getElementById('prev-btn-circle').innerHTML = renderAvatarHTML(avatarType, avatarVal, accent, 52);
   document.getElementById('prev-btn-name').textContent = name;
 
-  // Input placeholder
+  // Input
   document.getElementById('prev-input').placeholder = 'Ask ' + name + ' a question…';
+  document.getElementById('prev-input').style.color = inputText;
+  document.getElementById('prev-input').style.fontFamily = fontFam;
 
   // Greeting
   if (greeting) {
@@ -1020,6 +1335,11 @@ function generate() {
 }
 
 function getConfig() {
+  var avatarType = document.querySelector('#avatar-type-pills .p-pill.selected') ?
+    document.querySelector('#avatar-type-pills .p-pill.selected').dataset.val : 'emoji';
+  var avatarVal = avatarType === 'image'    ? (document.getElementById('avatar-url').value.trim() || '')
+                : avatarType === 'initials' ? (document.getElementById('avatar-initials').value.trim().toUpperCase() || 'AI')
+                :                             (document.getElementById('avatar-emoji').value || '🌿');
   return {
     name:        document.getElementById('bot-name').value.trim()    || 'Lea',
     groqKey:     document.getElementById('groq-key').value.trim()    || '',
@@ -1031,8 +1351,16 @@ function getConfig() {
     accent:      document.getElementById('c-accent-t').value         || '#4a9b8e',
     accentDark:  document.getElementById('c-dark-t').value           || '#2d6b61',
     bg:          document.getElementById('c-bg-t').value             || '#1e2a3a',
-    avatar:      document.getElementById('avatar').value             || '🌿',
+    avatarType:  avatarType,
+    avatar:      avatarVal,
     position:    document.getElementById('position').value           || 'right',
+    fontFamily:  document.getElementById('font-family').value        || 'system-ui,sans-serif',
+    fontSize:    document.getElementById('font-size').value          || '.845rem',
+    lineHeight:  document.getElementById('line-height').value        || '1.6',
+    botText:     document.getElementById('c-bot-text-t').value       || '#e8f0ee',
+    userText:    document.getElementById('c-user-text-t').value      || '#ffffff',
+    botBubble:   document.getElementById('c-bot-bubble-t').value     || 'rgba(255,255,255,.07)',
+    inputText:   document.getElementById('c-input-text-t').value     || '#e8f0ee',
   };
 }
 
@@ -1044,13 +1372,21 @@ function buildScriptTag(c) {
     '  data-groq-key="' + c.groqKey + '"',
     '  data-bot-name="' + esc(c.name) + '"',
     '  data-personality="' + c.personality + '"',
-    '  data-avatar="' + c.avatar + '"',
+    '  data-avatar="' + esc(c.avatar) + '"',
+    '  data-avatar-type="' + c.avatarType + '"',
     '  data-accent-color="' + c.accent + '"',
     '  data-accent-dark="' + c.accentDark + '"',
     '  data-bg-color="' + c.bg + '"',
     '  data-position="' + c.position + '"',
     '  data-groq-model="' + c.groqModel + '"',
     '  data-kb-url="' + esc(c.kbUrl) + '"',
+    '  data-font-family="' + esc(c.fontFamily) + '"',
+    '  data-font-size="' + c.fontSize + '"',
+    '  data-line-height="' + c.lineHeight + '"',
+    '  data-bot-text="' + c.botText + '"',
+    '  data-user-text="' + c.userText + '"',
+    '  data-bot-bubble="' + c.botBubble + '"',
+    '  data-input-text="' + c.inputText + '"',
   ];
   if (c.greeting) lines.push('  data-greeting="' + esc(c.greeting) + '"');
   lines.push('><\/script>');
@@ -1083,7 +1419,15 @@ var CFG={
   accentDark:${JSON.stringify(c.accentDark)},
   bg:${JSON.stringify(c.bg)},
   avatar:${JSON.stringify(c.avatar)},
+  avatarType:${JSON.stringify(c.avatarType)},
   position:${JSON.stringify(c.position)},
+  fontFamily:${JSON.stringify(c.fontFamily)},
+  fontSize:${JSON.stringify(c.fontSize)},
+  lineHeight:${JSON.stringify(c.lineHeight)},
+  botText:${JSON.stringify(c.botText)},
+  userText:${JSON.stringify(c.userText)},
+  botBubble:${JSON.stringify(c.botBubble)},
+  inputText:${JSON.stringify(c.inputText)},
 };
 
 var KB=null, history=[], panelOpen=false;
@@ -1093,7 +1437,7 @@ var STOPWORDS=new Set(['the','and','for','are','but','not','you','all','can','he
 function injectStyles(){
   var s=CFG.position==='left'?'left':'right';
   var css=[
-    '#_qll_wrap *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}',
+    '#_qll_wrap *{box-sizing:border-box;margin:0;padding:0;font-family:'+CFG.fontFamily+'}',
     '#_qll_btn{position:fixed;bottom:1.5rem;'+s+':1.5rem;z-index:9998;width:54px;height:54px;border-radius:50%;border:none;background:'+CFG.accent+';color:#fff;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,.35);transition:transform .2s;display:flex;align-items:center;justify-content:center;}',
     '#_qll_btn:hover{transform:scale(1.08)}',
     '#_qll_panel{position:fixed;bottom:5.2rem;'+s+':1.5rem;z-index:9999;width:350px;max-width:calc(100vw - 2rem);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 60px rgba(0,0,0,.5);transition:opacity .25s,transform .25s;border:1px solid rgba(255,255,255,.08);}',
@@ -1109,9 +1453,9 @@ function injectStyles(){
     '#_qll_msgs::-webkit-scrollbar{width:3px}#_qll_msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}',
     '._qm{display:flex;gap:.5rem;max-width:86%}._qm.bot{align-self:flex-start}._qm.usr{align-self:flex-end;flex-direction:row-reverse}._qm.crs{align-self:stretch;max-width:100%}',
     '._qav{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;margin-top:3px;border:1px solid rgba(255,255,255,.15);}',
-    '._qb{padding:.6rem .9rem;font-size:.845rem;line-height:1.6;word-break:break-word;white-space:pre-line;}',
-    '.bot ._qb{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:3px 13px 13px 13px;color:#e8f0ee;}',
-    '.usr ._qb{background:'+CFG.accent+';border-radius:13px 3px 13px 13px;color:#fff;}',
+    '._qb{padding:.6rem .9rem;font-size:'+CFG.fontSize+';line-height:'+CFG.lineHeight+';word-break:break-word;white-space:pre-line;}',
+    '.bot ._qb{background:'+CFG.botBubble+';border:1px solid rgba(255,255,255,.1);border-radius:3px 13px 13px 13px;color:'+CFG.botText+';}',
+    '.usr ._qb{background:'+CFG.accent+';border-radius:13px 3px 13px 13px;color:'+CFG.userText+';}',
     '.crs ._qb{background:rgba(220,70,70,.1);border:1px solid rgba(220,70,70,.3);border-radius:10px;color:#fdd;width:100%;}',
     '.typ ._qb{color:rgba(255,255,255,.35);font-style:italic;}',
     '._qdots{display:inline-flex;gap:3px;align-items:center}._qdots span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);animation:_qb .9s infinite}._qdots span:nth-child(2){animation-delay:.15s}._qdots span:nth-child(3){animation-delay:.3s}@keyframes _qb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}',
@@ -1120,7 +1464,7 @@ function injectStyles(){
     '#_qll_disc{font-size:.66rem;color:rgba(255,255,255,.28);text-align:center;padding:.35rem .8rem .45rem;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.15);flex-shrink:0;}',
     '#_qll_foot{padding:.65rem;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);flex-shrink:0;}',
     '#_qll_row{display:flex;gap:.5rem;align-items:flex-end;}',
-    '#_qll_inp{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:7px;color:#e8f0ee;font-size:.845rem;padding:.5rem .8rem;outline:none;resize:none;max-height:72px;line-height:1.5;font-family:inherit;transition:border-color .2s;}#_qll_inp:focus{border-color:'+CFG.accent+';}#_qll_inp::placeholder{color:rgba(255,255,255,.28);}',
+    '#_qll_inp{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:7px;color:'+CFG.inputText+';font-size:'+CFG.fontSize+';padding:.5rem .8rem;outline:none;resize:none;max-height:72px;line-height:'+CFG.lineHeight+';font-family:inherit;transition:border-color .2s;}#_qll_inp:focus{border-color:'+CFG.accent+';}#_qll_inp::placeholder{color:rgba(255,255,255,.28);}',
     '#_qll_snd{background:'+CFG.accent+';border:none;border-radius:7px;color:#fff;font-size:.9rem;padding:.5rem .9rem;cursor:pointer;flex-shrink:0;height:36px;display:flex;align-items:center;justify-content:center;transition:opacity .2s;}#_qll_snd:hover{opacity:.85}#_qll_snd:disabled{opacity:.3;cursor:not-allowed;}',
     '@media(max-width:400px){#_qll_panel{width:calc(100vw - 2rem)}}',
   ].join('');
@@ -1133,14 +1477,14 @@ function buildDOM(){
   var w=document.createElement('div');w.id='_qll_wrap';
   var btn=document.createElement('button');btn.id='_qll_btn';
   btn.setAttribute('aria-label','Chat with '+CFG.name);
-  btn.innerHTML=CFG.avatar;
+  btn.innerHTML=avatarHTML(32);
   btn.addEventListener('click',togglePanel);
 
   var panel=document.createElement('div');panel.id='_qll_panel';panel.classList.add('qll-hide');
   panel.setAttribute('role','dialog');panel.setAttribute('aria-label',CFG.name+' chat');
 
   var hdr=document.createElement('div');hdr.id='_qll_hdr';
-  hdr.innerHTML='<div id="_qll_av">'+CFG.avatar+'</div><div><div id="_qll_nm">'+esc(CFG.name)+'</div><div id="_qll_sub"><div id="_qll_dot"></div>QLL Counselling Assistant</div></div><button id="_qll_x" aria-label="Close">&#x2715;</button>';
+  hdr.innerHTML=avatarHTML(34)+'<div><div id="_qll_nm">'+esc(CFG.name)+'</div><div id="_qll_sub"><div id="_qll_dot"></div>QLL Counselling Assistant</div></div><button id="_qll_x" aria-label="Close">&#x2715;</button>';
 
   var msgs=document.createElement('div');msgs.id='_qll_msgs';msgs.setAttribute('aria-live','polite');
 
@@ -1206,10 +1550,22 @@ function buildSys(context){
   return 'You are '+CFG.name+', the AI assistant for QLL Counselling & Wellness Practice in Pretoria, South Africa, run by Elizabeth Whitford (ASCHP-registered Wellness Counsellor).\\n\\nPERSONALITY: '+CFG.personalitySuffix+'\\n\\nSTRICT RULES:\\n1. Never diagnose or imply any mental health condition.\\n2. Never give medical advice.\\n3. Only answer using the CONTEXT below. If not there, say so and suggest contacting Elizabeth directly.\\n4. Never invent prices, dates, or contact details.\\n5. You are '+CFG.name+' — an information assistant, not Elizabeth, not a counsellor.\\n6. Keep responses warm and concise — 2 to 4 sentences unless more detail is genuinely needed.\\n\\nCONTEXT:\\n'+ctx;
 }
 
+function avatarHTML(size){
+  var s=size||26;
+  var base='width:'+s+'px;height:'+s+'px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;';
+  if(CFG.avatarType==='image'&&CFG.avatar){
+    return '<div style="'+base+'background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15)"><img src="'+CFG.avatar+'" style="width:100%;height:100%;object-fit:cover" alt=""/></div>';
+  }else if(CFG.avatarType==='initials'){
+    return '<div style="'+base+'background:'+CFG.accent+';color:#fff;font-weight:600;font-size:'+(s*0.38)+'px;letter-spacing:.04em;border:1.5px solid rgba(255,255,255,.3)">'+CFG.avatar+'</div>';
+  }else{
+    return '<div style="'+base+'background:rgba(255,255,255,.15);font-size:'+(s*0.5)+'px;border:1.5px solid rgba(255,255,255,.3)">'+CFG.avatar+'</div>';
+  }
+}
+
 function addMsg(role,txt,typing){
   var msgs=document.getElementById('_qll_msgs');
   var w=document.createElement('div');w.className='_qm '+role;
-  if(role==='bot'||role==='typing'){var av=document.createElement('div');av.className='_qav';av.textContent=CFG.avatar;w.appendChild(av);}
+  if(role==='bot'||role==='typing'){var av=document.createElement('div');av.className='_qav';av.innerHTML=avatarHTML(26);w.appendChild(av);}
   var b=document.createElement('div');b.className='_qb';
   if(typing){b.innerHTML='<div class="_qdots"><span></span><span></span><span></span></div>';w.classList.add('typ');}
   else{b.textContent=txt;}
