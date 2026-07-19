@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Widget Wizard · MD Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@300;400;500&family=Syne:wght@400;600&family=Syne+Mono&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   MD WORKS TOKENS — Dark (default)
+═══════════════════════════════════════ */
+:root, [data-theme="dark"] {
+  --md-black:     #0a0906;
+  --md-dark:      #110e09;
+  --md-surface:   #1a1610;
+  --md-panel:     #211c14;
+  --md-border:    #2c2619;
+  --md-border-lt: #3d3526;
+  --md-gold-dk:   #7a5815;
+  --md-gold:      #c9943c;
+  --md-gold-lt:   #e8c87a;
+  --md-gold-glow: rgba(201,148,60,.12);
+  --md-cream:     #f0e6ce;
+  --md-muted:     #7a6d58;
+  --md-success:   #4caf7a;
+  --md-danger:    #c94c4c;
+  --md-info:      #4c8fc9;
+  --md-radius:    4px;
+  --md-radius-lg: 8px;
+  /* page-level aliases */
+  --page-bg:      var(--md-dark);
+  --card-bg:      var(--md-surface);
+  --input-bg:     var(--md-panel);
+}
+
+/* ═══════════════════════════════════════
+   HIGH CONTRAST MODE
+═══════════════════════════════════════ */
+[data-theme="high-contrast"] {
+  --md-black:     #000000;
+  --md-dark:      #000000;
+  --md-surface:   #0d0d0d;
+  --md-panel:     #1a1a1a;
+  --md-border:    #ffffff;
+  --md-border-lt: #ffffff;
+  --md-gold-dk:   #ffcc00;
+  --md-gold:      #ffcc00;
+  --md-gold-lt:   #ffee88;
+  --md-gold-glow: rgba(255,204,0,.2);
+  --md-cream:     #ffffff;
+  --md-muted:     #cccccc;
+  --md-success:   #00ff88;
+  --md-danger:    #ff4444;
+  --md-info:      #44aaff;
+  --page-bg:      #000000;
+  --card-bg:      #0d0d0d;
+  --input-bg:     #1a1a1a;
+}
+
+[data-theme="high-contrast"] body::before,
+[data-theme="high-contrast"] body::after { display: none; }
+
+[data-theme="high-contrast"] .card {
+  border-width: 2px;
+  border-color: var(--md-border);
+}
+
+[data-theme="high-contrast"] input,
+[data-theme="high-contrast"] select,
+[data-theme="high-contrast"] textarea {
+  border-width: 2px !important;
+  border-color: var(--md-border) !important;
+}
+
+[data-theme="high-contrast"] .btn-primary {
+  background: var(--md-gold) !important;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+[data-theme="high-contrast"] .step-indicator.active {
+  outline: 2px solid var(--md-gold);
+  outline-offset: 2px;
+}
+
+[data-theme="high-contrast"] #chat-preview {
+  border-width: 2px;
+}
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--page-bg);
+  color: var(--md-cream);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+  transition: background .3s, color .3s;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  top: -20vh; left: 50%; transform: translateX(-50%);
+  width: 80vw; height: 60vh;
+  background: radial-gradient(ellipse, var(--md-gold-glow) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+.page {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto;
+  padding: 2.5rem 2rem 6rem;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  grid-template-rows: auto auto 1fr;
+  gap: 0 2.5rem;
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+header {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--md-border);
+  margin-bottom: 2rem;
+}
+
+.header-brand { display: flex; align-items: center; gap: 1rem; }
+
+.brand-mark {
+  font-family: 'Syne Mono', monospace;
+  font-size: .58rem; letter-spacing: .35em; text-transform: uppercase;
+  color: var(--md-gold-dk);
+}
+
+.header-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem; font-weight: 900;
+  color: var(--md-gold-lt); letter-spacing: .06em;
+}
+.header-title span {
+  color: var(--md-gold-dk); font-weight: 400; font-size: 1.1rem;
+}
+
+.header-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: var(--md-muted); font-size: .95rem;
+}
+
+.header-controls { display: flex; align-items: center; gap: .8rem; }
+
+/* Theme toggle */
+.theme-toggle {
+  display: flex; align-items: center; gap: 0;
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  border-radius: 50px; overflow: hidden;
+}
+.theme-btn {
+  padding: .35rem .8rem;
+  background: transparent; border: none;
+  font-family: 'Syne Mono', monospace;
+  font-size: .62rem; letter-spacing: .1em;
+  color: var(--md-muted); cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.theme-btn.active {
+  background: var(--md-gold-dk);
+  color: var(--md-black);
+}
+
+/* ═══════════════════════════════════════
+   STEP TABS
+═══════════════════════════════════════ */
+.steps-row {
+  grid-column: 1 / -1;
+  display: flex; gap: 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--md-border);
+}
+
+.step-indicator {
+  flex: 1; text-align: center;
+  padding: .7rem .5rem;
+  font-family: 'Syne Mono', monospace;
+  font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--md-muted);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+  user-select: none;
+}
+.step-indicator:hover { color: var(--md-gold); }
+.step-indicator.active { color: var(--md-gold); border-bottom-color: var(--md-gold); }
+.step-indicator.done { color: var(--md-gold-dk); border-bottom-color: var(--md-gold-dk); }
+.step-num-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--md-border); color: var(--md-muted);
+  font-size: .6rem; margin-right: .35rem;
+  transition: background .2s, color .2s;
+}
+.step-indicator.active .step-num-badge { background: var(--md-gold); color: var(--md-black); }
+.step-indicator.done .step-num-badge { background: var(--md-gold-dk); color: var(--md-black); }
+
+/* ═══════════════════════════════════════
+   LEFT: CONFIG PANELS
+═══════════════════════════════════════ */
+.config-col { grid-column: 1; }
+
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+
+.section-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: .6rem; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--md-gold-dk);
+  display: flex; align-items: center; gap: .8rem;
+  margin-bottom: 1.4rem;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--md-border-lt);
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius-lg);
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  position: relative;
+  transition: border-color .25s;
+}
+.card:hover { border-color: var(--md-border-lt); }
+
+.card-title {
+  font-family: 'Syne', sans-serif; font-size: .82rem; font-weight: 600;
+  color: var(--md-gold-lt); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+
+/* Fields */
+.field { margin-bottom: 1.1rem; }
+.field:last-child { margin-bottom: 0; }
+
+label {
+  display: block;
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 600;
+  color: var(--md-gold-lt); letter-spacing: .05em;
+  margin-bottom: .35rem;
+}
+.field-hint {
+  font-size: .75rem; color: var(--md-muted);
+  margin-bottom: .4rem; line-height: 1.5;
+}
+.field-hint a { color: var(--md-gold); text-decoration: none; }
+
+input[type="text"],
+input[type="password"],
+input[type="url"],
+select,
+textarea {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius);
+  color: var(--md-cream);
+  font-family: 'Raleway', sans-serif;
+  font-size: .88rem; padding: .65rem .9rem;
+  outline: none; transition: border-color .2s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--md-gold-dk); }
+input::placeholder, textarea::placeholder { color: var(--md-muted); }
+select option { background: var(--input-bg); }
+textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+/* 2-col grid for short fields */
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+
+/* Colour row */
+.color-field { display: flex; align-items: center; gap: .6rem; }
+input[type="color"] {
+  width: 40px; height: 36px; padding: 2px;
+  border-radius: var(--md-radius);
+  background: var(--input-bg);
+  border: 1px solid var(--md-border);
+  cursor: pointer; flex-shrink: 0;
+}
+
+/* Personality pills */
+.p-pills { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .2rem; }
+.p-pill {
+  padding: .6rem .8rem;
+  background: var(--input-bg);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius);
+  cursor: pointer; transition: all .2s;
+  text-align: left; font-family: inherit;
+  display: flex; flex-direction: column; gap: .15rem;
+}
+.p-pill:hover { border-color: var(--md-gold-dk); }
+.p-pill.selected {
+  border-color: var(--md-gold);
+  background: var(--md-gold-glow);
+}
+.p-pill-name {
+  font-family: 'Syne', sans-serif; font-size: .75rem; font-weight: 600;
+  color: var(--md-gold-lt);
+}
+.p-pill-desc {
+  font-size: .7rem; color: var(--md-muted); line-height: 1.4;
+}
+
+/* Nav row */
+.nav-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 1.5rem; padding-top: 1.2rem;
+  border-top: 1px solid var(--md-border);
+}
+
+.btn-primary {
+  padding: .75rem 1.8rem;
+  background: linear-gradient(135deg, var(--md-gold-dk), var(--md-gold));
+  color: var(--md-black);
+  border: none; border-radius: var(--md-radius);
+  font-family: 'Cinzel', serif;
+  font-size: .78rem; font-weight: 600; letter-spacing: .12em;
+  cursor: pointer; transition: opacity .2s, transform .1s;
+}
+.btn-primary:hover { opacity: .88; }
+.btn-primary:active { transform: scale(.98); }
+
+.btn-secondary {
+  padding: .7rem 1.4rem;
+  background: transparent;
+  border: 1px solid var(--md-border-lt); color: var(--md-muted);
+  border-radius: var(--md-radius);
+  font-family: 'Raleway', sans-serif; font-size: .82rem;
+  cursor: pointer; transition: all .2s;
+}
+.btn-secondary:hover { color: var(--md-gold-lt); border-color: var(--md-gold-dk); }
+
+/* ═══════════════════════════════════════
+   RIGHT: LIVE PREVIEW
+═══════════════════════════════════════ */
+.preview-col {
+  grid-column: 2;
+  grid-row: 2 / 4;
+  position: sticky; top: 1.5rem;
+  align-self: start;
+}
+
+.preview-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: .58rem; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--md-gold-dk);
+  display: flex; align-items: center; gap: .8rem;
+  margin-bottom: 1rem;
+}
+.preview-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--md-border-lt);
+}
+
+/* Chat preview window */
+#chat-preview {
+  background: #1e2a3a;
+  border: 1px solid var(--md-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 12px 60px rgba(0,0,0,.5);
+  transition: all .3s;
+  font-family: system-ui, sans-serif;
+}
+
+#prev-header {
+  padding: .85rem 1rem;
+  display: flex; align-items: center; gap: .75rem;
+  transition: background .3s;
+}
+#prev-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.3);
+  transition: background .3s;
+}
+#prev-name {
+  font-size: .88rem; font-weight: 600; color: #fff; flex: 1;
+}
+#prev-sub {
+  font-size: .68rem; color: rgba(255,255,255,.6);
+  display: flex; align-items: center; gap: .3rem; margin-top: .1rem;
+}
+.prev-dot { width: 6px; height: 6px; border-radius: 50%; background: #7effa0; }
+
+#prev-msgs {
+  padding: 1rem;
+  display: flex; flex-direction: column; gap: .6rem;
+  min-height: 200px; max-height: 260px; overflow-y: auto;
+  transition: background .3s;
+}
+
+.prev-bubble {
+  padding: .6rem .9rem;
+  font-size: .82rem; line-height: 1.55; max-width: 84%;
+  word-break: break-word;
+}
+.prev-bot {
+  align-self: flex-start;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 3px 12px 12px 12px;
+  color: #e8f0ee;
+}
+.prev-user {
+  align-self: flex-end;
+  border-radius: 12px 3px 12px 12px;
+  color: #fff;
+  transition: background .3s;
+}
+
+#prev-footer {
+  padding: .7rem;
+  border-top: 1px solid rgba(255,255,255,.07);
+  background: rgba(0,0,0,.2);
+}
+#prev-input-row {
+  display: flex; gap: .5rem; align-items: center;
+}
+#prev-input {
+  flex: 1; background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 7px; color: #e8f0ee;
+  font-size: .82rem; padding: .5rem .8rem;
+  outline: none; pointer-events: none;
+  font-family: system-ui, sans-serif;
+}
+#prev-send {
+  border: none; border-radius: 7px;
+  color: #fff; font-size: .85rem;
+  padding: .5rem .9rem; cursor: default;
+  transition: background .3s;
+  flex-shrink: 0;
+}
+
+/* Chips */
+#prev-chips {
+  padding: .4rem 1rem .6rem;
+  display: flex; flex-wrap: wrap; gap: .3rem;
+}
+.prev-chip {
+  font-size: .68rem; padding: .22rem .6rem;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 50px; color: rgba(255,255,255,.55);
+  transition: border-color .3s;
+}
+
+#prev-disclaimer {
+  font-size: .65rem; color: rgba(255,255,255,.3);
+  text-align: center; padding: .35rem .8rem .5rem;
+  border-top: 1px solid rgba(255,255,255,.07);
+  transition: background .3s;
+}
+
+/* Bubble button preview */
+#prev-bubble-btn {
+  margin-top: .8rem;
+  display: flex; align-items: center; gap: .8rem;
+}
+#prev-btn-circle {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  transition: background .3s;
+  flex-shrink: 0;
+}
+.prev-btn-label {
+  font-size: .75rem; color: var(--md-muted); line-height: 1.4;
+}
+.prev-btn-label strong { color: var(--md-cream); font-weight: 500; }
+
+/* ═══════════════════════════════════════
+   EXPORT PANEL (step 4)
+═══════════════════════════════════════ */
+.code-block {
+  background: var(--md-black);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius);
+  padding: 1rem 1.2rem;
+  font-family: 'Syne Mono', monospace; font-size: .75rem;
+  color: var(--md-cream); line-height: 1.7;
+  white-space: pre-wrap; word-break: break-all;
+  max-height: 220px; overflow-y: auto;
+  position: relative; margin-top: .5rem;
+}
+.copy-btn {
+  display: inline-flex; align-items: center; gap: .3rem;
+  padding: .3rem .7rem;
+  background: var(--md-panel);
+  border: 1px solid var(--md-border-lt);
+  border-radius: var(--md-radius); color: var(--md-muted);
+  font-family: 'Syne Mono', monospace; font-size: .65rem;
+  cursor: pointer; transition: all .2s; margin-top: .5rem;
+}
+.copy-btn:hover { color: var(--md-gold); border-color: var(--md-gold-dk); }
+.copy-btn.ok { color: var(--md-success); border-color: var(--md-success); }
+
+.download-btn {
+  padding: .65rem 1.4rem;
+  background: linear-gradient(135deg, var(--md-gold-dk), var(--md-gold));
+  color: var(--md-black); border: none; border-radius: var(--md-radius);
+  font-family: 'Cinzel', serif; font-size: .75rem; font-weight: 600;
+  letter-spacing: .1em; cursor: pointer; text-decoration: none;
+  display: inline-block; transition: opacity .2s; margin-top: .5rem;
+}
+.download-btn:hover { opacity: .88; }
+
+.export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+.next-steps {
+  background: var(--card-bg);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-radius-lg);
+  padding: 1.2rem; margin-top: 1.2rem;
+}
+.next-step-item {
+  display: flex; gap: .7rem; padding: .45rem 0;
+  border-bottom: 1px solid var(--md-border);
+  font-size: .82rem; color: var(--md-muted); line-height: 1.5;
+}
+.next-step-item:last-child { border-bottom: none; }
+.step-n {
+  font-family: 'Syne Mono', monospace;
+  font-size: .7rem; color: var(--md-gold-dk);
+  flex-shrink: 0; padding-top: .1rem;
+}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%; z-index: 9999;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  border-radius: 50px; padding: .6rem 1.4rem;
+  font-size: .82rem; letter-spacing: .04em;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap; font-family: 'Raleway', sans-serif;
+  color: var(--md-success);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  grid-column: 1 / -1;
+  text-align: center; padding: 2rem;
+  border-top: 1px solid var(--md-border); margin-top: 3rem;
+}
+footer span {
+  font-family: 'Cinzel', serif;
+  font-size: .7rem; letter-spacing: .22em; color: var(--md-gold-dk);
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 820px) {
+  .page {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1rem 4rem;
+  }
+  .preview-col { grid-column: 1; grid-row: auto; position: static; }
+  .steps-row { overflow-x: auto; }
+  .step-indicator { font-size: .52rem; padding: .6rem .3rem; }
+  header { flex-direction: column; align-items: flex-start; gap: .8rem; }
+  .export-grid { grid-template-columns: 1fr; }
+  .p-pills { grid-template-columns: 1fr; }
+  .field-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── Header ── -->
+  <header>
+    <div class="header-brand">
+      <div>
+        <div class="brand-mark">✦ md works ✦</div>
+        <div class="header-title">Widget <span>Wizard</span></div>
+        <div class="header-tagline">Configure, preview, and export your AI chat widget</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <div class="theme-toggle" role="group" aria-label="Colour theme">
+        <button class="theme-btn active" onclick="setTheme('dark',this)">Dark</button>
+        <button class="theme-btn" onclick="setTheme('high-contrast',this)">High Contrast</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Steps ── -->
+  <div class="steps-row">
+    <div class="step-indicator active" id="si-1" onclick="goStep(1)">
+      <span class="step-num-badge">1</span>Identity
+    </div>
+    <div class="step-indicator" id="si-2" onclick="goStep(2)">
+      <span class="step-num-badge">2</span>Personality
+    </div>
+    <div class="step-indicator" id="si-3" onclick="goStep(3)">
+      <span class="step-num-badge">3</span>Appearance
+    </div>
+    <div class="step-indicator" id="si-4" onclick="goStep(4)">
+      <span class="step-num-badge">4</span>Export
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       LEFT COL — Config Panels
+  ══════════════════════════════ -->
+  <div class="config-col">
+
+    <!-- STEP 1: Identity -->
+    <div class="step-panel active" id="step-1">
+      <div class="section-label">Identity</div>
+
+      <div class="card">
+        <div class="card-title">🤖 Bot identity</div>
+
+        <div class="field">
+          <label for="bot-name">Bot name</label>
+          <input type="text" id="bot-name" value="Lea" oninput="syncPreview()"/>
+        </div>
+
+        <div class="field">
+          <label for="groq-key">Groq API key</label>
+          <div class="field-hint">Free at <a href="https://console.groq.com" target="_blank">console.groq.com</a> — no credit card needed.</div>
+          <input type="password" id="groq-key" placeholder="gsk_..."/>
+        </div>
+
+        <div class="field">
+          <label for="groq-model">AI model</label>
+          <select id="groq-model">
+            <option value="llama-3.1-8b-instant">llama-3.1-8b-instant — fast, free</option>
+            <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile — smarter, free</option>
+            <option value="gemma2-9b-it">gemma2-9b-it — alternative, free</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="kb-url">Knowledge base URL</label>
+          <div class="field-hint">Path to the <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">qll-knowledge-base.json</code> file.</div>
+          <input type="url" id="kb-url" value="qll-knowledge-base.json" placeholder="qll-knowledge-base.json"/>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💬 Greeting</div>
+        <div class="field">
+          <label for="greeting">Opening message</label>
+          <div class="field-hint">Leave blank to use the auto-generated greeting.</div>
+          <input type="text" id="greeting" placeholder="Hi, I'm Lea — how can I help?" oninput="syncPreview()"/>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <span></span>
+        <button class="btn-primary" onclick="goStep(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Personality -->
+    <div class="step-panel" id="step-2">
+      <div class="section-label">Personality</div>
+
+      <div class="card">
+        <div class="card-title">🎭 Tone preset</div>
+        <div class="field-hint" style="margin-bottom:.8rem">Controls the system prompt tone — how Lea sounds and responds.</div>
+        <div class="p-pills" id="personality-pills">
+          <button type="button" class="p-pill selected" data-val="warm" onclick="selectPersonality(this)">
+            <span class="p-pill-name">Warm &amp; Nurturing</span>
+            <span class="p-pill-desc">Gentle, empathetic, reassuring. Acknowledges feelings before information.</span>
+          </button>
+          <button type="button" class="p-pill" data-val="professional" onclick="selectPersonality(this)">
+            <span class="p-pill-name">Calm &amp; Professional</span>
+            <span class="p-pill-desc">Measured, clear, trustworthy. Like a knowledgeable receptionist.</span>
+          </button>
+          <button type="button" class="p-pill" data-val="bright" onclick="selectPersonality(this)">
+            <span class="p-pill-name">Bright &amp; Approachable</span>
+            <span class="p-pill-desc">Friendly, light, easy to talk to. Accessible everyday language.</span>
+          </button>
+          <button type="button" class="p-pill" data-val="grounded" onclick="selectPersonality(this)">
+            <span class="p-pill-name">Grounded &amp; Wise</span>
+            <span class="p-pill-desc">Thoughtful, unhurried, quietly confident. Considered responses.</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✏️ Custom system prompt addendum <span style="font-family:'Syne Mono',monospace;font-size:.65rem;color:var(--md-muted);font-weight:400">(optional)</span></div>
+        <div class="field">
+          <div class="field-hint">Additional instructions appended after the personality preset. Leave blank to use only the preset.</div>
+          <textarea id="custom-prompt" placeholder="e.g. Always mention that QLL offers a free 15-minute discovery call when relevant."></textarea>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-secondary" onclick="goStep(1)">← Back</button>
+        <button class="btn-primary" onclick="goStep(3)">Next →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Appearance -->
+    <div class="step-panel" id="step-3">
+      <div class="section-label">Appearance</div>
+
+      <div class="card">
+        <div class="card-title">🎨 Colours</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Accent colour</label>
+            <div class="color-field">
+              <input type="color" id="c-accent" value="#4a9b8e" oninput="syncColor('accent',this.value)"/>
+              <input type="text" id="c-accent-t" value="#4a9b8e" oninput="syncColorText('accent',this.value)" style="font-family:'Syne Mono',monospace"/>
+            </div>
+          </div>
+          <div class="field">
+            <label>Header dark</label>
+            <div class="color-field">
+              <input type="color" id="c-dark" value="#2d6b61" oninput="syncColor('dark',this.value)"/>
+              <input type="text" id="c-dark-t" value="#2d6b61" oninput="syncColorText('dark',this.value)" style="font-family:'Syne Mono',monospace"/>
+            </div>
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:.2rem">
+          <div class="field">
+            <label>Panel background</label>
+            <div class="color-field">
+              <input type="color" id="c-bg" value="#1e2a3a" oninput="syncColor('bg',this.value)"/>
+              <input type="text" id="c-bg-t" value="#1e2a3a" oninput="syncColorText('bg',this.value)" style="font-family:'Syne Mono',monospace"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🌿 Widget identity</div>
+        <div class="field-row">
+          <div class="field">
+            <label for="avatar">Avatar emoji</label>
+            <input type="text" id="avatar" value="🌿" maxlength="4" oninput="syncPreview()" style="font-size:1.2rem;text-align:center"/>
+          </div>
+          <div class="field">
+            <label for="position">Screen position</label>
+            <select id="position" onchange="syncPreview()">
+              <option value="right">Bottom right</option>
+              <option value="left">Bottom left</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-secondary" onclick="goStep(2)">← Back</button>
+        <button class="btn-primary" onclick="generate()">Generate ✦</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Export -->
+    <div class="step-panel" id="step-4">
+      <div class="section-label">Export</div>
+
+      <div class="export-grid">
+        <div class="card">
+          <div class="card-title">📄 Standalone HTML</div>
+          <p class="field-hint">Complete demo page. Open in any browser.</p>
+          <div class="code-block" id="out-html">Generating…</div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <button class="copy-btn" onclick="copyOut('html',this)">⧉ Copy</button>
+            <a class="download-btn" id="dl-html" download="qll-chatbot.html">↓ Download</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🔧 Script tag</div>
+          <p class="field-hint">Paste before <code style="font-family:'Syne Mono',monospace;font-size:.75rem;color:var(--md-gold)">&lt;/body&gt;</code> on any page.</p>
+          <div class="code-block" id="out-tag">Generating…</div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <button class="copy-btn" onclick="copyOut('tag',this)">⧉ Copy</button>
+            <a class="download-btn" id="dl-js" download="widget.js">↓ widget.js</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="next-steps">
+        <div class="section-label" style="margin-bottom:.8rem">Next steps</div>
+        <div class="next-step-item"><span class="step-n">01</span>Put <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">qll-chatbot.html</code>, <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">widget.js</code>, and <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">qll-knowledge-base.json</code> in the same folder and open with VS Code Live Server to test locally.</div>
+        <div class="next-step-item"><span class="step-n">02</span>To embed on any existing site, paste the script tag before <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">&lt;/body&gt;</code>. The knowledge base JSON must be accessible from the same domain or a public URL.</div>
+        <div class="next-step-item"><span class="step-n">03</span>Push all files to GitHub and connect to Cloudflare Pages for free hosting. No build command — output directory is <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">/</code> (root).</div>
+        <div class="next-step-item"><span class="step-n">04</span>To update content, edit <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">qll-knowledge-base.json</code> and push — no wizard re-run needed.</div>
+        <div class="next-step-item"><span class="step-n">05</span>For production (API key hidden), add a Cloudflare Worker proxy. This is Phase 2 of the roadmap.</div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-secondary" onclick="goStep(3)">← Back</button>
+        <button class="btn-primary" onclick="goStep(1)">Start over</button>
+      </div>
+    </div>
+
+  </div><!-- /config-col -->
+
+  <!-- ══════════════════════════════
+       RIGHT COL — Live Preview
+  ══════════════════════════════ -->
+  <div class="preview-col">
+    <div class="preview-label">Live preview</div>
+
+    <!-- Floating bubble button preview -->
+    <div id="prev-bubble-btn">
+      <div id="prev-btn-circle">🌿</div>
+      <div class="prev-btn-label">
+        <strong id="prev-btn-name">Lea</strong><br>
+        Floating chat button
+      </div>
+    </div>
+
+    <div style="height:.8rem"></div>
+
+    <!-- Chat panel preview -->
+    <div id="chat-preview">
+      <div id="prev-header">
+        <div id="prev-avatar">🌿</div>
+        <div>
+          <div id="prev-name">Lea</div>
+          <div id="prev-sub"><div class="prev-dot"></div>QLL Counselling Assistant</div>
+        </div>
+      </div>
+
+      <div id="prev-msgs">
+        <div class="prev-bubble prev-bot" id="prev-welcome">Hi, I'm Lea — QLL's assistant. I can answer questions about Elizabeth's services, pricing, and booking. How can I help?</div>
+        <div class="prev-bubble prev-user" id="prev-user-msg" style="background:#4a9b8e">What services do you offer?</div>
+        <div class="prev-bubble prev-bot">Elizabeth offers individual counselling, life coaching, Reiki, Rife Therapy, and Ear Acupuncture — each tailored to your needs.</div>
+      </div>
+
+      <div id="prev-chips">
+        <div class="prev-chip">How do I book?</div>
+        <div class="prev-chip">Session cost?</div>
+        <div class="prev-chip">What is Reiki?</div>
+      </div>
+
+      <div id="prev-disclaimer">
+        General information only · Crisis: SADAG <strong>0800 456 789</strong>
+      </div>
+
+      <div id="prev-footer">
+        <div id="prev-input-row">
+          <input id="prev-input" type="text" placeholder="Ask Lea a question…" readonly/>
+          <button id="prev-send" style="background:#4a9b8e;border-radius:7px;color:#fff;padding:.5rem .9rem;border:none">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personality badge -->
+    <div style="margin-top:.8rem;padding:.6rem .9rem;background:var(--md-surface);border:1px solid var(--md-border);border-radius:var(--md-radius);font-size:.75rem;color:var(--md-muted);line-height:1.5">
+      <span style="font-family:'Syne Mono',monospace;font-size:.65rem;color:var(--md-gold-dk);text-transform:uppercase;letter-spacing:.1em">Personality · </span>
+      <span id="prev-personality-label" style="color:var(--md-cream)">Warm &amp; Nurturing</span>
+    </div>
+  </div>
+
+  <footer>
+    <span>✦ MD Works ✦ · Morney Deetlefs · South Africa</span>
+  </footer>
+
+</div><!-- /page -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────
+var currentStep     = 1;
+var selectedPersonality = 'warm';
+var generatedHTML   = '';
+var generatedJS     = '';
+var generatedTag    = '';
+
+var PERSONALITY_LABELS = {
+  warm:         'Warm & Nurturing',
+  professional: 'Calm & Professional',
+  bright:       'Bright & Approachable',
+  grounded:     'Grounded & Wise',
+};
+
+// ── Theme ──────────────────────────────────────────────────────────
+function setTheme(theme, btn) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.querySelectorAll('.theme-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+// ── Step navigation ────────────────────────────────────────────────
+function goStep(n) {
+  document.querySelectorAll('.step-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.step-indicator').forEach(function(s, i) {
+    s.classList.remove('active','done');
+    if (i + 1 < n) s.classList.add('done');
+    if (i + 1 === n) s.classList.add('active');
+  });
+  document.getElementById('step-' + n).classList.add('active');
+  currentStep = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Personality pills ──────────────────────────────────────────────
+function selectPersonality(el) {
+  document.querySelectorAll('.p-pill').forEach(function(p) { p.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedPersonality = el.dataset.val;
+  document.getElementById('prev-personality-label').textContent = PERSONALITY_LABELS[selectedPersonality];
+}
+
+// ── Colour sync ────────────────────────────────────────────────────
+function syncColor(which, val) {
+  document.getElementById('c-' + which + '-t').value = val;
+  syncPreview();
+}
+function syncColorText(which, val) {
+  if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+    document.getElementById('c-' + which).value = val;
+    syncPreview();
+  }
+}
+
+// ── Live preview sync ──────────────────────────────────────────────
+function syncPreview() {
+  var name    = document.getElementById('bot-name').value || 'Lea';
+  var avatar  = document.getElementById('avatar') ? document.getElementById('avatar').value || '🌿' : '🌿';
+  var accent  = document.getElementById('c-accent-t') ? document.getElementById('c-accent-t').value : '#4a9b8e';
+  var dark    = document.getElementById('c-dark-t') ? document.getElementById('c-dark-t').value : '#2d6b61';
+  var bg      = document.getElementById('c-bg-t') ? document.getElementById('c-bg-t').value : '#1e2a3a';
+  var greeting = document.getElementById('greeting') ? document.getElementById('greeting').value.trim() : '';
+
+  // Header
+  document.getElementById('prev-header').style.background = dark;
+  document.getElementById('prev-avatar').textContent = avatar;
+  document.getElementById('prev-name').textContent = name;
+
+  // Messages bg
+  document.getElementById('prev-msgs').style.background = bg;
+  document.getElementById('chat-preview').style.background = bg;
+
+  // User bubble
+  document.getElementById('prev-user-msg').style.background = accent;
+
+  // Send button
+  document.getElementById('prev-send').style.background = accent;
+
+  // Float button
+  document.getElementById('prev-btn-circle').style.background = accent;
+  document.getElementById('prev-btn-circle').textContent = avatar;
+  document.getElementById('prev-btn-name').textContent = name;
+
+  // Input placeholder
+  document.getElementById('prev-input').placeholder = 'Ask ' + name + ' a question…';
+
+  // Greeting
+  if (greeting) {
+    document.getElementById('prev-welcome').textContent = greeting;
+  } else {
+    document.getElementById('prev-welcome').textContent = 'Hi, I\'m ' + name + ' \u2014 QLL\'s assistant. How can I help?';
+  }
+}
+
+// ── Generate ───────────────────────────────────────────────────────
+function generate() {
+  var cfg = getConfig();
+  if (!cfg.groqKey) {
+    showToast('Please enter your Groq API key in Step 1.');
+    goStep(1);
+    return;
+  }
+
+  generatedJS  = buildWidgetJS(cfg);
+  generatedTag = buildScriptTag(cfg);
+  generatedHTML = buildStandaloneHTML(cfg, generatedJS);
+
+  // Preview (truncated)
+  document.getElementById('out-html').textContent = generatedHTML.slice(0, 700) + '\n\n… (truncated — use Download)';
+  document.getElementById('out-tag').textContent  = generatedTag;
+
+  // Download links
+  var htmlBlob = new Blob([generatedHTML], { type: 'text/html' });
+  document.getElementById('dl-html').href = URL.createObjectURL(htmlBlob);
+
+  var jsBlob = new Blob([generatedJS], { type: 'application/javascript' });
+  document.getElementById('dl-js').href = URL.createObjectURL(jsBlob);
+
+  goStep(4);
+}
+
+function getConfig() {
+  return {
+    name:        document.getElementById('bot-name').value.trim()    || 'Lea',
+    groqKey:     document.getElementById('groq-key').value.trim()    || '',
+    groqModel:   document.getElementById('groq-model').value,
+    kbUrl:       document.getElementById('kb-url').value.trim()      || 'qll-knowledge-base.json',
+    greeting:    document.getElementById('greeting').value.trim()    || '',
+    personality: selectedPersonality,
+    customPrompt:document.getElementById('custom-prompt').value.trim() || '',
+    accent:      document.getElementById('c-accent-t').value         || '#4a9b8e',
+    accentDark:  document.getElementById('c-dark-t').value           || '#2d6b61',
+    bg:          document.getElementById('c-bg-t').value             || '#1e2a3a',
+    avatar:      document.getElementById('avatar').value             || '🌿',
+    position:    document.getElementById('position').value           || 'right',
+  };
+}
+
+// ── Script tag ─────────────────────────────────────────────────────
+function buildScriptTag(c) {
+  var lines = [
+    '<script',
+    '  src="widget.js"',
+    '  data-groq-key="' + c.groqKey + '"',
+    '  data-bot-name="' + esc(c.name) + '"',
+    '  data-personality="' + c.personality + '"',
+    '  data-avatar="' + c.avatar + '"',
+    '  data-accent-color="' + c.accent + '"',
+    '  data-accent-dark="' + c.accentDark + '"',
+    '  data-bg-color="' + c.bg + '"',
+    '  data-position="' + c.position + '"',
+    '  data-groq-model="' + c.groqModel + '"',
+    '  data-kb-url="' + esc(c.kbUrl) + '"',
+  ];
+  if (c.greeting) lines.push('  data-greeting="' + esc(c.greeting) + '"');
+  lines.push('><\/script>');
+  return lines.join('\n');
+}
+
+// ── Widget JS ──────────────────────────────────────────────────────
+function buildWidgetJS(c) {
+  var personalitySuffixes = {
+    warm:         'Your tone is gentle, warm, and reassuring — like a caring and supportive friend. Acknowledge feelings before providing information. End with an open, inviting question where appropriate.',
+    professional: 'Your tone is measured, clear, and trustworthy — like a knowledgeable receptionist. Be concise and accurate. Maintain professional boundaries at all times.',
+    bright:       'Your tone is friendly, light, and easy to talk to. Use accessible everyday language. Be encouraging and positive while remaining accurate.',
+    grounded:     'Your tone is thoughtful, unhurried, and quietly confident. Take your time. Use calm, measured language. Honour the weight of what people share.',
+  };
+  var pSuffix = personalitySuffixes[c.personality] || personalitySuffixes.warm;
+  if (c.customPrompt) pSuffix += ' ' + c.customPrompt;
+
+  return `(function(){
+'use strict';
+
+var CFG={
+  name:${JSON.stringify(c.name)},
+  groqKey:${JSON.stringify(c.groqKey)},
+  groqModel:${JSON.stringify(c.groqModel)},
+  kbUrl:${JSON.stringify(c.kbUrl)},
+  greeting:${JSON.stringify(c.greeting)},
+  personality:${JSON.stringify(c.personality)},
+  personalitySuffix:${JSON.stringify(pSuffix)},
+  accent:${JSON.stringify(c.accent)},
+  accentDark:${JSON.stringify(c.accentDark)},
+  bg:${JSON.stringify(c.bg)},
+  avatar:${JSON.stringify(c.avatar)},
+  position:${JSON.stringify(c.position)},
+};
+
+var KB=null, history=[], panelOpen=false;
+
+var STOPWORDS=new Set(['the','and','for','are','but','not','you','all','can','her','was','one','our','out','get','has','how','its','may','see','use','way','who','did','let','say','she','too','what','with','have','this','that','from','they','will','been','than','then','when','your','more','also','into','like','just','some','over','only','both','very','most','does','want','help','here','well','come','take','know']);
+
+function injectStyles(){
+  var s=CFG.position==='left'?'left':'right';
+  var css=[
+    '#_qll_wrap *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}',
+    '#_qll_btn{position:fixed;bottom:1.5rem;'+s+':1.5rem;z-index:9998;width:54px;height:54px;border-radius:50%;border:none;background:'+CFG.accent+';color:#fff;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,.35);transition:transform .2s;display:flex;align-items:center;justify-content:center;}',
+    '#_qll_btn:hover{transform:scale(1.08)}',
+    '#_qll_panel{position:fixed;bottom:5.2rem;'+s+':1.5rem;z-index:9999;width:350px;max-width:calc(100vw - 2rem);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 60px rgba(0,0,0,.5);transition:opacity .25s,transform .25s;border:1px solid rgba(255,255,255,.08);}',
+    '#_qll_panel.qll-hide{opacity:0;pointer-events:none;transform:translateY(12px)}',
+    '#_qll_hdr{background:'+CFG.accentDark+';padding:.85rem 1rem;display:flex;align-items:center;gap:.7rem;flex-shrink:0;}',
+    '#_qll_av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1.5px solid rgba(255,255,255,.3);}',
+    '#_qll_nm{font-size:.9rem;font-weight:600;color:#fff;flex:1;}',
+    '#_qll_sub{font-size:.68rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:.3rem;margin-top:.05rem;}',
+    '#_qll_dot{width:6px;height:6px;border-radius:50%;background:#7effa0;flex-shrink:0;}',
+    '#_qll_x{background:none;border:none;color:rgba(255,255,255,.6);font-size:1.1rem;cursor:pointer;padding:.2rem;transition:color .2s;line-height:1;}',
+    '#_qll_x:hover{color:#fff}',
+    '#_qll_msgs{background:'+CFG.bg+';flex:1;overflow-y:auto;padding:.9rem;display:flex;flex-direction:column;gap:.65rem;min-height:180px;max-height:300px;}',
+    '#_qll_msgs::-webkit-scrollbar{width:3px}#_qll_msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}',
+    '._qm{display:flex;gap:.5rem;max-width:86%}._qm.bot{align-self:flex-start}._qm.usr{align-self:flex-end;flex-direction:row-reverse}._qm.crs{align-self:stretch;max-width:100%}',
+    '._qav{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;margin-top:3px;border:1px solid rgba(255,255,255,.15);}',
+    '._qb{padding:.6rem .9rem;font-size:.845rem;line-height:1.6;word-break:break-word;white-space:pre-line;}',
+    '.bot ._qb{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:3px 13px 13px 13px;color:#e8f0ee;}',
+    '.usr ._qb{background:'+CFG.accent+';border-radius:13px 3px 13px 13px;color:#fff;}',
+    '.crs ._qb{background:rgba(220,70,70,.1);border:1px solid rgba(220,70,70,.3);border-radius:10px;color:#fdd;width:100%;}',
+    '.typ ._qb{color:rgba(255,255,255,.35);font-style:italic;}',
+    '._qdots{display:inline-flex;gap:3px;align-items:center}._qdots span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);animation:_qb .9s infinite}._qdots span:nth-child(2){animation-delay:.15s}._qdots span:nth-child(3){animation-delay:.3s}@keyframes _qb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}',
+    '#_qll_chips{padding:.4rem .9rem .6rem;display:flex;flex-wrap:wrap;gap:.3rem;flex-shrink:0;background:'+CFG.bg+';}',
+    '._qch{font-size:.7rem;padding:.22rem .6rem;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:50px;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s;font-family:inherit;}._qch:hover{border-color:'+CFG.accent+';color:#fff;}',
+    '#_qll_disc{font-size:.66rem;color:rgba(255,255,255,.28);text-align:center;padding:.35rem .8rem .45rem;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.15);flex-shrink:0;}',
+    '#_qll_foot{padding:.65rem;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);flex-shrink:0;}',
+    '#_qll_row{display:flex;gap:.5rem;align-items:flex-end;}',
+    '#_qll_inp{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:7px;color:#e8f0ee;font-size:.845rem;padding:.5rem .8rem;outline:none;resize:none;max-height:72px;line-height:1.5;font-family:inherit;transition:border-color .2s;}#_qll_inp:focus{border-color:'+CFG.accent+';}#_qll_inp::placeholder{color:rgba(255,255,255,.28);}',
+    '#_qll_snd{background:'+CFG.accent+';border:none;border-radius:7px;color:#fff;font-size:.9rem;padding:.5rem .9rem;cursor:pointer;flex-shrink:0;height:36px;display:flex;align-items:center;justify-content:center;transition:opacity .2s;}#_qll_snd:hover{opacity:.85}#_qll_snd:disabled{opacity:.3;cursor:not-allowed;}',
+    '@media(max-width:400px){#_qll_panel{width:calc(100vw - 2rem)}}',
+  ].join('');
+  var el=document.createElement('style');
+  el.textContent=css;
+  document.head.appendChild(el);
+}
+
+function buildDOM(){
+  var w=document.createElement('div');w.id='_qll_wrap';
+  var btn=document.createElement('button');btn.id='_qll_btn';
+  btn.setAttribute('aria-label','Chat with '+CFG.name);
+  btn.innerHTML=CFG.avatar;
+  btn.addEventListener('click',togglePanel);
+
+  var panel=document.createElement('div');panel.id='_qll_panel';panel.classList.add('qll-hide');
+  panel.setAttribute('role','dialog');panel.setAttribute('aria-label',CFG.name+' chat');
+
+  var hdr=document.createElement('div');hdr.id='_qll_hdr';
+  hdr.innerHTML='<div id="_qll_av">'+CFG.avatar+'</div><div><div id="_qll_nm">'+esc(CFG.name)+'</div><div id="_qll_sub"><div id="_qll_dot"></div>QLL Counselling Assistant</div></div><button id="_qll_x" aria-label="Close">&#x2715;</button>';
+
+  var msgs=document.createElement('div');msgs.id='_qll_msgs';msgs.setAttribute('aria-live','polite');
+
+  var chips=document.createElement('div');chips.id='_qll_chips';
+  ['What services do you offer?','How do I book?','Session cost?','Is it confidential?'].forEach(function(t){
+    var c=document.createElement('button');c.className='_qch';c.textContent=t;
+    c.addEventListener('click',function(){ask(t);});chips.appendChild(c);
+  });
+
+  var disc=document.createElement('div');disc.id='_qll_disc';
+  disc.innerHTML='Information only &middot; Not a counsellor &middot; Crisis: <strong>SADAG 0800 456 789</strong>';
+
+  var foot=document.createElement('div');foot.id='_qll_foot';
+  foot.innerHTML='<div id="_qll_row"><textarea id="_qll_inp" rows="1" placeholder="Ask '+esc(CFG.name)+'&hellip;" aria-label="Your message"></textarea><button id="_qll_snd" aria-label="Send">&#x27A4;</button></div>';
+
+  panel.appendChild(hdr);panel.appendChild(msgs);panel.appendChild(chips);panel.appendChild(disc);panel.appendChild(foot);
+  w.appendChild(btn);w.appendChild(panel);document.body.appendChild(w);
+
+  document.getElementById('_qll_x').addEventListener('click',function(){togglePanel(false);});
+  document.getElementById('_qll_snd').addEventListener('click',sendMsg);
+  var inp=document.getElementById('_qll_inp');
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+  inp.addEventListener('input',function(){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,72)+'px';});
+}
+
+function togglePanel(force){
+  var p=document.getElementById('_qll_panel');
+  panelOpen=typeof force==='boolean'?force:!panelOpen;
+  if(panelOpen){p.classList.remove('qll-hide');setTimeout(function(){var i=document.getElementById('_qll_inp');if(i)i.focus();},250);}
+  else{p.classList.add('qll-hide');}
+}
+
+function tokenise(t){return t.toLowerCase().replace(/[^a-z0-9\\s]/g,' ').split(/\\s+/).filter(function(w){return w.length>2&&!STOPWORDS.has(w);});}
+
+function scoreEntry(e,tokens){
+  var score=0,et=(e.question+' '+e.answer+' '+e.keywords.join(' ')).toLowerCase();
+  tokens.forEach(function(t){
+    if(e.keywords.some(function(k){return k.toLowerCase()===t;}))score+=3;
+    else if(e.keywords.some(function(k){return k.toLowerCase().includes(t);}))score+=2;
+    else if(et.includes(t))score+=1;
+    if(e.question.toLowerCase().includes(t))score+=1;
+  });
+  return score;
+}
+
+function retrieve(q){
+  var tokens=tokenise(q);
+  var scored=KB.entries.map(function(e){return{entry:e,score:scoreEntry(e,tokens)};}).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,3);
+  return scored;
+}
+
+function checkGuard(q){
+  var lq=q.toLowerCase();
+  var ch=KB.crisis.keywords.find(function(k){return lq.includes(k.toLowerCase());});
+  if(ch)return{type:'crisis'};
+  var dh=KB.guardrails.no_diagnosis_keywords.find(function(k){return lq.includes(k.toLowerCase());});
+  if(dh)return{type:'no_diagnosis'};
+  return null;
+}
+
+function buildSys(context){
+  var ctx=context.length>0?context.map(function(x){return'Q: '+x.entry.question+'\\nA: '+x.entry.answer;}).join('\\n\\n'):'No specific information matched.';
+  return 'You are '+CFG.name+', the AI assistant for QLL Counselling & Wellness Practice in Pretoria, South Africa, run by Elizabeth Whitford (ASCHP-registered Wellness Counsellor).\\n\\nPERSONALITY: '+CFG.personalitySuffix+'\\n\\nSTRICT RULES:\\n1. Never diagnose or imply any mental health condition.\\n2. Never give medical advice.\\n3. Only answer using the CONTEXT below. If not there, say so and suggest contacting Elizabeth directly.\\n4. Never invent prices, dates, or contact details.\\n5. You are '+CFG.name+' — an information assistant, not Elizabeth, not a counsellor.\\n6. Keep responses warm and concise — 2 to 4 sentences unless more detail is genuinely needed.\\n\\nCONTEXT:\\n'+ctx;
+}
+
+function addMsg(role,txt,typing){
+  var msgs=document.getElementById('_qll_msgs');
+  var w=document.createElement('div');w.className='_qm '+role;
+  if(role==='bot'||role==='typing'){var av=document.createElement('div');av.className='_qav';av.textContent=CFG.avatar;w.appendChild(av);}
+  var b=document.createElement('div');b.className='_qb';
+  if(typing){b.innerHTML='<div class="_qdots"><span></span><span></span><span></span></div>';w.classList.add('typ');}
+  else{b.textContent=txt;}
+  w.appendChild(b);msgs.appendChild(w);msgs.scrollTop=msgs.scrollHeight;return w;
+}
+function setText(w,t){w.classList.remove('typ');var b=w.querySelector('._qb');b.innerHTML='';b.textContent=t;document.getElementById('_qll_msgs').scrollTop=99999;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function ask(t){var i=document.getElementById('_qll_inp');i.value=t;sendMsg();}
+
+function sendMsg(){
+  var inp=document.getElementById('_qll_inp'),snd=document.getElementById('_qll_snd');
+  var q=inp.value.trim();if(!q||!KB)return;
+  inp.value='';inp.style.height='auto';snd.disabled=true;
+  document.getElementById('_qll_chips').style.display='none';
+  addMsg('usr',q);history.push({role:'user',content:q});
+
+  var guard=checkGuard(q);
+  if(guard&&guard.type==='crisis'){addMsg('crs',KB.crisis.response);snd.disabled=false;return;}
+  if(guard&&guard.type==='no_diagnosis'){addMsg('bot',KB.guardrails.no_diagnosis_response);snd.disabled=false;return;}
+
+  var scored=retrieve(q);
+  var el=addMsg('typing','',true);
+
+  fetch('https://api.groq.com/openai/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.groqKey},
+    body:JSON.stringify({model:CFG.groqModel,messages:[{role:'system',content:buildSys(scored)}].concat(history),max_tokens:420,temperature:0.4})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.error)throw new Error(d.error.message);
+    var reply=d.choices[0].message.content;
+    history.push({role:'assistant',content:reply});
+    setText(el,reply);
+  })
+  .catch(function(e){setText(el,'Sorry, I had trouble connecting. Please try again. ('+e.message+')');})
+  .finally(function(){snd.disabled=false;});
+}
+
+function init(){
+  fetch(CFG.kbUrl).then(function(r){if(!r.ok)throw new Error('KB not found');return r.json();}).then(function(d){
+    KB=d;injectStyles();buildDOM();
+    var g=CFG.greeting||('Hi, I\'m '+CFG.name+' \u2014 QLL\'s assistant. How can I help you today?');
+    setTimeout(function(){addMsg('bot',g);},300);
+  }).catch(function(e){console.error('[QLL Widget]',e.message);});
+}
+
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();`;
+}
+
+// ── Standalone HTML ────────────────────────────────────────────────
+function buildStandaloneHTML(c, js) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>${esc(c.name)} \u2014 QLL Counselling</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:${c.bg};min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;}
+.hero{text-align:center;padding:2rem;opacity:.35}
+.hero h1{font-size:1.2rem;font-weight:300;color:rgba(255,255,255,.5);letter-spacing:.1em;margin-bottom:.4rem}
+.hero p{font-size:.85rem;color:rgba(255,255,255,.25)}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>QLL Counselling &amp; Wellness</h1>
+  <p>${esc(c.name)} is ready \u2014 click the chat button \u2192</p>
+</div>
+<script>
+${js}
+<\/script>
+</body>
+</html>`;
+}
+
+// ── Copy ───────────────────────────────────────────────────────────
+function copyOut(which, btn) {
+  var text = which === 'html' ? generatedHTML : generatedTag;
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = '✓ Copied';
+    btn.classList.add('ok');
+    setTimeout(function() { btn.textContent = '⧉ Copy'; btn.classList.remove('ok'); }, 2000);
+  });
+}
+
+// ── Toast ──────────────────────────────────────────────────────────
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Init preview ───────────────────────────────────────────────────
+syncPreview();
+</script>
+</body>
+</html>
