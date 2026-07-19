@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lea — QLL Counselling</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1e2a3a;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;}
+.hero{text-align:center;padding:2rem;opacity:.35}
+.hero h1{font-size:1.2rem;font-weight:300;color:rgba(255,255,255,.5);letter-spacing:.1em;margin-bottom:.4rem}
+.hero p{font-size:.85rem;color:rgba(255,255,255,.25)}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>QLL Counselling &amp; Wellness</h1>
+  <p>Lea is ready — click the chat button →</p>
+</div>
+<script>
+(function(){
+'use strict';
+
+var CFG={
+  name:"Lea",
+  groqKey:"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",
+  groqModel:"llama-3.1-8b-instant",
+  kbUrl:"qll-knowledge-base.json",
+  greeting:"",
+  personality:"warm",
+  personalitySuffix:"Your tone is gentle, warm, and reassuring — like a caring and supportive friend. Acknowledge feelings before providing information. End with an open, inviting question where appropriate.",
+  accent:"#4a9b8e",
+  accentDark:"#2d6b61",
+  bg:"#1e2a3a",
+  avatar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2NT1z3EBqeOt9WkG_NM_8iN9MOxkgigixV3DvAyjEmnKO98daNxvIfG4&s=10",
+  avatarType:"image",
+  position:"right",
+  fontFamily:"system-ui,sans-serif",
+  fontSize:".845rem",
+  lineHeight:"1.6",
+  botText:"#e8f0ee",
+  userText:"#ffffff",
+  botBubble:"rgba(255,255,255,.07)",
+  inputText:"#e8f0ee",
+};
+
+var KB=null, history=[], panelOpen=false;
+
+var STOPWORDS=new Set(['the','and','for','are','but','not','you','all','can','her','was','one','our','out','get','has','how','its','may','see','use','way','who','did','let','say','she','too','what','with','have','this','that','from','they','will','been','than','then','when','your','more','also','into','like','just','some','over','only','both','very','most','does','want','help','here','well','come','take','know']);
+
+function injectStyles(){
+  var s=CFG.position==='left'?'left':'right';
+  var css=[
+    '#_qll_wrap *{box-sizing:border-box;margin:0;padding:0;font-family:'+CFG.fontFamily+'}',
+    '#_qll_btn{position:fixed;bottom:1.5rem;'+s+':1.5rem;z-index:9998;width:54px;height:54px;border-radius:50%;border:none;background:'+CFG.accent+';color:#fff;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,.35);transition:transform .2s;display:flex;align-items:center;justify-content:center;}',
+    '#_qll_btn:hover{transform:scale(1.08)}',
+    '#_qll_panel{position:fixed;bottom:5.2rem;'+s+':1.5rem;z-index:9999;width:350px;max-width:calc(100vw - 2rem);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 60px rgba(0,0,0,.5);transition:opacity .25s,transform .25s;border:1px solid rgba(255,255,255,.08);}',
+    '#_qll_panel.qll-hide{opacity:0;pointer-events:none;transform:translateY(12px)}',
+    '#_qll_hdr{background:'+CFG.accentDark+';padding:.85rem 1rem;display:flex;align-items:center;gap:.7rem;flex-shrink:0;}',
+    '#_qll_av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1.5px solid rgba(255,255,255,.3);}',
+    '#_qll_nm{font-size:.9rem;font-weight:600;color:#fff;flex:1;}',
+    '#_qll_sub{font-size:.68rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:.3rem;margin-top:.05rem;}',
+    '#_qll_dot{width:6px;height:6px;border-radius:50%;background:#7effa0;flex-shrink:0;}',
+    '#_qll_x{background:none;border:none;color:rgba(255,255,255,.6);font-size:1.1rem;cursor:pointer;padding:.2rem;transition:color .2s;line-height:1;}',
+    '#_qll_x:hover{color:#fff}',
+    '#_qll_msgs{background:'+CFG.bg+';flex:1;overflow-y:auto;padding:.9rem;display:flex;flex-direction:column;gap:.65rem;min-height:180px;max-height:300px;}',
+    '#_qll_msgs::-webkit-scrollbar{width:3px}#_qll_msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}',
+    '._qm{display:flex;gap:.5rem;max-width:86%}._qm.bot{align-self:flex-start}._qm.usr{align-self:flex-end;flex-direction:row-reverse}._qm.crs{align-self:stretch;max-width:100%}',
+    '._qav{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;margin-top:3px;border:1px solid rgba(255,255,255,.15);}',
+    '._qb{padding:.6rem .9rem;font-size:'+CFG.fontSize+';line-height:'+CFG.lineHeight+';word-break:break-word;white-space:pre-line;}',
+    '.bot ._qb{background:'+CFG.botBubble+';border:1px solid rgba(255,255,255,.1);border-radius:3px 13px 13px 13px;color:'+CFG.botText+';}',
+    '.usr ._qb{background:'+CFG.accent+';border-radius:13px 3px 13px 13px;color:'+CFG.userText+';}',
+    '.crs ._qb{background:rgba(220,70,70,.1);border:1px solid rgba(220,70,70,.3);border-radius:10px;color:#fdd;width:100%;}',
+    '.typ ._qb{color:rgba(255,255,255,.35);font-style:italic;}',
+    '._qdots{display:inline-flex;gap:3px;align-items:center}._qdots span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);animation:_qb .9s infinite}._qdots span:nth-child(2){animation-delay:.15s}._qdots span:nth-child(3){animation-delay:.3s}@keyframes _qb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}',
+    '#_qll_chips{padding:.4rem .9rem .6rem;display:flex;flex-wrap:wrap;gap:.3rem;flex-shrink:0;background:'+CFG.bg+';}',
+    '._qch{font-size:.7rem;padding:.22rem .6rem;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:50px;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s;font-family:inherit;}._qch:hover{border-color:'+CFG.accent+';color:#fff;}',
+    '#_qll_disc{font-size:.66rem;color:rgba(255,255,255,.28);text-align:center;padding:.35rem .8rem .45rem;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.15);flex-shrink:0;}',
+    '#_qll_foot{padding:.65rem;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);flex-shrink:0;}',
+    '#_qll_row{display:flex;gap:.5rem;align-items:flex-end;}',
+    '#_qll_inp{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:7px;color:'+CFG.inputText+';font-size:'+CFG.fontSize+';padding:.5rem .8rem;outline:none;resize:none;max-height:72px;line-height:'+CFG.lineHeight+';font-family:inherit;transition:border-color .2s;}#_qll_inp:focus{border-color:'+CFG.accent+';}#_qll_inp::placeholder{color:rgba(255,255,255,.28);}',
+    '#_qll_snd{background:'+CFG.accent+';border:none;border-radius:7px;color:#fff;font-size:.9rem;padding:.5rem .9rem;cursor:pointer;flex-shrink:0;height:36px;display:flex;align-items:center;justify-content:center;transition:opacity .2s;}#_qll_snd:hover{opacity:.85}#_qll_snd:disabled{opacity:.3;cursor:not-allowed;}',
+    '@media(max-width:400px){#_qll_panel{width:calc(100vw - 2rem)}}',
+  ].join('');
+  var el=document.createElement('style');
+  el.textContent=css;
+  document.head.appendChild(el);
+}
+
+function buildDOM(){
+  var w=document.createElement('div');w.id='_qll_wrap';
+  var btn=document.createElement('button');btn.id='_qll_btn';
+  btn.setAttribute('aria-label','Chat with '+CFG.name);
+  btn.innerHTML=avatarHTML(32);
+  btn.addEventListener('click',togglePanel);
+
+  var panel=document.createElement('div');panel.id='_qll_panel';panel.classList.add('qll-hide');
+  panel.setAttribute('role','dialog');panel.setAttribute('aria-label',CFG.name+' chat');
+
+  var hdr=document.createElement('div');hdr.id='_qll_hdr';
+  hdr.innerHTML=avatarHTML(34)+'<div><div id="_qll_nm">'+esc(CFG.name)+'</div><div id="_qll_sub"><div id="_qll_dot"></div>QLL Counselling Assistant</div></div><button id="_qll_x" aria-label="Close">&#x2715;</button>';
+
+  var msgs=document.createElement('div');msgs.id='_qll_msgs';msgs.setAttribute('aria-live','polite');
+
+  var chips=document.createElement('div');chips.id='_qll_chips';
+  ['What services do you offer?','How do I book?','Session cost?','Is it confidential?'].forEach(function(t){
+    var c=document.createElement('button');c.className='_qch';c.textContent=t;
+    c.addEventListener('click',function(){ask(t);});chips.appendChild(c);
+  });
+
+  var disc=document.createElement('div');disc.id='_qll_disc';
+  disc.innerHTML='Information only &middot; Not a counsellor &middot; Crisis: <strong>SADAG 0800 456 789</strong>';
+
+  var foot=document.createElement('div');foot.id='_qll_foot';
+  foot.innerHTML='<div id="_qll_row"><textarea id="_qll_inp" rows="1" placeholder="Ask '+esc(CFG.name)+'&hellip;" aria-label="Your message"></textarea><button id="_qll_snd" aria-label="Send">&#x27A4;</button></div>';
+
+  panel.appendChild(hdr);panel.appendChild(msgs);panel.appendChild(chips);panel.appendChild(disc);panel.appendChild(foot);
+  w.appendChild(btn);w.appendChild(panel);document.body.appendChild(w);
+
+  document.getElementById('_qll_x').addEventListener('click',function(){togglePanel(false);});
+  document.getElementById('_qll_snd').addEventListener('click',sendMsg);
+  var inp=document.getElementById('_qll_inp');
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+  inp.addEventListener('input',function(){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,72)+'px';});
+}
+
+function togglePanel(force){
+  var p=document.getElementById('_qll_panel');
+  panelOpen=typeof force==='boolean'?force:!panelOpen;
+  if(panelOpen){p.classList.remove('qll-hide');setTimeout(function(){var i=document.getElementById('_qll_inp');if(i)i.focus();},250);}
+  else{p.classList.add('qll-hide');}
+}
+
+function tokenise(t){return t.toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(function(w){return w.length>2&&!STOPWORDS.has(w);});}
+
+function scoreEntry(e,tokens){
+  var score=0,et=(e.question+' '+e.answer+' '+e.keywords.join(' ')).toLowerCase();
+  tokens.forEach(function(t){
+    if(e.keywords.some(function(k){return k.toLowerCase()===t;}))score+=3;
+    else if(e.keywords.some(function(k){return k.toLowerCase().includes(t);}))score+=2;
+    else if(et.includes(t))score+=1;
+    if(e.question.toLowerCase().includes(t))score+=1;
+  });
+  return score;
+}
+
+function retrieve(q){
+  var tokens=tokenise(q);
+  var scored=KB.entries.map(function(e){return{entry:e,score:scoreEntry(e,tokens)};}).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,3);
+  return scored;
+}
+
+function checkGuard(q){
+  var lq=q.toLowerCase();
+  var ch=KB.crisis.keywords.find(function(k){return lq.includes(k.toLowerCase());});
+  if(ch)return{type:'crisis'};
+  var dh=KB.guardrails.no_diagnosis_keywords.find(function(k){return lq.includes(k.toLowerCase());});
+  if(dh)return{type:'no_diagnosis'};
+  return null;
+}
+
+function buildSys(context){
+  var ctx=context.length>0?context.map(function(x){return'Q: '+x.entry.question+'\nA: '+x.entry.answer;}).join('\n\n'):'No specific information matched.';
+  return 'You are '+CFG.name+', the AI assistant for QLL Counselling & Wellness Practice in Pretoria, South Africa, run by Elizabeth Whitford (ASCHP-registered Wellness Counsellor).\n\nPERSONALITY: '+CFG.personalitySuffix+'\n\nSTRICT RULES:\n1. Never diagnose or imply any mental health condition.\n2. Never give medical advice.\n3. Only answer using the CONTEXT below. If not there, say so and suggest contacting Elizabeth directly.\n4. Never invent prices, dates, or contact details.\n5. You are '+CFG.name+' — an information assistant, not Elizabeth, not a counsellor.\n6. Keep responses warm and concise — 2 to 4 sentences unless more detail is genuinely needed.\n\nCONTEXT:\n'+ctx;
+}
+
+function avatarHTML(size){
+  var s=size||26;
+  var base='width:'+s+'px;height:'+s+'px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;';
+  if(CFG.avatarType==='image'&&CFG.avatar){
+    return '<div style="'+base+'background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15)"><img src="'+CFG.avatar+'" style="width:100%;height:100%;object-fit:cover" alt=""/></div>';
+  }else if(CFG.avatarType==='initials'){
+    return '<div style="'+base+'background:'+CFG.accent+';color:#fff;font-weight:600;font-size:'+(s*0.38)+'px;letter-spacing:.04em;border:1.5px solid rgba(255,255,255,.3)">'+CFG.avatar+'</div>';
+  }else{
+    return '<div style="'+base+'background:rgba(255,255,255,.15);font-size:'+(s*0.5)+'px;border:1.5px solid rgba(255,255,255,.3)">'+CFG.avatar+'</div>';
+  }
+}
+
+function addMsg(role,txt,typing){
+  var msgs=document.getElementById('_qll_msgs');
+  var w=document.createElement('div');w.className='_qm '+role;
+  if(role==='bot'||role==='typing'){var av=document.createElement('div');av.className='_qav';av.innerHTML=avatarHTML(26);w.appendChild(av);}
+  var b=document.createElement('div');b.className='_qb';
+  if(typing){b.innerHTML='<div class="_qdots"><span></span><span></span><span></span></div>';w.classList.add('typ');}
+  else{b.textContent=txt;}
+  w.appendChild(b);msgs.appendChild(w);msgs.scrollTop=msgs.scrollHeight;return w;
+}
+function setText(w,t){w.classList.remove('typ');var b=w.querySelector('._qb');b.innerHTML='';b.textContent=t;document.getElementById('_qll_msgs').scrollTop=99999;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function ask(t){var i=document.getElementById('_qll_inp');i.value=t;sendMsg();}
+
+function sendMsg(){
+  var inp=document.getElementById('_qll_inp'),snd=document.getElementById('_qll_snd');
+  var q=inp.value.trim();if(!q||!KB)return;
+  inp.value='';inp.style.height='auto';snd.disabled=true;
+  document.getElementById('_qll_chips').style.display='none';
+  addMsg('usr',q);history.push({role:'user',content:q});
+
+  var guard=checkGuard(q);
+  if(guard&&guard.type==='crisis'){addMsg('crs',KB.crisis.response);snd.disabled=false;return;}
+  if(guard&&guard.type==='no_diagnosis'){addMsg('bot',KB.guardrails.no_diagnosis_response);snd.disabled=false;return;}
+
+  var scored=retrieve(q);
+  var el=addMsg('typing','',true);
+
+  fetch('https://api.groq.com/openai/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.groqKey},
+    body:JSON.stringify({model:CFG.groqModel,messages:[{role:'system',content:buildSys(scored)}].concat(history),max_tokens:420,temperature:0.4})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.error)throw new Error(d.error.message);
+    var reply=d.choices[0].message.content;
+    history.push({role:'assistant',content:reply});
+    setText(el,reply);
+  })
+  .catch(function(e){setText(el,'Sorry, I had trouble connecting. Please try again. ('+e.message+')');})
+  .finally(function(){snd.disabled=false;});
+}
+
+function init(){
+  fetch(CFG.kbUrl).then(function(r){if(!r.ok)throw new Error('KB not found');return r.json();}).then(function(d){
+    KB=d;injectStyles();buildDOM();
+    var g=CFG.greeting||('Hi, I'm '+CFG.name+' — QLL's assistant. How can I help you today?');
+    setTimeout(function(){addMsg('bot',g);},300);
+  }).catch(function(e){console.error('[QLL Widget]',e.message);});
+}
+
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>
