@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Your New AI Assistant · QLL Counselling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@300;400;500&family=Syne:wght@400;600&family=Syne+Mono&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --teal-deep:   #0d1f1d;
+  --teal-dark:   #122422;
+  --teal-surface:#183230;
+  --teal-panel:  #1e3e3b;
+  --teal-border: #264e4a;
+  --teal-border-lt:#2f5e59;
+  --teal:        #4a9b8e;
+  --teal-lt:     #6bbfb2;
+  --teal-pale:   #a8d4cf;
+  --teal-glow:   rgba(74,155,142,.1);
+  --gold:        #c9943c;
+  --gold-lt:     #e8c87a;
+  --gold-dk:     #7a5815;
+  --cream:       #f0ede8;
+  --warm-white:  #faf8f4;
+  --muted:       #7a9694;
+  --success:     #4caf7a;
+  --radius:      6px;
+  --radius-lg:   12px;
+}
+
+body {
+  background: var(--warm-white);
+  color: #2a2a2a;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* ── Hero ── */
+.hero {
+  background: var(--teal-dark);
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -30%; left: 50%; transform: translateX(-50%);
+  width: 70%; height: 80%;
+  background: radial-gradient(ellipse, rgba(74,155,142,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+
+.hero-eyebrow {
+  font-family: 'Syne Mono', monospace;
+  font-size: .62rem; letter-spacing: .35em; text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; width: 32px; height: 1px; background: var(--teal-border-lt);
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: .04em;
+  line-height: 1.25;
+  margin-bottom: .8rem;
+}
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--teal-pale);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.hero-pill {
+  display: inline-block;
+  padding: .5rem 1.4rem;
+  background: var(--teal-glow);
+  border: 1px solid var(--teal-border-lt);
+  border-radius: 50px;
+  font-family: 'Syne Mono', monospace;
+  font-size: .72rem; letter-spacing: .1em;
+  color: var(--teal-lt);
+}
+
+/* ── Page layout ── */
+.page {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 6rem;
+}
+
+/* ── Section headers ── */
+.section-eyebrow {
+  font-family: 'Syne Mono', monospace;
+  font-size: .6rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--teal);
+  display: flex; align-items: center; gap: .8rem;
+  margin-bottom: 1rem;
+}
+.section-eyebrow::after {
+  content: ''; flex: 1; max-width: 48px; height: 1px;
+  background: #d0ccc5;
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem; font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: .6rem; letter-spacing: .03em;
+}
+
+.section-intro {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; color: #555;
+  font-style: italic; margin-bottom: 1.6rem;
+  line-height: 1.7;
+}
+
+/* ── Cards ── */
+.card {
+  background: #fff;
+  border: 1px solid #e8e2da;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  transition: border-color .2s, box-shadow .2s;
+}
+.card:hover {
+  border-color: var(--teal);
+  box-shadow: 0 4px 24px rgba(74,155,142,.08);
+}
+
+.card-icon {
+  font-size: 1.4rem;
+  margin-bottom: .7rem;
+  display: block;
+}
+
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: .9rem; font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: .4rem;
+}
+
+.card-body {
+  font-size: .88rem; color: #555; line-height: 1.7;
+}
+
+/* ── Feature grid ── */
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .9rem;
+  margin-bottom: 1.8rem;
+}
+
+/* ── How it works steps ── */
+.steps-list { margin-bottom: 1.8rem; }
+.step-item {
+  display: flex; gap: 1.2rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid #eee;
+  align-items: flex-start;
+}
+.step-item:last-child { border-bottom: none; }
+.step-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--teal-dark);
+  color: var(--teal-lt);
+  font-family: 'Cinzel', serif;
+  font-size: .78rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: .1rem;
+}
+.step-content-title {
+  font-family: 'Syne', sans-serif;
+  font-size: .85rem; font-weight: 600;
+  color: #1a1a1a; margin-bottom: .25rem;
+}
+.step-content-body {
+  font-size: .84rem; color: #555; line-height: 1.65;
+}
+
+/* ── Safety box ── */
+.safety-box {
+  background: linear-gradient(135deg, #0d1f1d, #122422);
+  border: 1px solid var(--teal-border-lt);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem;
+  margin-bottom: 1.8rem;
+  position: relative; overflow: hidden;
+}
+.safety-box::before {
+  content: '';
+  position: absolute; top: -30%; right: -10%;
+  width: 200px; height: 200px;
+  background: radial-gradient(ellipse, rgba(74,155,142,.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.safety-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem; font-weight: 600;
+  color: var(--teal-lt); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.safety-item {
+  display: flex; gap: .8rem;
+  padding: .55rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  font-size: .83rem; color: var(--teal-pale);
+  line-height: 1.6;
+}
+.safety-item:last-child { border-bottom: none; }
+.safety-tick { color: var(--teal); flex-shrink: 0; margin-top: .1rem; font-size: .9rem; }
+
+/* ── Divider ── */
+.divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, #d0ccc5 30%, #d0ccc5 70%, transparent);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; margin: 2.5rem 0;
+}
+.divider::after {
+  content: '✦';
+  position: absolute;
+  font-size: .65rem; color: var(--teal);
+  background: var(--warm-white); padding: 0 1rem;
+}
+
+/* ── Knowledge base section ── */
+.kb-example {
+  background: #f7f4f0;
+  border: 1px solid #e0d9d0;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  font-size: .82rem; color: #444;
+  line-height: 1.7; margin-top: .8rem;
+}
+.kb-field {
+  display: flex; gap: .5rem; margin-bottom: .2rem;
+}
+.kb-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: .72rem; color: var(--teal);
+  flex-shrink: 0; width: 70px; padding-top: .05rem;
+}
+.kb-value { color: #333; }
+
+/* ── Closing CTA ── */
+.cta-box {
+  background: var(--teal-dark);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  position: relative; overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+  width: 80%; height: 100%;
+  background: radial-gradient(ellipse, rgba(74,155,142,.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--cream); margin-bottom: .6rem;
+  position: relative; z-index: 1;
+}
+.cta-body {
+  font-size: .88rem; color: var(--teal-pale);
+  line-height: 1.7; margin-bottom: 1.2rem;
+  position: relative; z-index: 1;
+}
+.cta-contact {
+  display: inline-flex; flex-direction: column; gap: .3rem;
+  font-family: 'Syne Mono', monospace;
+  font-size: .8rem; color: var(--teal-lt);
+  position: relative; z-index: 1;
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center; padding: 2.5rem 1rem;
+  border-top: 1px solid #e8e2da;
+  margin-top: 4rem;
+}
+footer .mark {
+  font-family: 'Cinzel', serif;
+  font-size: .7rem; letter-spacing: .22em;
+  color: #aaa;
+}
+footer .tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: .9rem;
+  color: #bbb; margin-top: .3rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 560px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .page { padding: 2.5rem 1.2rem 5rem; }
+  .hero { padding: 3rem 1.2rem 2.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">✦ QLL Counselling & Wellness ✦</div>
+    <h1 class="hero-title">Your New AI Chat Assistant</h1>
+    <p class="hero-sub">A free, private, 24/7 assistant for your website — built around your practice, in your words.</p>
+    <div class="hero-pill">Prepared by MD Works · Morney Deetlefs</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ── What is it ── -->
+  <div style="margin-bottom:2.5rem">
+    <div class="section-eyebrow">What you have</div>
+    <h2 class="section-title">A chat assistant that knows your practice inside out</h2>
+    <p class="section-intro">Lea is an AI assistant that lives on your website as a small chat bubble. When a visitor clicks it, they can ask questions about your services, pricing, booking, and how you work — and get accurate, warm answers, day or night, without you having to be available.</p>
+
+    <p style="font-size:.88rem;color:#555;line-height:1.8;margin-bottom:.8rem">Unlike a generic chatbot, Lea only knows what you've told her. Every answer she gives comes directly from your knowledge base — a document we've built together that contains your services, your values, your pricing, and your own words. She cannot make things up, and she will never tell a client something you haven't approved.</p>
+
+    <p style="font-size:.88rem;color:#555;line-height:1.8">Lea is completely free to run. There are no monthly subscriptions, no per-message fees, and no hidden costs. She uses a free AI service called Groq, and is hosted on Cloudflare — both of which offer generous free tiers that comfortably cover a practice like QLL.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Features ── -->
+  <div style="margin-bottom:2.5rem">
+    <div class="section-eyebrow">What she can do</div>
+    <h2 class="section-title">Everything a new client needs to know</h2>
+    <p class="section-intro">Lea handles the questions you answer over and over — freeing you to focus on the work that matters.</p>
+
+    <div class="feature-grid">
+      <div class="card">
+        <span class="card-icon">🗓️</span>
+        <div class="card-title">Booking & scheduling</div>
+        <div class="card-body">Explains how to book a session, your cancellation policy, what to expect at a first appointment, and how payment works.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">💆‍♀️</span>
+        <div class="card-title">Services explained</div>
+        <div class="card-body">Describes counselling, life coaching, Reiki, Rife Therapy, Ear Acupuncture, and your supervision services in plain, accessible language.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">💰</span>
+        <div class="card-title">Pricing transparency</div>
+        <div class="card-body">Answers questions about session fees, the anger management course, supervision rates, and your cash-practice payment process.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔒</span>
+        <div class="card-title">Confidentiality & ethics</div>
+        <div class="card-body">Explains how confidentiality works, what the legal exceptions are, and how you handle sensitive disclosures — in your own words.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📍</span>
+        <div class="card-title">Logistics</div>
+        <div class="card-body">Handles questions about location, parking, online vs. in-person availability, and how to reach you directly.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎓</span>
+        <div class="card-title">Your credentials</div>
+        <div class="card-body">Explains your ASCHP affiliation, your approach, your inclusive values, and clearly communicates the scope of your practice.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Safety ── -->
+  <div style="margin-bottom:2.5rem">
+    <div class="section-eyebrow">Built-in safety</div>
+    <h2 class="section-title">Guardrails that protect your clients and your practice</h2>
+    <p class="section-intro">A mental health and wellness practice requires more care than an ordinary chatbot. Lea has strict safety rules that cannot be turned off.</p>
+
+    <div class="safety-box">
+      <div class="safety-title">🛡️ Always active, always protected</div>
+
+      <div class="safety-item">
+        <span class="safety-tick">✓</span>
+        <span><strong style="color:#e8f0ee">Crisis detection.</strong> If a visitor uses keywords associated with suicidal thoughts, self-harm, abuse, or immediate danger — Lea immediately stops and displays the SADAG helpline, the Suicide Crisis Line, Lifeline, and the GBV Command Centre. This happens before any AI response is generated. No delay, no exceptions.</span>
+      </div>
+      <div class="safety-item">
+        <span class="safety-tick">✓</span>
+        <span><strong style="color:#e8f0ee">No diagnoses, ever.</strong> If someone asks "do I have depression?" or "am I bipolar?" — Lea declines clearly, explains this is outside what she can help with, and suggests contacting you for a proper conversation.</span>
+      </div>
+      <div class="safety-item">
+        <span class="safety-tick">✓</span>
+        <span><strong style="color:#e8f0ee">Stays in her lane.</strong> Lea only answers using your approved knowledge base. She cannot invent prices, invent services, or make promises on your behalf. If she doesn't know the answer, she says so and directs the client to contact you.</span>
+      </div>
+      <div class="safety-item">
+        <span class="safety-tick">✓</span>
+        <span><strong style="color:#e8f0ee">Clear identity.</strong> Lea always identifies herself as an information assistant — not a counsellor, not Elizabeth. The chat panel displays "General information only · Not a counsellor" at all times.</span>
+      </div>
+      <div class="safety-item">
+        <span class="safety-tick">✓</span>
+        <span><strong style="color:#e8f0ee">No medical advice.</strong> Lea is instructed never to give medical advice, suggest treatments outside your scope, or contradict your professional guidance.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── How it works ── -->
+  <div style="margin-bottom:2.5rem">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-title">Simple for visitors, invisible for you</h2>
+    <p class="section-intro">When someone asks Lea a question, here is what happens in the background — in plain English.</p>
+
+    <div class="steps-list">
+      <div class="step-item">
+        <div class="step-circle">1</div>
+        <div>
+          <div class="step-content-title">A visitor types a question</div>
+          <div class="step-content-body">For example: "How much does a Reiki session cost?" or "Can I book online?" The question is first checked against a list of crisis and safety keywords before anything else happens.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle">2</div>
+        <div>
+          <div class="step-content-title">Lea searches your knowledge base</div>
+          <div class="step-content-body">She looks for the entries in your knowledge base that are most relevant to the question — matching keywords and phrases to find the best factual source. This is the "retrieval" part of the system.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle">3</div>
+        <div>
+          <div class="step-content-title">She composes a natural response</div>
+          <div class="step-content-body">Using only the matched entries as her source, the AI writes a warm, natural reply — in the tone and personality you've chosen. She does not use any information from outside your knowledge base.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle">4</div>
+        <div>
+          <div class="step-content-title">The visitor gets a helpful answer</div>
+          <div class="step-content-body">The response appears in the chat in seconds. If the visitor has a follow-up question, Lea remembers the conversation context and responds accordingly — just like a real conversation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Knowledge base ── -->
+  <div style="margin-bottom:2.5rem">
+    <div class="section-eyebrow">Your content</div>
+    <h2 class="section-title">The knowledge base — Lea's source of truth</h2>
+    <p class="section-intro">Everything Lea knows comes from a structured document called the knowledge base. It currently has 54 entries covering every aspect of your practice.</p>
+
+    <p style="font-size:.88rem;color:#555;line-height:1.8;margin-bottom:1rem">Each entry is a question-and-answer pair, written in your words. When you want to update something — a new service, a price change, a new policy — we simply update the relevant entry and the change takes effect immediately. No technical knowledge is needed on your side. You send the update to Morney, it gets added, and Lea knows it within minutes.</p>
+
+    <p style="font-size:.88rem;color:#555;line-height:1.8;margin-bottom:.8rem">Here is an example of what one entry looks like behind the scenes:</p>
+
+    <div class="kb-example">
+      <div class="kb-field"><span class="kb-label">Topic</span><span class="kb-value">service_supervision</span></div>
+      <div class="kb-field"><span class="kb-label">Category</span><span class="kb-value">Services</span></div>
+      <div class="kb-field"><span class="kb-label">Keywords</span><span class="kb-value">supervision, counsellor supervision, clinical supervision, supervisor, intern…</span></div>
+      <div class="kb-field"><span class="kb-label">Question</span><span class="kb-value">Does QLL offer supervision services for counsellors?</span></div>
+      <div class="kb-field"><span class="kb-label">Answer</span><span class="kb-value">Yes, Elizabeth offers professional supervision services for counsellors and counsellors in training. She has completed her supervisor training and provides a supportive, structured supervision space for those working in the counselling field.</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Widget Wizard ── -->
+  <div style="margin-bottom:2.5rem">
+    <div class="section-eyebrow">The tool</div>
+    <h2 class="section-title">The Widget Wizard — what Morney uses to configure Lea</h2>
+    <p class="section-intro">The Widget Wizard is the tool used to build, customise, and export Lea for your website. It works in four steps.</p>
+
+    <div class="card" style="margin-bottom:.8rem">
+      <div class="card-title">Step 1 · Identity</div>
+      <div class="card-body">Set the bot's name (currently "Lea"), connect the Groq AI service, and point to your knowledge base. This is done once and rarely needs changing.</div>
+    </div>
+    <div class="card" style="margin-bottom:.8rem">
+      <div class="card-title">Step 2 · Personality</div>
+      <div class="card-body">Choose the tone Lea uses when responding. Four options are available: <em>Warm & Nurturing</em> (gentle, empathetic — currently selected), <em>Calm & Professional</em>, <em>Bright & Approachable</em>, or <em>Grounded & Wise</em>. Each maps to a different set of instructions given to the AI. You can also add a custom instruction — for example, "always mention the free discovery call when relevant."</div>
+    </div>
+    <div class="card" style="margin-bottom:.8rem">
+      <div class="card-title">Step 3 · Appearance</div>
+      <div class="card-body">Set the colours, avatar emoji, and whether the chat bubble sits in the bottom-right or bottom-left corner. A live preview updates as you make changes, so you see exactly how Lea will look on your site before exporting.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Step 4 · Export</div>
+      <div class="card-body">The wizard produces two files: a standalone HTML page for testing, and a script snippet your website developer can paste into any page with a single line of code. No complex integration required.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── What you need to do ── -->
+  <div style="margin-bottom:2.5rem">
+    <div class="section-eyebrow">Your role</div>
+    <h2 class="section-title">What you need to do — very little</h2>
+
+    <div class="steps-list">
+      <div class="step-item">
+        <div class="step-circle" style="background:#2a3a2a;color:#4caf7a">✓</div>
+        <div>
+          <div class="step-content-title">Review Lea's answers</div>
+          <div class="step-content-body">Ask Lea a few questions — about your services, pricing, and booking — and let Morney know if any answer needs adjusting. Your knowledge base is a living document and can be updated at any time.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle" style="background:#2a3a2a;color:#4caf7a">✓</div>
+        <div>
+          <div class="step-content-title">Confirm your colours and tone</div>
+          <div class="step-content-body">Let Morney know if you'd like Lea's chat bubble and header to match your website colours, and confirm whether "Warm & Nurturing" feels like the right personality for your practice.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle" style="background:#3a3520;color:var(--gold)">→</div>
+        <div>
+          <div class="step-content-title">Share Lea with your web developer</div>
+          <div class="step-content-body">Once you're happy, your website developer adds one line of code to your site — a script tag — and Lea appears. If you don't have a developer, Morney can advise on the simplest way to get it live.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="cta-box">
+    <div class="cta-title">Questions? Ready to go live?</div>
+    <div class="cta-body">Morney is available to walk you through anything, make updates to the knowledge base, or help get Lea onto your website. Everything is free — this is built as a gift to your practice and as a demonstration of what's possible for practitioners like you who deserve better tools.</div>
+    <div class="cta-contact">
+      <span>📧 info@qllcounselling.co.za</span>
+      <span>📱 066 274 3110</span>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  <div class="mark">✦ MD Works ✦ · Morney Deetlefs · South Africa</div>
+  <div class="tagline">Builder of useful things for real people</div>
+  <div style="margin-top:1rem">
+    <a href="https://github.com/MD-Works/QLL-Counselling-Assistant"
+       target="_blank"
+       rel="noopener noreferrer"
+       style="display:inline-flex;align-items:center;gap:.5rem;font-family:'Syne Mono',monospace;font-size:.68rem;letter-spacing:.08em;color:#aaa;text-decoration:none;border:1px solid #e0d9d0;border-radius:50px;padding:.35rem .9rem;transition:all .2s"
+       onmouseover="this.style.color='#4a9b8e';this.style.borderColor='#4a9b8e'"
+       onmouseout="this.style.color='#aaa';this.style.borderColor='#e0d9d0'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
+      github.com/MD-Works/QLL-Counselling-Assistant
+    </a>
+  </div>
+</footer>
+
+</body>
+</html>
