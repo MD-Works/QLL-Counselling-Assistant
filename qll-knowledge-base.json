@@ -9,374 +9,759 @@
     {
       "id": "service_counselling",
       "category": "services",
-      "keywords": ["counselling", "therapy", "couples counselling", "personal counselling", "trauma", "grief", "talk therapy", "mental health support"],
+      "keywords": [
+        "counselling",
+        "therapy",
+        "couples counselling",
+        "personal counselling",
+        "trauma",
+        "grief",
+        "talk therapy",
+        "mental health support",
+        "children counselling",
+        "couples",
+        "adults",
+        "relationship",
+        "support",
+        "healing",
+        "emotional support"
+      ],
       "question": "What kind of counselling does Elizabeth offer?",
       "answer": "Elizabeth offers compassionate counselling, which includes couples counselling, personal counselling, and support for trauma and grief. The practice serves both adults and children as clients."
     },
     {
       "id": "service_anger_management",
       "category": "services",
-      "keywords": ["anger management", "anger course", "structured program", "workbook", "6 session course", "emotional regulation"],
+      "keywords": [
+        "anger management",
+        "anger course",
+        "structured program",
+        "workbook",
+        "6 session course",
+        "emotional regulation",
+        "anger issues",
+        "rage",
+        "temper",
+        "emotional control",
+        "anger help",
+        "outbursts"
+      ],
       "question": "Does Elizabeth offer an anger management program?",
       "answer": "Elizabeth offers a featured Anger Management program structured as a 6-session course, which includes a workbook. It is offered as part of the compassionate counselling service pillar."
     },
     {
       "id": "service_life_coaching",
       "category": "services",
-      "keywords": ["life coaching", "coaching", "personal development", "career coaching", "clarity", "goal setting"],
+      "keywords": [
+        "life coaching",
+        "coaching",
+        "personal development",
+        "career coaching",
+        "clarity",
+        "goal setting",
+        "goals",
+        "motivation",
+        "direction",
+        "stuck",
+        "purpose",
+        "career change",
+        "life direction"
+      ],
       "question": "What does Elizabeth's life coaching involve?",
       "answer": "Elizabeth offers empowering life coaching focused on clarity, personal development, and career-related goals. This is one of the practice's core service pillars."
     },
     {
       "id": "service_acupuncture",
       "category": "services",
-      "keywords": ["acupuncture", "therapeutic acupuncture", "physical rehabilitation", "adhd", "organ cleansing", "acudetox"],
+      "keywords": [
+        "acupuncture",
+        "therapeutic acupuncture",
+        "physical rehabilitation",
+        "adhd",
+        "organ cleansing",
+        "acudetox",
+        "alternative medicine",
+        "detox",
+        "natural healing",
+        "holistic",
+        "ear acupuncture"
+      ],
       "question": "Does Elizabeth offer acupuncture treatments?",
       "answer": "Elizabeth offers therapeutic acupuncture (Acudetox), a form of alternative medicine used to support physical rehabilitation, ADHD, and organ cleansing. Acudetox stimulates the body's natural healing processes."
     },
     {
       "id": "service_reiki",
       "category": "services",
-      "keywords": ["reiki", "usui reiki", "energy healing", "hands on healing", "stress release", "energetic realignment", "relax"],
+      "keywords": [
+        "reiki",
+        "usui reiki",
+        "energy healing",
+        "hands on healing",
+        "stress release",
+        "energetic realignment",
+        "relax",
+        "alternative",
+        "holistic",
+        "wellness",
+        "healing",
+        "natural",
+        "non invasive",
+        "clothed"
+      ],
       "question": "What is Reiki and what does Elizabeth's Reiki treatment involve?",
       "answer": "Elizabeth offers Usui Reiki, a form of alternative medicine that stimulates the body's natural healing processes. It is used for stress release and energetic realignment and is generally considered safe, though some clients may experience a temporary worsening of symptoms before improvement, heightened emotions, or light-headedness after treatment."
     },
     {
       "id": "service_rife_therapy",
       "category": "services",
-      "keywords": ["rife", "rife therapy", "rife treatment", "pain management", "parasite cleansing", "prostate support", "frequency therapy"],
+      "keywords": [
+        "rife",
+        "rife therapy",
+        "rife treatment",
+        "pain management",
+        "parasite cleansing",
+        "prostate support",
+        "frequency therapy",
+        "natural healing",
+        "alternative medicine",
+        "holistic",
+        "pain relief",
+        "wellness"
+      ],
       "question": "What is Rife Treatment used for?",
       "answer": "Elizabeth offers Advanced Rife Treatment, a form of alternative medicine that stimulates the body's natural healing processes. It is used for pain management, parasite cleansing, and prostate support. Relief may be delayed for up to 72 hours after a session as part of the healing process."
     },
     {
       "id": "pricing_counselling_session",
       "category": "pricing",
-      "keywords": ["counselling price", "cost", "session fee", "how much", "counselling rate"],
+      "keywords": [
+        "counselling price",
+        "cost",
+        "session fee",
+        "how much",
+        "counselling rate"
+      ],
       "question": "How much does a counselling session cost?",
       "answer": "A counselling session with Elizabeth is R650. Fees are indicated on the website and clients will be notified well in advance of any price changes."
     },
     {
       "id": "pricing_anger_management_program",
       "category": "pricing",
-      "keywords": ["anger management cost", "anger course price", "how much", "session fee"],
+      "keywords": [
+        "anger management cost",
+        "anger course price",
+        "how much",
+        "session fee"
+      ],
       "question": "How much does the Anger Management course cost?",
       "answer": "The Anger Management course is R450 per session, run as a 6-session structured course that includes a workbook."
     },
     {
       "id": "pricing_life_coaching_session",
       "category": "pricing",
-      "keywords": ["life coaching price", "coaching cost", "session fee", "how much"],
+      "keywords": [
+        "life coaching price",
+        "coaching cost",
+        "session fee",
+        "how much"
+      ],
       "question": "How much does a life coaching session cost?",
       "answer": "A life coaching session with Elizabeth is R650."
     },
     {
       "id": "pricing_reiki_session",
       "category": "pricing",
-      "keywords": ["reiki price", "reiki cost", "session fee", "how much"],
+      "keywords": [
+        "reiki price",
+        "reiki cost",
+        "session fee",
+        "how much"
+      ],
       "question": "How much does a Reiki session cost?",
       "answer": "A Reiki session with Elizabeth is R650."
     },
     {
       "id": "pricing_rife_session",
       "category": "pricing",
-      "keywords": ["rife price", "rife cost", "session fee", "how much"],
+      "keywords": [
+        "rife price",
+        "rife cost",
+        "session fee",
+        "how much"
+      ],
       "question": "How much does a Rife Treatment session cost?",
       "answer": "A Rife Treatment session with Elizabeth is R350."
     },
     {
       "id": "pricing_acupuncture_session",
       "category": "pricing",
-      "keywords": ["acupuncture price", "acupuncture cost", "acudetox fee", "how much"],
+      "keywords": [
+        "acupuncture price",
+        "acupuncture cost",
+        "acudetox fee",
+        "how much"
+      ],
       "question": "How much does an Acudetox or acupuncture session cost?",
       "answer": "The cost for Acudetox is discussed individually with each client. Please contact Elizabeth directly to confirm the fee."
     },
     {
       "id": "pricing_cash_practice",
       "category": "pricing",
-      "keywords": ["cash practice", "invoice", "upfront payment", "how does payment work"],
+      "keywords": [
+        "cash practice",
+        "invoice",
+        "upfront payment",
+        "how does payment work"
+      ],
       "question": "How does the payment process work at QLL?",
-      "answer": "QLL Counselling and Wellness Practice is a cash practice. Clients receive an invoice upfront, and the session is confirmed upon payment. Payment can be made via the website or by EFT."
-    },
-    {
-      "id": "pricing_eft_banking",
-      "category": "pricing",
-      "keywords": ["eft", "bank transfer", "absa", "account number", "banking details", "how to pay"],
-      "question": "What are the EFT banking details for QLL?",
-      "answer": "EFT payments can be made to ABSA, account name E. Whitford, cheque account, branch code 632005, account number 9262634789, SWIFT code ABSAZAJJ."
+      "answer": "QLL Counselling and Wellness Practice is a cash practice. Clients receive an invoice upfront, and the session is confirmed upon payment. Payment can be made via the QLL Counselling website at www.qllcounselling.co.za or by EFT — please contact Elizabeth directly after booking to receive payment details."
     },
     {
       "id": "pricing_fee_increases",
       "category": "pricing",
-      "keywords": ["price increase", "fee increase", "rate change", "annual increase"],
+      "keywords": [
+        "price increase",
+        "fee increase",
+        "rate change",
+        "annual increase"
+      ],
       "question": "Will session fees ever increase?",
       "answer": "Fees are reviewed annually and may increase periodically. Any increase will be discussed with the client, and 30 days' notice will be given before the increase takes effect."
     },
     {
       "id": "pricing_payment_confirmation",
       "category": "pricing",
-      "keywords": ["payment confirmation", "pay before session", "deposit", "confirm payment"],
+      "keywords": [
+        "payment confirmation",
+        "pay before session",
+        "deposit",
+        "confirm payment"
+      ],
       "question": "Does payment need to be confirmed before a session?",
       "answer": "Yes, payment must be confirmed before a counselling session takes place. The session is confirmed upon receipt of payment."
     },
     {
       "id": "pricing_medical_aid",
       "category": "pricing",
-      "keywords": ["medical aid", "wellness program", "insurance", "medical aid cover", "session assistance"],
+      "keywords": [
+        "medical aid",
+        "wellness program",
+        "insurance",
+        "medical aid cover",
+        "session assistance"
+      ],
       "question": "Does Elizabeth accept medical aid for sessions?",
       "answer": "Medical aid schemes require a diagnosis to reimburse sessions, and making a diagnosis falls outside the scope of practice of a wellness counsellor. As a result, medical aid is unlikely to reimburse counselling sessions. Clients are encouraged to check with their provider about wellness programs that may assist with payments."
     },
     {
       "id": "credentials_nada_registration",
       "category": "credentials",
-      "keywords": ["nada", "acudetox", "acupuncture registration", "qualified", "registered", "credentials"],
+      "keywords": [
+        "nada",
+        "acudetox",
+        "acupuncture registration",
+        "qualified",
+        "registered",
+        "credentials"
+      ],
       "question": "Is Elizabeth qualified to perform Acudetox?",
       "answer": "Elizabeth is registered with the NADA (National Acupuncture Detoxification Association) acupuncture body in South Africa for Acudetox treatments."
     },
     {
       "id": "credentials_aschp_registration",
       "category": "credentials",
-      "keywords": ["aschp", "registered", "qualified", "professional body", "wellness counsellor", "credentials"],
+      "keywords": [
+        "aschp",
+        "registered",
+        "qualified",
+        "professional body",
+        "wellness counsellor",
+        "credentials"
+      ],
       "question": "What professional body is Elizabeth registered with?",
       "answer": "Elizabeth Whitford is a Wellness Counsellor registered with the ASCHP (Association for Supportive Counsellors and Holistic Practitioners) South Africa."
     },
     {
       "id": "credentials_confidentiality",
       "category": "credentials",
-      "keywords": ["confidentiality", "privacy", "private sessions", "confidential", "disclosure"],
+      "keywords": [
+        "confidentiality",
+        "privacy",
+        "private sessions",
+        "confidential",
+        "disclosure"
+      ],
       "question": "Are counselling sessions with Elizabeth confidential?",
       "answer": "All counselling services are strictly confidential and may not be revealed to anyone without the client's written permission. If Elizabeth needs to consult with another professional for clinical guidance, she will not use the client's name or identifying details to protect their privacy."
     },
     {
       "id": "credentials_confidentiality_third_party",
       "category": "credentials",
-      "keywords": ["speak to my doctor", "share information", "third party", "written consent", "outside professional"],
+      "keywords": [
+        "speak to my doctor",
+        "share information",
+        "third party",
+        "written consent",
+        "outside professional"
+      ],
       "question": "Can Elizabeth share my information with my doctor or other professionals?",
       "answer": "Elizabeth will only communicate with other professionals or people outside the counselling room if the client provides written consent first, and only if it is determined to be in the client's best interest and supports their counselling progress."
     },
     {
       "id": "credentials_legal_exceptions_confidentiality",
       "category": "credentials",
-      "keywords": ["legal exceptions", "when confidentiality breaks", "homicide", "court order", "disclosure by law"],
+      "keywords": [
+        "legal exceptions",
+        "when confidentiality breaks",
+        "homicide",
+        "court order",
+        "disclosure by law"
+      ],
       "question": "When is Elizabeth legally required to break confidentiality?",
       "answer": "Legal exceptions to confidentiality include reasonable suspicion of child abuse (physical, sexual, emotional, or neglect), adult dependent care abuse, elder abuse or neglect, and when a client threatens to harm or kill another person or damage property. If court-ordered to release records, Elizabeth must comply."
     },
     {
       "id": "credentials_child_protection",
       "category": "credentials",
-      "keywords": ["child protection", "minors", "child safety", "child protection act", "confidentiality for children"],
+      "keywords": [
+        "child protection",
+        "minors",
+        "child safety",
+        "child protection act",
+        "confidentiality for children"
+      ],
       "question": "How does confidentiality work for sessions involving children?",
       "answer": "For sessions involving a child, Elizabeth makes it clear to the child that if there is anything safety-related that a parent needs to know, she will have to disclose this information as required by the Child Protection Act."
     },
     {
       "id": "credentials_mandatory_reporting",
       "category": "credentials",
-      "keywords": ["mandatory reporting", "abuse", "neglect", "reporting obligations", "legal obligation", "elder abuse"],
+      "keywords": [
+        "mandatory reporting",
+        "abuse",
+        "neglect",
+        "reporting obligations",
+        "legal obligation",
+        "elder abuse"
+      ],
       "question": "Is Elizabeth required to report abuse or neglect?",
       "answer": "In cases of child or elderly abuse or neglect, Elizabeth is legally required to report this, and her professional duty of confidentiality ends in these circumstances. She is a mandated reporter of abuse or intent to harm another person."
     },
     {
       "id": "credentials_suicide_policy",
       "category": "credentials",
-      "keywords": ["suicidal client", "suicide policy", "risk of harm", "self harm policy"],
+      "keywords": [
+        "suicidal client",
+        "suicide policy",
+        "risk of harm",
+        "self harm policy"
+      ],
       "question": "What does Elizabeth do if a client is suicidal?",
       "answer": "If a client poses a serious risk of harm to themselves, Elizabeth will take all reasonable steps to prevent harm, which may include breaking confidentiality. This policy is explained to all clients as part of the informed consent process."
     },
     {
       "id": "credentials_approach",
       "category": "credentials",
-      "keywords": ["person centred", "counselling approach", "therapy style", "how does counselling work", "what to expect"],
+      "keywords": [
+        "person centred",
+        "counselling approach",
+        "therapy style",
+        "how does counselling work",
+        "what to expect"
+      ],
       "question": "What is Elizabeth's counselling approach?",
       "answer": "Elizabeth uses a person-centred approach that is collaborative, honest, and empathetic. She helps clients navigate difficulties in life and relationships while providing a safe space to heal, develop insight, and practice healthy coping skills. Clients are regarded as the experts in their own lives."
     },
     {
       "id": "credentials_non_discrimination",
       "category": "credentials",
-      "keywords": ["inclusive", "lgbtq", "all religions", "non discrimination", "safe space", "all cultures", "faith based"],
+      "keywords": [
+        "inclusive",
+        "lgbtq",
+        "all religions",
+        "non discrimination",
+        "safe space",
+        "all cultures",
+        "faith based"
+      ],
       "question": "Is Elizabeth's practice inclusive of all backgrounds and beliefs?",
       "answer": "QLL Counselling operates on an all-inclusive value system encompassing race, gender, age, religious denomination, sexual orientation, and physical challenges. Elizabeth is open to discussing any concerns a client may have about working with a counsellor of a different background."
     },
     {
       "id": "booking_session_schedule",
       "category": "booking",
-      "keywords": ["schedule", "when open", "days available", "counselling days", "treatment days", "availability"],
+      "keywords": [
+        "schedule",
+        "when open",
+        "days available",
+        "counselling days",
+        "treatment days",
+        "availability"
+      ],
       "question": "What days does Elizabeth see clients for counselling versus treatments?",
       "answer": "Elizabeth works Monday to Wednesday for counselling and coaching sessions, and Thursday and Friday for treatments."
     },
     {
       "id": "booking_session_length",
       "category": "booking",
-      "keywords": ["session length", "how long", "60 minutes", "session duration", "how long is a session"],
+      "keywords": [
+        "session length",
+        "how long",
+        "60 minutes",
+        "session duration",
+        "how long is a session"
+      ],
       "question": "How long is a counselling session?",
       "answer": "Standard counselling sessions are 60 minutes in length and begin and end on time. Longer sessions are available on request, subject to schedule availability, at a prorated fee."
     },
     {
       "id": "booking_session_frequency",
       "category": "booking",
-      "keywords": ["how often", "weekly sessions", "biweekly", "session frequency", "how many sessions"],
+      "keywords": [
+        "how often",
+        "weekly sessions",
+        "biweekly",
+        "session frequency",
+        "how many sessions"
+      ],
       "question": "How often are counselling sessions scheduled?",
       "answer": "Counselling sessions are typically scheduled weekly or biweekly and are arranged in advance. The length of the overall counselling process is unique to each client, with some challenges resolved in 6 to 12 sessions and others taking longer."
     },
     {
       "id": "booking_first_session_in_person",
       "category": "booking",
-      "keywords": ["first session", "face to face", "in person", "online sessions", "initial consultation", "virtual"],
+      "keywords": [
+        "first session",
+        "face to face",
+        "in person",
+        "online sessions",
+        "initial consultation",
+        "virtual"
+      ],
       "question": "Does the first session need to be in person, or can it be online?",
       "answer": "It is required that the first session be conducted face-to-face. After the initial session, Elizabeth is able to host follow-up sessions online. Children under the age of 16 will not be counselled online and must attend sessions in person."
     },
     {
       "id": "booking_how_to_book",
       "category": "booking",
-      "keywords": ["how to book", "make an appointment", "book online", "website booking", "schedule a session"],
+      "keywords": [
+        "how to book",
+        "make an appointment",
+        "book online",
+        "website booking",
+        "schedule a session"
+      ],
       "question": "How can a client book a session with Elizabeth?",
       "answer": "Clients can book a session and make payment directly through the QLL Counselling website at www.qllcounselling.co.za."
     },
     {
       "id": "booking_contact_method",
       "category": "booking",
-      "keywords": ["contact", "whatsapp", "email", "phone call", "how to reach", "get in touch"],
+      "keywords": [
+        "contact",
+        "whatsapp",
+        "email",
+        "phone call",
+        "how to reach",
+        "get in touch"
+      ],
       "question": "How does the practice prefer to be contacted?",
       "answer": "The practice operates via email and WhatsApp, with no personal phone calls, to ensure each client receives appropriate attention. Elizabeth aims to respond to WhatsApp messages and emails within 24 hours."
     },
     {
       "id": "booking_waiting_list",
       "category": "booking",
-      "keywords": ["waiting list", "how long to wait", "when can i start", "availability", "new clients"],
+      "keywords": [
+        "waiting list",
+        "how long to wait",
+        "when can i start",
+        "availability",
+        "new clients"
+      ],
       "question": "Is there a waiting list to see Elizabeth?",
       "answer": "Elizabeth typically has a waiting list of 2 to 3 weeks. If she is unable to see a client immediately, she will add them to the waiting list or provide referrals to other practitioners."
     },
     {
       "id": "booking_couples_forms",
       "category": "booking",
-      "keywords": ["couples counselling", "couples forms", "intake form couples", "two people"],
+      "keywords": [
+        "couples counselling",
+        "couples forms",
+        "intake form couples",
+        "two people"
+      ],
       "question": "Do both people need to complete forms for couples counselling?",
       "answer": "Yes, for couples counselling each person must fill out and bring a separate set of intake and consent forms to the first session."
     },
     {
       "id": "booking_parental_consent",
       "category": "booking",
-      "keywords": ["parental consent", "consent form", "minor", "both parents", "child client", "guardian"],
+      "keywords": [
+        "parental consent",
+        "consent form",
+        "minor",
+        "both parents",
+        "child client",
+        "guardian"
+      ],
       "question": "Do both parents need to sign a consent form for a child to see Elizabeth?",
       "answer": "Both parents whose details appear on the child's birth certificate must consent to the minor's counselling. If only one parent's details appear on the birth certificate, only that parent's consent is required. A legal guardian may also provide consent with the appropriate documentation."
     },
     {
       "id": "booking_parental_consent_documents",
       "category": "booking",
-      "keywords": ["child documents", "birth certificate", "id copy", "court order", "minor documents needed"],
+      "keywords": [
+        "child documents",
+        "birth certificate",
+        "id copy",
+        "court order",
+        "minor documents needed"
+      ],
       "question": "What documents are needed to book counselling for a child?",
       "answer": "The following documents are required: the child's birth certificate, ID or passport copies of the mother and father or legal guardians, a court order (where applicable), and a death certificate of any deceased parent reflected on the birth certificate."
     },
     {
       "id": "booking_required_documentation",
       "category": "booking",
-      "keywords": ["intake form", "paperwork", "documentation", "forms to complete", "popi", "boundaries leaflet", "client form"],
+      "keywords": [
+        "intake form",
+        "paperwork",
+        "documentation",
+        "forms to complete",
+        "popi",
+        "boundaries leaflet",
+        "client form"
+      ],
       "question": "What paperwork does a client need to complete before starting sessions?",
       "answer": "New clients are asked to complete an intake form, any relevant treatment-specific consent forms (such as for Reiki, Rife, or Acudetox), a POPI consent form, and to review the practice's boundaries leaflet. All documentation should be reviewed and brought to the first session."
     },
     {
       "id": "booking_cancellation_policy",
       "category": "booking",
-      "keywords": ["cancellation", "cancel appointment", "cancel session", "notice period", "how to cancel"],
+      "keywords": [
+        "cancellation",
+        "cancel appointment",
+        "cancel session",
+        "notice period",
+        "how to cancel"
+      ],
       "question": "What is the cancellation policy?",
       "answer": "Clients have up to 48 hours before a session to cancel under normal circumstances. Cancellations made less than 48 hours before the appointment will be charged the full session fee. For same-day emergency cancellations, clients should contact Elizabeth via WhatsApp."
     },
     {
       "id": "booking_no_show_policy",
       "category": "booking",
-      "keywords": ["no show", "missed appointment", "forgot session", "did not attend"],
+      "keywords": [
+        "no show",
+        "missed appointment",
+        "forgot session",
+        "did not attend"
+      ],
       "question": "What happens if I miss a session without cancelling?",
       "answer": "If a client does not attend a scheduled appointment without cancelling, the full session fee will be charged. Clients who tend to forget appointments can request an advance email reminder from Elizabeth."
     },
     {
       "id": "booking_ongoing_cancellations",
       "category": "booking",
-      "keywords": ["repeated cancellations", "multiple no shows", "rescheduling", "frequent cancellations"],
+      "keywords": [
+        "repeated cancellations",
+        "multiple no shows",
+        "rescheduling",
+        "frequent cancellations"
+      ],
       "question": "What happens if I cancel or reschedule sessions frequently?",
       "answer": "The practice's schedule does not allow for a great deal of flexibility around continual cancellations, rescheduled appointments, or no-shows, as each client's regular session time is reserved specifically for them."
     },
     {
       "id": "booking_between_sessions_contact",
       "category": "booking",
-      "keywords": ["contact between sessions", "whatsapp between sessions", "email between sessions", "between appointments"],
+      "keywords": [
+        "contact between sessions",
+        "whatsapp between sessions",
+        "email between sessions",
+        "between appointments"
+      ],
       "question": "Can I contact Elizabeth between sessions?",
       "answer": "Elizabeth is available to respond to a brief WhatsApp message or a short one-paragraph email regarding appointment times or counselling homework between sessions. Counselling issues will not be processed via email or WhatsApp unless specifically arranged as part of the session plan."
     },
     {
       "id": "booking_termination",
       "category": "booking",
-      "keywords": ["stop counselling", "end therapy", "termination", "leave", "quit sessions"],
+      "keywords": [
+        "stop counselling",
+        "end therapy",
+        "termination",
+        "leave",
+        "quit sessions"
+      ],
       "question": "Can I stop counselling at any time?",
       "answer": "Clients may terminate counselling at any point. When concluding the process, Elizabeth asks that at least one final session be scheduled to review the work done. Clients are welcome to return in the future, subject to Elizabeth's discretion and availability."
     },
     {
       "id": "booking_dual_counselling",
       "category": "booking",
-      "keywords": ["seeing another therapist", "two counsellors", "dual counselling", "other therapist", "current therapy"],
+      "keywords": [
+        "seeing another therapist",
+        "two counsellors",
+        "dual counselling",
+        "other therapist",
+        "current therapy"
+      ],
       "question": "Can I see Elizabeth while I'm also seeing another therapist?",
       "answer": "It is generally considered unethical for two counsellors to work with the same client simultaneously. Elizabeth does not work with clients who are under the care of another therapist unless there is a compelling clinical reason or a crisis. Clients currently seeing another therapist are asked to disclose this so the next steps can be discussed."
     },
     {
       "id": "logistics_closing_time",
       "category": "logistics",
-      "keywords": ["closing time", "last appointment", "operating hours", "office hours", "what time"],
+      "keywords": [
+        "closing time",
+        "last appointment",
+        "operating hours",
+        "office hours",
+        "what time"
+      ],
       "question": "What time does the practice close?",
       "answer": "The practice closes at 19:00, which is when the last client of the day is seen."
     },
     {
       "id": "logistics_location",
       "category": "logistics",
-      "keywords": ["address", "where", "location", "doornpoort", "pretoria", "directions", "practice address"],
+      "keywords": [
+        "address",
+        "where",
+        "location",
+        "doornpoort",
+        "pretoria",
+        "directions",
+        "practice address"
+      ],
       "question": "Where is QLL Counselling and Wellness Practice located?",
       "answer": "The practice is located at 575 Airport Road, Doornpoort, Pretoria, 0186."
     },
     {
       "id": "logistics_court_reports",
       "category": "logistics",
-      "keywords": ["court report", "legal letter", "divorce", "custody", "court case", "lawsuit", "legal documents"],
+      "keywords": [
+        "court report",
+        "legal letter",
+        "divorce",
+        "custody",
+        "court case",
+        "lawsuit",
+        "legal documents"
+      ],
       "question": "Can Elizabeth write court reports or legal letters on my behalf?",
       "answer": "Elizabeth does not write legal letters or court reports on behalf of clients involved in divorce, custody, or other legal matters. No report will be generated during or at the conclusion of the counselling process. If a court order specifically requires her participation, clients will be invoiced for the professional time involved."
     },
     {
       "id": "logistics_social_media",
       "category": "logistics",
-      "keywords": ["social media", "facebook", "instagram", "friend request", "follow", "linkedin", "tiktok"],
+      "keywords": [
+        "social media",
+        "facebook",
+        "instagram",
+        "friend request",
+        "follow",
+        "linkedin",
+        "tiktok"
+      ],
       "question": "Can I follow or connect with Elizabeth on social media?",
       "answer": "To protect client confidentiality, Elizabeth does not accept friend or follow requests from clients on Facebook, Instagram, or TikTok. Clients are welcome to follow her public LinkedIn or Facebook page, where she regularly shares relationship-related advice and information."
     },
     {
       "id": "logistics_no_secrets_couples",
       "category": "logistics",
-      "keywords": ["couples secrets", "no secrets policy", "family counselling confidentiality", "individual session in couples"],
+      "keywords": [
+        "couples secrets",
+        "no secrets policy",
+        "family counselling confidentiality",
+        "individual session in couples"
+      ],
       "question": "Does confidentiality apply between partners in couples counselling?",
       "answer": "In couples or family counselling, the couple or family unit is treated as the client, not the individuals. Elizabeth practices a no-secrets policy, meaning information shared by one partner in an individual session may be disclosed to the other partner if Elizabeth deems it necessary to support the overall counselling goals."
     },
     {
       "id": "logistics_popi_data_rights",
       "category": "logistics",
-      "keywords": ["popi", "personal information", "data rights", "privacy act", "my information", "delete my data"],
+      "keywords": [
+        "popi",
+        "personal information",
+        "data rights",
+        "privacy act",
+        "my information",
+        "delete my data"
+      ],
       "question": "What are my rights regarding my personal information held by the practice?",
       "answer": "Under the POPI Act (Protection of Personal Information Act 4 of 2013), clients have the right to access, correct, or request deletion of their personal information held by the practice. Consent to process personal information may be withdrawn in writing. The practice is legally required to retain client records for 5 years after the end of the counselling relationship."
     },
     {
       "id": "logistics_treatment_not_replacement",
       "category": "logistics",
-      "keywords": ["alternative medicine", "replace doctor", "stop medication", "not a doctor", "medical treatment"],
+      "keywords": [
+        "alternative medicine",
+        "replace doctor",
+        "stop medication",
+        "not a doctor",
+        "medical treatment"
+      ],
       "question": "Do Reiki, Rife, or Acudetox treatments replace conventional medical treatment?",
       "answer": "Reiki, Rife, and Acudetox treatments are forms of alternative medicine and are not replacements for conventional medical treatment. Clients are encouraged to continue seeing their primary care physician or specialist as needed and should not stop any medications or treatment plans without consulting their doctor."
     },
     {
       "id": "emergency_crisis_resources",
       "category": "emergency",
-      "keywords": ["emergency", "crisis", "suicide helpline", "sadag", "lifeline", "not an emergency service", "urgent help"],
+      "keywords": [
+        "emergency",
+        "crisis",
+        "suicide helpline",
+        "sadag",
+        "lifeline",
+        "urgent help",
+        "immediate help",
+        "in danger",
+        "crisis line",
+        "helpline number"
+      ],
       "question": "What should someone do if they're in a crisis and need immediate help?",
-      "answer": "Elizabeth is not an emergency service, so clients experiencing a crisis are directed to external crisis resources such as SADAG and Lifeline. Please contact Elizabeth directly to confirm current contact details for these organisations."
+      "answer": "QLL Counselling is not an emergency service. If you are in crisis or need immediate help, please contact one of the following free, confidential South African helplines: SADAG (South African Depression & Anxiety Group) on 0800 456 789 (toll-free, 24/7), the Suicide Crisis Line on 0800 567 567 (toll-free, 24/7), Lifeline South Africa on 0861 322 322, or the Gender-Based Violence Command Centre on 0800 428 428 (toll-free, 24/7). If you are in immediate danger, please call 10111 (SAPS) or 10177 (ambulance)."
     }
   ],
   "crisis": {
-    "keywords": ["suicide", "suicidal", "kill myself", "end my life", "want to die", "don't want to live", "self harm", "self-harm", "cutting", "hurt myself", "harm myself", "crisis", "emergency", "overdose", "abuse", "being abused", "rape", "assault"],
+    "keywords": [
+      "suicide",
+      "suicidal",
+      "kill myself",
+      "end my life",
+      "want to die",
+      "don't want to live",
+      "self harm",
+      "self-harm",
+      "cutting",
+      "hurt myself",
+      "harm myself",
+      "crisis",
+      "emergency",
+      "overdose",
+      "abuse",
+      "being abused",
+      "rape",
+      "assault"
+    ],
     "response": "I can hear that you're going through something very painful right now. Please reach out to one of these free, confidential helplines immediately — trained counsellors are available 24/7:\n\n• SADAG (South African Depression & Anxiety Group): 0800 456 789 (toll-free, 24/7)\n• Suicide Crisis Line: 0800 567 567 (toll-free, 24/7)\n• Lifeline South Africa: 0861 322 322\n• Gender-Based Violence Command Centre: 0800 428 428 (toll-free, 24/7)\n\nIf you are in immediate danger, please call 10111 (SAPS) or 10177 (ambulance).\n\nElizabeth at QLL is here to support your wellness journey, but these helplines are equipped to help you right now."
   },
   "guardrails": {
-    "no_diagnosis_keywords": ["diagnose", "diagnosis", "do i have", "have i got", "is it", "do i suffer from", "am i depressed", "am i bipolar", "test me", "what's wrong with me"],
+    "no_diagnosis_keywords": [
+      "diagnose",
+      "diagnosis",
+      "do i have",
+      "have i got",
+      "is it",
+      "do i suffer from",
+      "am i depressed",
+      "am i bipolar",
+      "test me",
+      "what's wrong with me"
+    ],
     "no_diagnosis_response": "That's an important question, but diagnosing mental health conditions is outside the scope of what I can help with — and it wouldn't be responsible for me to guess. What I can tell you is that Elizabeth offers a safe space to explore what you're experiencing, and she can refer you to the right professional if a formal assessment is needed. Would you like to know how to book an initial consultation?"
   }
 }
