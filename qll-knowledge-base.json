@@ -18,13 +18,11 @@
         "grief",
         "talk therapy",
         "mental health support",
-        "children counselling",
-        "couples",
-        "adults",
-        "relationship",
+        "emotional support",
         "support",
         "healing",
-        "emotional support"
+        "relationship",
+        "adults"
       ],
       "question": "What kind of counselling does Elizabeth offer?",
       "answer": "Elizabeth offers compassionate counselling, which includes couples counselling, personal counselling, and support for trauma and grief. The practice serves both adults and children as clients."
@@ -42,9 +40,8 @@
         "anger issues",
         "rage",
         "temper",
-        "emotional control",
-        "anger help",
-        "outbursts"
+        "outbursts",
+        "emotional control"
       ],
       "question": "Does Elizabeth offer an anger management program?",
       "answer": "Elizabeth offers a featured Anger Management program structured as a 6-session course, which includes a workbook. It is offered as part of the compassionate counselling service pillar."
@@ -64,8 +61,7 @@
         "direction",
         "stuck",
         "purpose",
-        "career change",
-        "life direction"
+        "career change"
       ],
       "question": "What does Elizabeth's life coaching involve?",
       "answer": "Elizabeth offers empowering life coaching focused on clarity, personal development, and career-related goals. This is one of the practice's core service pillars."
@@ -80,11 +76,10 @@
         "adhd",
         "organ cleansing",
         "acudetox",
-        "alternative medicine",
+        "alternative",
         "detox",
         "natural healing",
-        "holistic",
-        "ear acupuncture"
+        "holistic"
       ],
       "question": "Does Elizabeth offer acupuncture treatments?",
       "answer": "Elizabeth offers therapeutic acupuncture (Acudetox), a form of alternative medicine used to support physical rehabilitation, ADHD, and organ cleansing. Acudetox stimulates the body's natural healing processes."
@@ -102,8 +97,6 @@
         "relax",
         "alternative",
         "holistic",
-        "wellness",
-        "healing",
         "natural",
         "non invasive",
         "clothed"
@@ -123,9 +116,8 @@
         "prostate support",
         "frequency therapy",
         "natural healing",
-        "alternative medicine",
+        "alternative",
         "holistic",
-        "pain relief",
         "wellness"
       ],
       "question": "What is Rife Treatment used for?",
@@ -214,7 +206,7 @@
         "how does payment work"
       ],
       "question": "How does the payment process work at QLL?",
-      "answer": "QLL Counselling and Wellness Practice is a cash practice. Clients receive an invoice upfront, and the session is confirmed upon payment. Payment can be made via the QLL Counselling website at www.qllcounselling.co.za or by EFT — please contact Elizabeth directly after booking to receive payment details."
+      "answer": "QLL Counselling and Wellness Practice is a cash practice. Clients receive an invoice upfront, and the session is confirmed upon payment. Payment can be made via the website or by EFT."
     },
     {
       "id": "pricing_fee_increases",
@@ -273,13 +265,18 @@
       "keywords": [
         "aschp",
         "registered",
-        "qualified",
+        "affiliated",
+        "registration",
         "professional body",
+        "qualified",
+        "internship",
         "wellness counsellor",
-        "credentials"
+        "credentials",
+        "association",
+        "holistic practitioners"
       ],
-      "question": "What professional body is Elizabeth registered with?",
-      "answer": "Elizabeth Whitford is a Wellness Counsellor registered with the ASCHP (Association for Supportive Counsellors and Holistic Practitioners) South Africa."
+      "question": "What professional body is Elizabeth affiliated with?",
+      "answer": "Elizabeth Whitford is a Wellness Counsellor affiliated with the ASCHP (Association for Supportive Counsellors and Holistic Practitioners) and is currently completing her internship requirements toward full registration. She works within the ethical guidelines of the ASCHP and holds relevant qualifications in counselling and complementary wellness therapies."
     },
     {
       "id": "credentials_confidentiality",
@@ -720,10 +717,61 @@
         "immediate help",
         "in danger",
         "crisis line",
+        "helpline",
         "helpline number"
       ],
       "question": "What should someone do if they're in a crisis and need immediate help?",
-      "answer": "QLL Counselling is not an emergency service. If you are in crisis or need immediate help, please contact one of the following free, confidential South African helplines: SADAG (South African Depression & Anxiety Group) on 0800 456 789 (toll-free, 24/7), the Suicide Crisis Line on 0800 567 567 (toll-free, 24/7), Lifeline South Africa on 0861 322 322, or the Gender-Based Violence Command Centre on 0800 428 428 (toll-free, 24/7). If you are in immediate danger, please call 10111 (SAPS) or 10177 (ambulance)."
+      "answer": "QLL Counselling is not an emergency service. If you are in crisis or need immediate help, please contact one of the following free, confidential South African helplines available 24/7: SADAG (South African Depression & Anxiety Group) on 0800 456 789 (toll-free), the Suicide Crisis Line on 0800 567 567 (toll-free), Lifeline South Africa on 0861 322 322, or the Gender-Based Violence Command Centre on 0800 428 428 (toll-free). If you are in immediate danger, please call 10111 (SAPS) or 10177 (ambulance)."
+    },
+    {
+      "id": "service_supervision",
+      "category": "services",
+      "keywords": [
+        "supervision",
+        "supervisor",
+        "counsellor supervision",
+        "clinical supervision",
+        "supervisee",
+        "intern",
+        "counselling supervision",
+        "professional supervision",
+        "supervisor course"
+      ],
+      "question": "Does QLL offer supervision services for counsellors?",
+      "answer": "Yes, Elizabeth offers professional supervision services for counsellors and counsellors in training. She has completed her supervisor training and provides a supportive, structured supervision space for those working in the counselling field. This is a valuable resource for counsellors seeking guidance, reflection, and professional development."
+    },
+    {
+      "id": "pricing_supervision",
+      "category": "pricing",
+      "keywords": [
+        "supervision cost",
+        "supervision price",
+        "supervision fee",
+        "supervisor rate",
+        "how much supervision",
+        "supervision session cost"
+      ],
+      "question": "How much does a supervision session cost?",
+      "answer": "Supervision sessions with Elizabeth are priced at R450 per session. Please contact Elizabeth directly to discuss frequency, structure, and any package options that may be available."
+    },
+    {
+      "id": "logistics_contact",
+      "category": "logistics",
+      "keywords": [
+        "contact",
+        "email",
+        "phone",
+        "call",
+        "whatsapp",
+        "get in touch",
+        "reach elizabeth",
+        "contact details",
+        "contact qll",
+        "number",
+        "email address"
+      ],
+      "question": "How do I contact QLL Counselling?",
+      "answer": "You can reach QLL Counselling & Wellness Practice by email at info@qllcounselling.co.za or by phone and WhatsApp on 066 274 3110. Elizabeth will respond as soon as possible during business hours to discuss your needs and arrange a booking."
     }
   ],
   "crisis": {
