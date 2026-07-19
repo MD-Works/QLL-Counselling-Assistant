@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Widget Integration Guide · QLL Counselling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@300;400;500&family=Syne:wght@400;600&family=Syne+Mono&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --md-black:#0a0906;--md-dark:#110e09;--md-surface:#1a1610;--md-panel:#211c14;
+  --md-border:#2c2619;--md-border-lt:#3d3526;
+  --md-gold-dk:#7a5815;--md-gold:#c9943c;--md-gold-lt:#e8c87a;--md-gold-glow:rgba(201,148,60,.12);
+  --md-cream:#f0e6ce;--md-muted:#7a6d58;
+  --md-success:#4caf7a;--md-danger:#c94c4c;
+  --md-radius:4px;--md-radius-lg:8px;
+}
+body{background:var(--md-dark);color:var(--md-cream);font-family:'Raleway',sans-serif;font-weight:300;line-height:1.7}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none}
+body::after{content:'';position:fixed;top:-20vh;left:50%;transform:translateX(-50%);width:80vw;height:60vh;background:radial-gradient(ellipse,var(--md-gold-glow) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+.page{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:3rem 2rem 6rem}
+
+/* Header */
+header{text-align:center;margin-bottom:3rem}
+.brand{font-family:'Syne Mono',monospace;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--md-gold-dk);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:.8rem}
+.brand::before,.brand::after{content:'';flex:1;max-width:40px;height:1px;background:var(--md-border-lt)}
+h1{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:600;color:var(--md-gold-lt);letter-spacing:.05em}
+.sub{color:var(--md-muted);font-size:.88rem;margin-top:.4rem}
+.sub a{color:var(--md-gold);text-decoration:none}
+.sub a:hover{text-decoration:underline}
+
+/* Section labels */
+.lbl{font-family:'Syne Mono',monospace;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--md-gold-dk);display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+.lbl::after{content:'';flex:1;height:1px;background:var(--md-border-lt)}
+
+/* Cards */
+.card{background:var(--md-surface);border:1px solid var(--md-border);border-radius:var(--md-radius-lg);padding:1.4rem;margin-bottom:1.4rem}
+.card-title{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:600;color:var(--md-gold-lt);margin-bottom:.8rem}
+
+/* Wizard CTA */
+.wizard-cta{
+  background:linear-gradient(135deg,var(--md-panel),var(--md-surface));
+  border:1px solid var(--md-gold-dk);
+  border-radius:var(--md-radius-lg);
+  padding:1.6rem;
+  margin-bottom:2rem;
+  display:flex;align-items:center;gap:1.4rem;
+  position:relative;overflow:hidden;
+}
+.wizard-cta::before{content:'';position:absolute;top:-40%;right:-10%;width:200px;height:200px;background:radial-gradient(ellipse,var(--md-gold-glow) 0%,transparent 70%);pointer-events:none}
+.wizard-icon{font-size:2.2rem;flex-shrink:0}
+.wizard-cta-text h3{font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;color:var(--md-gold-lt);margin-bottom:.35rem}
+.wizard-cta-text p{font-size:.82rem;color:var(--md-muted);line-height:1.6;margin-bottom:.7rem}
+.btn-wizard{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.55rem 1.3rem;
+  background:linear-gradient(135deg,var(--md-gold-dk),var(--md-gold));
+  color:var(--md-black);border:none;border-radius:var(--md-radius);
+  font-family:'Cinzel',serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;
+  cursor:pointer;text-decoration:none;transition:opacity .2s;
+}
+.btn-wizard:hover{opacity:.88}
+
+/* Code */
+.code{background:var(--md-black);border:1px solid var(--md-border);border-radius:var(--md-radius);padding:1rem 1.2rem;font-family:'Syne Mono',monospace;font-size:.76rem;color:var(--md-cream);line-height:1.8;white-space:pre;overflow-x:auto;position:relative;margin-top:.5rem}
+.copy{position:absolute;top:.6rem;right:.6rem;background:var(--md-panel);border:1px solid var(--md-border-lt);border-radius:var(--md-radius);color:var(--md-muted);font-family:'Syne Mono',monospace;font-size:.64rem;padding:.22rem .55rem;cursor:pointer;transition:all .2s}
+.copy:hover{color:var(--md-gold);border-color:var(--md-gold-dk)}
+.copy.ok{color:var(--md-success);border-color:var(--md-success)}
+
+/* Attribute table */
+.attr-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.attr-table th{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:600;color:var(--md-gold-lt);text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--md-border-lt);letter-spacing:.04em}
+.attr-table td{padding:.5rem .7rem;border-bottom:1px solid var(--md-border);vertical-align:top}
+.attr-table tr:last-child td{border-bottom:none}
+.attr-name{font-family:'Syne Mono',monospace;color:var(--md-gold);font-size:.74rem}
+.attr-default{font-family:'Syne Mono',monospace;color:var(--md-muted);font-size:.72rem}
+.attr-opts{font-family:'Syne Mono',monospace;color:#a8d4a0;font-size:.72rem}
+.req{font-family:'Syne Mono',monospace;color:var(--md-danger);font-size:.72rem}
+
+/* Personality grid */
+.p-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.6rem}
+.p-card{background:var(--md-panel);border:1px solid var(--md-border);border-radius:var(--md-radius);padding:.9rem 1rem}
+.p-name{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;color:var(--md-gold-lt);margin-bottom:.25rem}
+.p-val{font-family:'Syne Mono',monospace;font-size:.68rem;color:var(--md-gold-dk);margin-bottom:.35rem}
+.p-desc{font-size:.78rem;color:var(--md-muted);line-height:1.5}
+
+/* Note box */
+.note{background:rgba(201,148,60,.06);border:1px solid var(--md-gold-dk);border-radius:var(--md-radius);padding:.85rem 1rem;font-size:.8rem;color:var(--md-cream);line-height:1.6;margin-top:.8rem}
+.note strong{color:var(--md-gold)}
+
+/* Security box */
+.security{background:rgba(201,148,60,.04);border:1px solid var(--md-border-lt);border-radius:var(--md-radius-lg);padding:1.2rem 1.4rem;font-size:.82rem;color:var(--md-muted);line-height:1.7}
+.security strong{color:var(--md-cream)}
+
+/* Divider */
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--md-border-lt) 20%,var(--md-gold-dk) 50%,var(--md-border-lt) 80%,transparent);display:flex;align-items:center;justify-content:center;position:relative;margin:2rem 0}
+.divider::after{content:'✦';position:absolute;font-size:.65rem;color:var(--md-gold-dk);background:var(--md-dark);padding:0 1rem}
+
+/* Footer */
+footer{text-align:center;padding:2.5rem;border-top:1px solid var(--md-border);margin-top:4rem}
+footer span{font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.2em;color:var(--md-gold-dk)}
+.footer-link{display:inline-flex;align-items:center;gap:.4rem;margin-top:.8rem;font-family:'Syne Mono',monospace;font-size:.66rem;color:var(--md-muted);text-decoration:none;border:1px solid var(--md-border-lt);border-radius:50px;padding:.3rem .85rem;transition:all .2s}
+.footer-link:hover{color:var(--md-gold);border-color:var(--md-gold-dk)}
+
+@media(max-width:560px){.p-grid{grid-template-columns:1fr}.page{padding:2rem 1rem 4rem}h1{font-size:1.4rem}.wizard-cta{flex-direction:column;gap:.8rem}.attr-table th:nth-child(3),.attr-table td:nth-child(3){display:none}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="brand">✦ qll counselling ✦</div>
+    <h1>Widget Integration Guide</h1>
+    <p class="sub">Dev team reference &middot; All configuration options &middot; <a href="https://github.com/MD-Works/QLL-Counselling-Assistant" target="_blank" rel="noopener">github.com/MD-Works/QLL-Counselling-Assistant</a></p>
+  </header>
+
+  <!-- Widget Wizard CTA -->
+  <div class="wizard-cta">
+    <div class="wizard-icon">🧙</div>
+    <div class="wizard-cta-text">
+      <h3>Use the Widget Wizard to configure Lea</h3>
+      <p>The Widget Wizard is the recommended way to configure, preview, and export the Lea widget. Set the bot name, personality, colours, and avatar — then download a ready-to-use script tag. No manual editing required.</p>
+      <a class="btn-wizard" href="widget-wizard.html" target="_blank">Open Widget Wizard ✦</a>
+    </div>
+  </div>
+
+  <!-- Quick start -->
+  <div class="lbl">Quick start</div>
+  <div class="card">
+    <div class="card-title">Minimum required — paste before &lt;/body&gt;</div>
+    <div class="code" id="qs"><script
+  src="https://md-works.github.io/QLL-Counselling-Assistant/widget.js"
+  data-groq-key="gsk_YOUR_KEY_HERE"
+></script><button class="copy" onclick="cp('qs',this)">copy</button></div>
+    <div class="note"><strong>Note:</strong> The widget fetches <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">qll-knowledge-base.json</code> from the same domain by default. If hosting the files separately, use <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">data-kb-url</code> to point to the correct public URL.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- All attributes -->
+  <div class="lbl">All configuration attributes</div>
+  <div class="card">
+    <table class="attr-table">
+      <thead><tr><th>Attribute</th><th>Default</th><th>Options / notes</th></tr></thead>
+      <tbody>
+        <tr><td><span class="attr-name">data-groq-key</span></td><td><span class="req">required</span></td><td>Your Groq API key. Free at <a href="https://console.groq.com" target="_blank" style="color:var(--md-gold);text-decoration:none">console.groq.com</a></td></tr>
+        <tr><td><span class="attr-name">data-bot-name</span></td><td><span class="attr-default">"Lea"</span></td><td>Display name shown in header and messages</td></tr>
+        <tr><td><span class="attr-name">data-personality</span></td><td><span class="attr-default">"warm"</span></td><td><span class="attr-opts">warm · professional · bright · grounded</span></td></tr>
+        <tr><td><span class="attr-name">data-avatar</span></td><td><span class="attr-default">"🌿"</span></td><td>Any single emoji or short text (e.g. "Q", "✦")</td></tr>
+        <tr><td><span class="attr-name">data-accent-color</span></td><td><span class="attr-default">"#4a9b8e"</span></td><td>Hex colour for bubble, header highlights, send button</td></tr>
+        <tr><td><span class="attr-name">data-accent-dark</span></td><td><span class="attr-default">"#2d6b61"</span></td><td>Darker shade for the header background</td></tr>
+        <tr><td><span class="attr-name">data-bg-color</span></td><td><span class="attr-default">"#1e2a3a"</span></td><td>Chat panel background colour</td></tr>
+        <tr><td><span class="attr-name">data-position</span></td><td><span class="attr-default">"right"</span></td><td><span class="attr-opts">right · left</span> — which corner the widget sits in</td></tr>
+        <tr><td><span class="attr-name">data-greeting</span></td><td><span class="attr-default">auto</span></td><td>Override the opening message. Leave blank for the default.</td></tr>
+        <tr><td><span class="attr-name">data-groq-model</span></td><td><span class="attr-default">"llama-3.1-8b-instant"</span></td><td><span class="attr-opts">llama-3.1-8b-instant · llama-3.3-70b-versatile · gemma2-9b-it</span></td></tr>
+        <tr><td><span class="attr-name">data-kb-url</span></td><td><span class="attr-default">"qll-knowledge-base.json"</span></td><td>URL to the knowledge base JSON file</td></tr>
+        <tr><td><span class="attr-name">data-debug</span></td><td><span class="attr-default">"false"</span></td><td><span class="attr-opts">true · false</span> — shows model / token / source info below the header</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Personality presets -->
+  <div class="lbl">Personality presets</div>
+  <div class="card">
+    <div class="card-title">Pick one — controls Lea's tone and response style</div>
+    <div class="p-grid">
+      <div class="p-card">
+        <div class="p-name">Warm &amp; Nurturing</div>
+        <div class="p-val">data-personality="warm"</div>
+        <div class="p-desc">Gentle, empathetic, reassuring. Acknowledges feelings before information. Best for anxious or vulnerable clients.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-name">Calm &amp; Professional</div>
+        <div class="p-val">data-personality="professional"</div>
+        <div class="p-desc">Measured, clear, trustworthy. Like a knowledgeable receptionist. Best for a more formal tone.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-name">Bright &amp; Approachable</div>
+        <div class="p-val">data-personality="bright"</div>
+        <div class="p-desc">Friendly, light, easy to talk to. Accessible everyday language. Best for a welcoming first impression.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-name">Grounded &amp; Wise</div>
+        <div class="p-val">data-personality="grounded"</div>
+        <div class="p-desc">Thoughtful, unhurried, quietly confident. Best for practices with a holistic or mindfulness focus.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Full example -->
+  <div class="lbl">Full configured example</div>
+  <div class="card">
+    <div class="card-title">All options set explicitly</div>
+    <div class="code" id="full"><script
+  src="https://md-works.github.io/QLL-Counselling-Assistant/widget.js"
+  data-groq-key="gsk_YOUR_KEY_HERE"
+  data-bot-name="Lea"
+  data-personality="warm"
+  data-avatar="🌿"
+  data-accent-color="#4a9b8e"
+  data-accent-dark="#2d6b61"
+  data-bg-color="#1e2a3a"
+  data-position="right"
+  data-groq-model="llama-3.1-8b-instant"
+  data-kb-url="https://md-works.github.io/QLL-Counselling-Assistant/qll-knowledge-base.json"
+  data-greeting="Hi, I'm Lea — here to help with any questions about QLL. What can I do for you?"
+  data-debug="false"
+></script><button class="copy" onclick="cp('full',this)">copy</button></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Security note -->
+  <div class="lbl">Security note</div>
+  <div class="card">
+    <div class="card-title">About the Groq API key</div>
+    <div class="security">
+      Placing the API key in a <code style="font-family:'Syne Mono',monospace;font-size:.78rem;color:var(--md-gold)">data-*</code> attribute means it is visible in the page source. For a low-traffic practice like QLL this is acceptable — the Groq free tier has generous rate limits that make abuse unlikely.<br><br>
+      <strong>When you are ready to secure the key properly</strong>, the solution is a <strong>Cloudflare Worker proxy</strong>: the widget calls the Worker, the Worker holds the key server-side and calls Groq, and the key is never exposed in the browser. This is Phase 2 of the project roadmap.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Files reference -->
+  <div class="lbl">Files in this repo</div>
+  <div class="card">
+    <table class="attr-table">
+      <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><span class="attr-name">widget.js</span></td><td>The embeddable widget — drop via script tag into any page</td></tr>
+        <tr><td><span class="attr-name">widget-wizard.html</span></td><td>Configuration UI — use this to generate your script tag</td></tr>
+        <tr><td><span class="attr-name">qll-knowledge-base.json</span></td><td>All Q&amp;A data, crisis responses, and guardrail rules</td></tr>
+        <tr><td><span class="attr-name">qll-chatbot.html</span></td><td>Standalone demo page for testing locally</td></tr>
+        <tr><td><span class="attr-name">qll-extraction-template.html</span></td><td>Tool for extracting new content from Elizabeth's documents</td></tr>
+        <tr><td><span class="attr-name">Widget-Integration-Guide.html</span></td><td>This page</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <span>✦ MD Works ✦ · Morney Deetlefs · South Africa</span><br>
+  <a class="footer-link" href="https://github.com/MD-Works/QLL-Counselling-Assistant" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    github.com/MD-Works/QLL-Counselling-Assistant
+  </a>
+</footer>
+
+<script>
+function cp(id, btn) {
+  var el = document.getElementById(id);
+  var text = (el.innerText || el.textContent).replace(/^copy$/m,'').trim();
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'copied ✓'; btn.classList.add('ok');
+    setTimeout(function(){ btn.textContent = 'copy'; btn.classList.remove('ok'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
